@@ -21,9 +21,13 @@ export const BRAND: BrandConfig = {
   heroVideo:
     "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
 
-  // Editorial story chapters. Four by default (Document 2 §6).
-  // Only one cinematic video was supplied; it is reused across chapters here.
-  // Replace individual `video` URLs (and optional `segments`) to differentiate chapters.
+  // Editorial story chapters. Three chapters.
+  // Only one cinematic video was supplied, so it is reused — but each chapter
+  // starts at a DIFFERENT point in the film (segments.startAt) and loops within
+  // its own window (segments.loopEnd), so a visitor scrolling through sees a
+  // different part of the video in each section rather than the same opening.
+  // When you have separate clips per chapter, just replace each `video` URL and
+  // adjust or remove its `segments`.
   storyVideos: [
     {
       quote: "Every masterpiece begins with a moment.",
@@ -31,6 +35,7 @@ export const BRAND: BrandConfig = {
         "From the first spark of inspiration to the final polish, each piece is shaped with patience and intent — designed to be worn, treasured and remembered.",
       video:
         "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
+      segments: { startAt: 0, loopEnd: 8 },
     },
     {
       quote: "Elegance that never fades.",
@@ -38,6 +43,7 @@ export const BRAND: BrandConfig = {
         "Aesthetic, lightweight designs crafted to move with you — refined enough for every day, distinguished enough for the occasions that matter most.",
       video:
         "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
+      segments: { startAt: 8, loopEnd: 16 },
     },
     {
       quote: "Where tradition meets timeless beauty.",
@@ -45,13 +51,7 @@ export const BRAND: BrandConfig = {
         "Rooted in Mannarkkad and Edathanattukara, our collections honour heritage while embracing a modern, understated sense of luxury.",
       video:
         "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
-    },
-    {
-      quote: "Crafted for life's unforgettable celebrations.",
-      description:
-        "Gold, diamonds and silver — chosen as per your occasion. Whatever the celebration, we help you mark it with something that lasts a lifetime.",
-      video:
-        "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
+      segments: { startAt: 16, loopEnd: 24 },
     },
   ],
 

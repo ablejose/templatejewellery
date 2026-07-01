@@ -10,11 +10,12 @@ export interface StoryVideo {
 }
 
 export interface VideoSegments {
-  transitionStart: number;
-  transitionEnd: number;
-  loopStart: number;
+  /** Where this chapter's clip begins playing (seconds). Distinct per chapter
+   *  so scrollers see a different part of the film in each section. */
+  startAt: number;
+  /** End of this chapter's window (seconds). Playback loops back to startAt
+   *  when it reaches loopEnd. */
   loopEnd: number;
-  scrollResume: number;
 }
 
 export interface FaqItem {
