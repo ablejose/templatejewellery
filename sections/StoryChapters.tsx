@@ -1,0 +1,43 @@
+import { BRAND } from "@/config/brand";
+import { Reveal } from "@/components/Reveal";
+import { StoryVideoPlayer } from "@/components/StoryVideo";
+
+/**
+ * Editorial story chapters (Document 2 §6, Document 5 §8).
+ * Text always left, video always right on desktop; single column with text
+ * above media on mobile. Content comes entirely from BRAND.storyVideos.
+ */
+export function StoryChapters() {
+  return (
+    <section className="flex flex-col gap-24 py-12 md:gap-32 md:py-16">
+      {BRAND.storyVideos.map((chapter, index) => (
+        <article key={index} className="container-lux">
+          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-5">
+              <Reveal>
+                <span className="label-eyebrow">
+                  Chapter {String(index + 1).padStart(2, "0")}
+                </span>
+                <blockquote className="mt-4 font-display text-display-m text-ivory">
+                  {chapter.quote}
+                </blockquote>
+                <p className="mt-6 max-w-md font-sans text-body-lg text-muted">
+                  {chapter.description}
+                </p>
+              </Reveal>
+            </div>
+            <div className="md:col-span-7">
+              <Reveal delay={0.1}>
+                <StoryVideoPlayer
+                  src={chapter.video}
+                  segments={chapter.segments}
+                  label={chapter.quote}
+                />
+              </Reveal>
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+  );
+}

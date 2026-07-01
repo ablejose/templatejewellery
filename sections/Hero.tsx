@@ -1,0 +1,46 @@
+import { BRAND } from "@/config/brand";
+import { Button } from "@/components/Button";
+
+/**
+ * Full-viewport hero with an autoplay, muted, looping Cloudinary film behind
+ * the brand name, tagline and a single CTA (Document 2 §4, Document 5 §7).
+ * Content anchored slightly left of center.
+ */
+export function Hero() {
+  return (
+    <section id="top" className="relative flex h-svh min-h-[640px] w-full items-center overflow-hidden">
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src={BRAND.heroVideo}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+
+      <div className="container-lux relative z-10">
+        <div className="max-w-2xl">
+          <h1 className="font-display text-display-xl text-ivory">{BRAND.businessName}</h1>
+          <p className="mt-6 font-sans text-body-lg text-gold">{BRAND.tagline}</p>
+          <p className="mt-4 max-w-xl font-sans text-body text-muted">
+            Timeless elegance crafted for every celebration.
+          </p>
+          <div className="mt-10">
+            <Button href="#visit-store">Visit Store</Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-8 z-10 flex justify-center">
+        <span className="flex flex-col items-center gap-2 text-muted" aria-hidden="true">
+          <span className="text-caption uppercase tracking-[0.2em]">Scroll</span>
+          <span className="h-10 w-px animate-pulse bg-gold/60" />
+        </span>
+      </div>
+    </section>
+  );
+}
