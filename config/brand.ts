@@ -43,7 +43,8 @@ export const BRAND: BrandConfig = {
         "Aesthetic, lightweight designs crafted to move with you — refined enough for every day, distinguished enough for the occasions that matter most.",
       video:
         "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
-      segments: { startAt: 8, loopEnd: 16 },
+      // Final part of the 40s film (last ~8 seconds).
+      segments: { startAt: 32, loopEnd: 40 },
     },
     {
       quote: "Where tradition meets timeless beauty.",
