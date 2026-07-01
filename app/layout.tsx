@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { BRAND } from "@/config/brand";
 import { buildJsonLd, getSiteUrl } from "@/lib/seo";
-import "@/styles/globals.css";
+import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
