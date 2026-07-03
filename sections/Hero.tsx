@@ -29,10 +29,25 @@ export function Hero() {
           <p className="mt-4 max-w-xl font-sans text-body text-muted">
             Timeless elegance crafted for every celebration.
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <Button href="#visit-store">Visit Store</Button>
-            <Button href="/offers">Offers</Button>
-            <Button href="/schemes">Schemes</Button>
+          <div className="mt-10 flex items-center gap-2 sm:gap-3">
+            <Button
+              href="#visit-store"
+              className="whitespace-nowrap px-3 text-xs sm:px-8 sm:text-sm"
+            >
+              Visit Store
+            </Button>
+            <Button
+              href="/offers"
+              className="whitespace-nowrap px-3 text-xs sm:px-8 sm:text-sm"
+            >
+              Offers
+            </Button>
+            <Button
+              href="/schemes"
+              className="whitespace-nowrap px-3 text-xs sm:px-8 sm:text-sm"
+            >
+              Schemes
+            </Button>
           </div>
         </div>
       </div>
