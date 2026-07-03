@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useScrolled } from "@/hooks/useScrolled";
 import { BRAND } from "@/config/brand";
 
@@ -35,9 +36,10 @@ interface NavbarProps {
  * readable) and `homeHref="/"` so the section anchors point back to the home
  * page instead of doing nothing.
  *
- * Brand mark: the "HAYAZ" wordmark only (no ring / no "Gold & Diamonds"
- * subtitle), set in the display serif (Cormorant) to match the logo lettering,
- * uppercase with wide tracking in gold. Size adapts across breakpoints.
+ * Brand mark: the transparent gold ring logo (public/hayaz-logo.png) centred
+ * directly above the "HAYAZ" wordmark. The wordmark uses the display serif
+ * (Cormorant) to match the logo lettering — uppercase, wide tracking, gold.
+ * Both scale down together on smaller screens.
  */
 export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
   const scrolled = useScrolled();
@@ -52,12 +54,24 @@ export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-lux ${
         showSolid
           ? "border-b border-border bg-background/85 py-3 backdrop-blur-md"
-          : "bg-transparent py-6"
+          : "bg-transparent py-5"
       }`}
     >
       <nav className="container-lux flex items-center justify-between" aria-label="Primary">
-        <Link href={resolve("#top")} className="flex items-center" aria-label={`${BRAND.businessName} home`}>
-          <span className="font-display text-2xl uppercase leading-none tracking-[0.2em] text-gold sm:text-3xl">
+        <Link
+          href={resolve("#top")}
+          className="flex flex-col items-center gap-1 leading-none"
+          aria-label={`${BRAND.businessName} home`}
+        >
+          <Image
+            src="/hayaz-logo.png"
+            alt=""
+            width={181}
+            height={182}
+            priority
+            className="h-8 w-auto sm:h-10"
+          />
+          <span className="font-display text-base uppercase leading-none tracking-[0.22em] text-gold sm:text-lg">
             Hayaz
           </span>
         </Link>
