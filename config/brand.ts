@@ -75,9 +75,9 @@ export const BRAND: BrandConfig = {
       {
         label: "Golden Flexi Schemes",
         heroImage:
-          "https://res.cloudinary.com/fylz5e3j/image/upload/v1783085441/Gemini_Generated_Image_ade9z3ade9z3ade9_e6k5ft.png",
-        heroWidth: 2800,
-        heroHeight: 1123,
+          "https://res.cloudinary.com/fylz5e3j/image/upload/v1783087060/Screenshot_2026-07-03_192711_mycavd.png",
+        heroWidth: 1052,
+        heroHeight: 422,
         features: [
           {
             icon: "save-tag",
@@ -117,9 +117,9 @@ export const BRAND: BrandConfig = {
       {
         label: "Golden Dreams Advanced Plan",
         heroImage:
-          "https://res.cloudinary.com/fylz5e3j/image/upload/v1783085896/Gemini_Generated_Image_n2k1d4n2k1d4n2k1_2_abplxo.png",
-        heroWidth: 1584,
-        heroHeight: 672,
+          "https://res.cloudinary.com/fylz5e3j/image/upload/v1783087070/Screenshot_2026-07-03_192652_xyir4e.png",
+        heroWidth: 1582,
+        heroHeight: 613,
         features: [
           {
             icon: "accumulate-clock",
