@@ -13,12 +13,13 @@ import { SchemeIcon } from "@/components/SchemeIcon";
  * - Full white background.
  * - "Our Schemes" title in rich gold (the only heading kept gold).
  * - Two text tabs above the hero image (Golden Flexi Schemes / Golden Dreams
- *   Advanced Plan) in the serif display font — larger, not bold, for
- *   readability. Active is gold + underlined; inactive is grey.
+ *   Advanced Plan) in the serif display font — larger, not bold. The active tab
+ *   is dark golden with an underline; the inactive one is grey.
  * - A shared hero image framed on a pure-white card with a thin gold border, so
  *   it shows uncompressed and centred.
  * - Per-tab feature cards: bold heading, normal-weight body text.
- * - A "Find the Best Plan" section with two swappable tabs on the left.
+ * - A "Find the Best Plan" section with two swappable tabs on the left; each
+ *   active plan shows bold bullet points and a small "terms apply" note.
  *
  * Responsive: tabs wrap and stay centred on mobile; feature cards are 1-up on
  * mobile / 3-up on laptop; plan tabs are a top row on mobile and a left rail on
@@ -53,7 +54,8 @@ export function SchemesGallery() {
         </h1>
 
         <div>
-          {/* Text tabs above the hero image — serif display font, larger, not bold. */}
+          {/* Text tabs above the hero image — serif display font, larger, not
+              bold. Active tab is dark golden with an underline. */}
           <div className="mb-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-12">
             {page.tabs.map((t, index) => (
               <button
@@ -63,7 +65,7 @@ export function SchemesGallery() {
                 aria-pressed={tab === index}
                 className={`whitespace-nowrap border-b-2 pb-1 font-display text-lg tracking-wide transition-colors duration-300 sm:text-xl ${
                   tab === index
-                    ? "border-gold text-gold"
+                    ? "border-[#B8860B] text-[#B8860B]"
                     : "border-transparent text-neutral-500 hover:text-black"
                 }`}
               >
@@ -127,9 +129,20 @@ export function SchemesGallery() {
 
             <div className="min-h-[9rem] flex-1 rounded-card border border-black/10 bg-white p-6 shadow-sm">
               <h3 className="font-display text-xl font-bold">{activePlan.heading}</h3>
-              <p className="mt-3 whitespace-pre-line font-sans text-body text-neutral-700">
-                {activePlan.body ?? "Details coming soon."}
-              </p>
+              {activePlan.points && activePlan.points.length > 0 ? (
+                <ul className="mt-4 flex list-disc flex-col gap-3 pl-5 font-sans text-body font-bold text-black marker:text-gold">
+                  {activePlan.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-3 font-sans text-body text-neutral-700">Details coming soon.</p>
+              )}
+              {activePlan.terms ? (
+                <p className="mt-4 font-sans text-xs font-normal text-neutral-500">
+                  {activePlan.terms}
+                </p>
+              ) : null}
             </div>
           </div>
         </div>

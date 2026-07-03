@@ -66,8 +66,10 @@ export interface SchemeFeature {
 export interface SchemePlanTab {
   /** Left-hand tab heading, e.g. "Sutharya" */
   heading: string;
-  /** Body content shown when the tab is active (provided later; optional). */
-  body?: string;
+  /** Bold points shown as a bulleted list when this tab is active */
+  points?: string[];
+  /** Small, non-bold note under the points, e.g. "നിബന്ധനകൾ ബാധകം" */
+  terms?: string;
 }
 
 export interface SchemeTab {
