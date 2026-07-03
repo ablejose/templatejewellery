@@ -231,8 +231,56 @@ export const BRAND: BrandConfig = {
       "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazbb_wb1juf.webp",
   },
 
-  // Left intentionally empty per brief. Add { question, answer } items to populate the FAQ section.
-  faq: [],
+  // FAQ items (SEO). Rendered as an accordion by sections/Faq.tsx and also
+  // emitted as FAQPage JSON-LD (lib/seo.ts) for FAQ rich results in search.
+  faq: [
+    {
+      question: "Where is Hayaz Gold & Diamonds located in Mannarkkad?",
+      answer:
+        "Hayaz Gold & Diamonds is located at Mylaparambil Arcade, Kodathippadi, Mannarkkad, Kerala – 678582. We also have a second showroom in Edathanattukara (Padikkapadam, Alanallur, Palakkad – 678601). Google Maps directions to both jewellery showrooms are available on this page.",
+    },
+    {
+      question: "What types of jewellery does Hayaz Gold offer?",
+      answer:
+        "As the largest aesthetic lightweight jewellery store in Mannarkkad, Hayaz Gold & Diamonds offers gold, diamond, silver and platinum jewellery, including bridal sets, daily-wear pieces, necklaces, bangles, rings and earrings, crafted for every celebration.",
+    },
+    {
+      question: "Is the gold jewellery at Hayaz Gold BIS hallmarked?",
+      answer:
+        "Yes. We offer BIS hallmarked gold jewellery, so every piece carries a certified purity mark that guarantees its caratage and quality.",
+    },
+    {
+      question: "Does Hayaz Gold offer low making charges?",
+      answer:
+        "Yes. Hayaz Gold & Diamonds is known for quality gold and diamond jewellery at low making charges, giving customers in Mannarkkad and Edathanattukara excellent value on every purchase.",
+    },
+    {
+      question: "What gold savings schemes are available at Hayaz Gold?",
+      answer:
+        "We offer flexible gold savings schemes to help you plan your purchase: the Golden Flexi Schemes (Sutharya and Golden Promise) and the Golden Dreams Advanced Plan. Pay a comfortable amount each month and own your dream jewellery. Terms and conditions apply.",
+    },
+    {
+      question: "What are the opening hours of the Hayaz Gold showrooms?",
+      answer:
+        "Our showrooms are open Monday to Saturday from 9:30 AM to 8:00 PM, and on Sunday from 10:00 AM to 7:00 PM.",
+    },
+    {
+      question:
+        "Can I buy diamond and silver jewellery at Hayaz Gold in Mannarkkad?",
+      answer:
+        "Absolutely. Alongside gold, Hayaz Gold & Diamonds offers certified diamond jewellery and a beautiful silver collection at both our Mannarkkad and Edathanattukara showrooms.",
+    },
+    {
+      question: "How can I contact or visit Hayaz Gold & Diamonds?",
+      answer:
+        "Call our Mannarkkad showroom at +91 62358 88916 or our Edathanattukara showroom at +91 62358 78916, message us on WhatsApp, or visit us in person. We would love to help you find the perfect piece.",
+    },
+    {
+      question: "Why choose Hayaz Gold & Diamonds in Mannarkkad?",
+      answer:
+        "Since 2022, Hayaz Gold & Diamonds has become one of Mannarkkad's most loved jewellers by combining aesthetic, lightweight designs with trusted quality and low making charges. A large family of loyal customers across Kerala trusts us for gold, diamond, silver and platinum jewellery.",
+    },
+  ],
 
   whatsappMessage:
     "Hello Hayaz Gold, I'd like to know more about your jewellery collections.",

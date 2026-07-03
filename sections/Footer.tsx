@@ -10,6 +10,7 @@ const QUICK_LINKS = [
   { label: "Visit Store", href: "#visit-store" },
   { label: "Schemes", href: "/schemes" },
   { label: "Offers", href: "/offers" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 

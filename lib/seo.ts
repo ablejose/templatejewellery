@@ -53,5 +53,28 @@ export function buildJsonLd(brand: BrandConfig): Record<string, unknown>[] {
     url,
   };
 
-  return [organization, ...localBusinesses, website];
+  const schemas: Record<string, unknown>[] = [
+    organization,
+    ...localBusinesses,
+    website,
+  ];
+
+  // FAQPage schema powers FAQ rich results in search. Emitted only when FAQ
+  // content exists (sections/Faq.tsx renders the same BRAND.faq as an accordion).
+  if (brand.faq.length > 0) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: brand.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    });
+  }
+
+  return schemas;
 }
