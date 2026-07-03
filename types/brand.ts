@@ -23,6 +23,16 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface SchemeItem {
+  /** Button label shown on the /schemes page */
+  label: string;
+  /** Cloudinary image URL revealed when the button is clicked */
+  image: string;
+  /** Intrinsic image dimensions (keep aspect ratio, prevent layout shift) */
+  width: number;
+  height: number;
+}
+
 export interface SeoConfig {
   title: string;
   description: string;
@@ -45,9 +55,10 @@ export interface BrandConfig {
 
   storeImages: string[];
 
-  /** Promotional poster images (Cloudinary). Shown on the /offers and /schemes pages. */
+  /** Offers poster image (Cloudinary). Shown on the /offers page. */
   offersImage: string;
-  schemesImage: string;
+  /** Savings schemes shown on the /schemes page (one button reveals each image). */
+  schemes: SchemeItem[];
 
   address: string;
   city: string;

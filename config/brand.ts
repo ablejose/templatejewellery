@@ -62,11 +62,28 @@ export const BRAND: BrandConfig = {
     "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazcc_vuguic.webp",
   ],
 
-  // Promotional posters (Cloudinary). Linked from the Offers / Schemes buttons.
+  // Offers poster (Cloudinary). Linked from the Offers button.
   offersImage:
     "https://res.cloudinary.com/fylz5e3j/image/upload/v1783064597/offers_hayazgold_vpwgem.jpg",
-  schemesImage:
-    "https://res.cloudinary.com/fylz5e3j/image/upload/v1783064663/schemes_hayazgold_yas0ye.jpg",
+
+  // Savings schemes (Cloudinary). Each entry becomes a button on /schemes that
+  // reveals its image on click. Add or remove entries here to change the page.
+  schemes: [
+    {
+      label: "Hayaz Golden Flexi Schemes",
+      image:
+        "https://res.cloudinary.com/fylz5e3j/image/upload/v1783068121/schemes_hayazgold_goldenflexi_f2amro.jpg",
+      width: 1131,
+      height: 579,
+    },
+    {
+      label: "Golden Dreams Advanced Plan",
+      image:
+        "https://res.cloudinary.com/fylz5e3j/image/upload/v1783068121/schemes_hayazgold_goldendreams_hslgcg.jpg",
+      width: 1131,
+      height: 680,
+    },
+  ],
 
   address: "Ansari Building, Kodathippadi, Mannarkkad, Kerala 678582",
   city: "Mannarkkad",

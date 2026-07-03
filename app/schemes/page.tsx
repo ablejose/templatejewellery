@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { BRAND } from "@/config/brand";
-import { PromoImagePage } from "@/components/PromoImagePage";
+import { SchemesGallery } from "@/components/SchemesGallery";
 
 export const metadata: Metadata = {
   title: "Schemes",
@@ -8,13 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function SchemesPage() {
-  return (
-    <PromoImagePage
-      src={BRAND.schemesImage}
-      alt={`${BRAND.businessName} savings schemes`}
-      title="Schemes"
-      width={1131}
-      height={1600}
-    />
-  );
+  return <SchemesGallery />;
 }

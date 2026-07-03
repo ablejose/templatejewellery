@@ -13,7 +13,7 @@ interface PromoImagePageProps {
 }
 
 /**
- * Full-screen promotional poster view (used by /offers and /schemes).
+ * Full-screen promotional poster view (used by /offers).
  *
  * Displays a single Cloudinary image responsively on mobile and laptop (no
  * cropping or distortion — the intrinsic width/height keep the aspect ratio),
