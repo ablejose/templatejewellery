@@ -21,13 +21,10 @@ export const BRAND: BrandConfig = {
   heroVideo:
     "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
 
-  // Editorial story chapters. Three chapters.
-  // Only one cinematic video was supplied, so it is reused — but each chapter
-  // starts at a DIFFERENT point in the film (segments.startAt) and loops within
-  // its own window (segments.loopEnd), so a visitor scrolling through sees a
-  // different part of the video in each section rather than the same opening.
-  // When you have separate clips per chapter, just replace each `video` URL and
-  // adjust or remove its `segments`.
+  // Editorial story chapters. Two chapters (Vision, Mission). Each chapter
+  // now has its OWN dedicated Cloudinary clip that plays in full and loops
+  // natively (no segment windows). To change a chapter's film, replace its
+  // `video` URL below.
   storyVideos: [
     {
       heading: "Vision",
@@ -35,8 +32,7 @@ export const BRAND: BrandConfig = {
       description:
         "Anticipate the needs and desires of customers and bring beautiful jewelry to customers at the lowest price, through this build good relationship with people.",
       video:
-        "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
-      segments: { startAt: 0, loopEnd: 8 },
+        "https://res.cloudinary.com/fylz5e3j/video/upload/v1783092834/VN20260703_205906_yil6kq.mp4",
     },
     {
       heading: "Mission",
@@ -45,9 +41,7 @@ export const BRAND: BrandConfig = {
       description:
         "To create trending & fashionable jewellery which combines elegance with uniqueness. We're continuously crafting and updating our collections to reinforce our reputation for the most admired range of jewellery and accessories.",
       video:
-        "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
-      // Final part of the 40s film (last ~8 seconds).
-      segments: { startAt: 32, loopEnd: 40 },
+        "https://res.cloudinary.com/fylz5e3j/video/upload/v1783091587/VN20260703_191542_szsxvb.mp4",
     },
   ],
 
