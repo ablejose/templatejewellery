@@ -9,8 +9,8 @@ export function getSiteUrl(brand: BrandConfig): string {
 }
 
 /**
- * Build JSON-LD structured data (Organization, LocalBusiness, WebSite).
- * Reference: Document 3 §7.
+ * Build JSON-LD structured data (Organization, one JewelryStore per outlet,
+ * WebSite). Reference: Document 3 §7.
  */
 export function buildJsonLd(brand: BrandConfig): Record<string, unknown>[] {
   const url = getSiteUrl(brand);
@@ -27,24 +27,24 @@ export function buildJsonLd(brand: BrandConfig): Record<string, unknown>[] {
     sameAs,
   };
 
-  const localBusiness = {
+  const localBusinesses = brand.branches.map((branch) => ({
     "@context": "https://schema.org",
     "@type": "JewelryStore",
-    name: brand.businessName,
+    name: branch.name,
     image: brand.storeImages,
     url,
     telephone: brand.phone,
     address: {
       "@type": "PostalAddress",
-      streetAddress: brand.address,
-      addressLocality: brand.city,
-      addressRegion: brand.state,
-      postalCode: brand.pincode,
+      streetAddress: branch.street,
+      addressLocality: branch.city,
+      addressRegion: branch.state,
+      postalCode: branch.pincode,
       addressCountry: "IN",
     },
     openingHours: ["Mo-Sa 09:30-20:00", "Su 10:00-19:00"],
     sameAs,
-  };
+  }));
 
   const website = {
     "@context": "https://schema.org",
@@ -53,5 +53,5 @@ export function buildJsonLd(brand: BrandConfig): Record<string, unknown>[] {
     url,
   };
 
-  return [organization, localBusiness, website];
+  return [organization, ...localBusinesses, website];
 }

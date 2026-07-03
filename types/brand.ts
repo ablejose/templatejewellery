@@ -57,6 +57,20 @@ export interface VisionGoal {
   stats: VisionStat[];
 }
 
+export interface Branch {
+  /** Outlet name, e.g. "HAYAZ GOLD AND DIAMONDS" */
+  name: string;
+  /** Short area label used for headings/labels, e.g. "Mannarkkad" */
+  area: string;
+  /** Street portion of the address (everything before the city) */
+  street: string;
+  city: string;
+  state: string;
+  pincode: string;
+  /** Google Maps link for this outlet (linked, never embedded) */
+  mapsLink: string;
+}
+
 export interface SeoConfig {
   title: string;
   description: string;
@@ -86,16 +100,13 @@ export interface BrandConfig {
   /** "Journey Towards Goal" full-width stats section (Vision 2035). */
   visionGoal: VisionGoal;
 
-  address: string;
-  city: string;
-  state: string;
-  pincode: string;
+  /** Retail outlets. Replaces the former single address/city/state/pincode/
+   *  mapsLink fields — rendered wherever the address appears. */
+  branches: Branch[];
 
   phone: string;
   whatsapp: string;
   email: string;
-
-  mapsLink: string;
 
   openingHours: string;
 

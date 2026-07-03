@@ -1,3 +1,5 @@
+import type { Branch } from "@/types/brand";
+
 /**
  * Pure, reusable formatting utilities. No brand data lives here.
  */
@@ -20,4 +22,10 @@ export function whatsappHref(whatsapp: string, message?: string): string {
   const number = whatsapp.replace(/\D/g, "");
   const base = `https://wa.me/${number}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}
+
+/** Single-line display address for a branch, e.g.
+ *  "Mylaparambil Arcade, Kodathippadi, Mannarkkad, Kerala – 678582". */
+export function formatBranchAddress(branch: Branch): string {
+  return `${branch.street}, ${branch.city}, ${branch.state} – ${branch.pincode}`;
 }

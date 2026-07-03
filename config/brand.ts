@@ -94,17 +94,35 @@ export const BRAND: BrandConfig = {
     ],
   },
 
-  address: "Ansari Building, Kodathippadi, Mannarkkad, Kerala 678582",
-  city: "Mannarkkad",
-  state: "Kerala",
-  pincode: "678582",
+  // Two retail outlets. Rendered everywhere the address appears (Visit Store,
+  // Contact, Footer, JSON-LD). Add/remove entries here to change outlets.
+  branches: [
+    {
+      name: "HAYAZ GOLD AND DIAMONDS",
+      area: "Mannarkkad",
+      street: "Mylaparambil Arcade, Kodathippadi",
+      city: "Mannarkkad",
+      state: "Kerala",
+      pincode: "678582",
+      mapsLink:
+        "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+and+Diamonds+Mylaparambil+Arcade+Kodathippadi+Mannarkkad+Kerala+678582",
+    },
+    {
+      name: "HAYAZ GOLD EDATHANATTUKARA",
+      area: "Edathanattukara",
+      street:
+        "Ground Floor, 3/1448, Kottapalla, Vattamannapuram Road, Padikkapadam, Edathanattukara, Alanallur 1",
+      city: "Palakkad",
+      state: "Kerala",
+      pincode: "678601",
+      mapsLink:
+        "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+Edathanattukara+Padikkapadam+Alanallur+Palakkad+Kerala+678601",
+    },
+  ],
 
   phone: "+916235888916",
   whatsapp: "916235888916",
   email: "",
-
-  mapsLink:
-    "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+Ansari+Building+Kodathippadi+Mannarkkad+Kerala+678582",
 
   openingHours: "Mon–Sat: 9:30 AM – 8:00 PM · Sunday: 10:00 AM – 7:00 PM",
 

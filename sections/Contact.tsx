@@ -2,7 +2,7 @@ import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/Button";
-import { telHref, whatsappHref } from "@/lib/format";
+import { telHref, whatsappHref, formatBranchAddress } from "@/lib/format";
 
 interface Row {
   label: string;
@@ -14,7 +14,8 @@ interface Row {
 /**
  * Contact section (Document 2 §9). Entirely left aligned. Lists reachable
  * details and provides large Call + WhatsApp buttons. Rows with empty values
- * are omitted so unconfigured fields (e.g. email) never render blank.
+ * are omitted so unconfigured fields (e.g. email) never render blank. Each
+ * retail outlet is listed as its own address row (linked to its map).
  */
 export function Contact() {
   const rows: Row[] = [
@@ -30,7 +31,12 @@ export function Contact() {
     { label: "Instagram", value: "@hayazgoldanddiamonds", href: BRAND.instagram, external: true },
     { label: "Facebook", value: "facebook.com/hayazgold", href: BRAND.facebook, external: true },
     { label: "Opening Hours", value: BRAND.openingHours },
-    { label: "Address", value: BRAND.address },
+    ...BRAND.branches.map((branch) => ({
+      label: `${branch.area} Store`,
+      value: `${branch.name}, ${formatBranchAddress(branch)}`,
+      href: branch.mapsLink,
+      external: true,
+    })),
   ].filter((row) => row.value.trim().length > 0);
 
   return (

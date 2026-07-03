@@ -1,5 +1,5 @@
 import { BRAND } from "@/config/brand";
-import { telHref, whatsappHref } from "@/lib/format";
+import { telHref, whatsappHref, formatBranchAddress } from "@/lib/format";
 
 const QUICK_LINKS = [
   { label: "About", href: "#about" },
@@ -9,7 +9,7 @@ const QUICK_LINKS = [
 
 /**
  * Footer (Document 2 §12): brand, tagline, quick links, contact and social
- * icons. Minimal, no unnecessary content.
+ * icons. Minimal, no unnecessary content. Both outlets are listed.
  */
 export function Footer() {
   const year = new Date().getFullYear();
@@ -40,13 +40,18 @@ export function Footer() {
 
         <div>
           <p className="font-sans text-caption uppercase tracking-[0.14em] text-muted">Contact</p>
-          <ul className="mt-4 flex flex-col gap-3 font-sans text-body text-ivory">
+          <ul className="mt-4 flex flex-col gap-4 font-sans text-body text-ivory">
             <li>
               <a href={telHref(BRAND.phone)} className="transition-colors duration-300 hover:text-gold">
                 {BRAND.phone}
               </a>
             </li>
-            <li className="max-w-xs text-muted">{BRAND.address}</li>
+            {BRAND.branches.map((branch) => (
+              <li key={branch.name} className="max-w-xs">
+                <span className="block text-ivory">{branch.name}</span>
+                <span className="text-muted">{formatBranchAddress(branch)}</span>
+              </li>
+            ))}
           </ul>
           <div className="mt-5 flex gap-4">
             <a

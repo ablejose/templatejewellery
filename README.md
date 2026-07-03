@@ -8,7 +8,9 @@ A production-grade, **configuration-driven** luxury jewellery website built on a
 
 - **Name:** Hayaz Gold & Diamonds
 - **Tagline:** The Largest Aesthetic Lightweight Jewellery Store in Mannarkkad
-- **Location:** Ansari Building, Kodathippadi, Mannarkkad, Kerala 678582
+- **Outlets:**
+  - HAYAZ GOLD AND DIAMONDS — Mylaparambil Arcade, Kodathippadi, Mannarkkad, Kerala – 678582
+  - HAYAZ GOLD EDATHANATTUKARA — Ground Floor, 3/1448, Kottapalla, Vattamannapuram Road, Padikkapadam, Edathanattukara, Alanallur 1, Palakkad, Kerala – 678601
 - **Hours:** Mon–Sat 9:30 AM–8:00 PM · Sunday 10:00 AM–7:00 PM
 - **WhatsApp:** +91 62358 88916
 - **Instagram:** [@hayazgoldanddiamonds](https://www.instagram.com/hayazgoldanddiamonds)
