@@ -8,20 +8,22 @@ import { FloatingWhatsApp } from "@/sections/FloatingWhatsApp";
 import { SchemeIcon } from "@/components/SchemeIcon";
 
 /**
- * /schemes page.
+ * /schemes page (light theme).
  *
- * - "Our Schemes" title in rich gold.
+ * - Full white background.
+ * - "Our Schemes" title in rich gold (the only heading kept gold — every other
+ *   heading on this page is bold black).
+ * - Two text tabs above the hero image (Golden Flexi Schemes / Golden Dreams
+ *   Advanced Plan): the active one is gold, bold and underlined; the inactive
+ *   one is grey — styled after the supplied reference.
  * - A shared hero image framed on a pure-white card with a thin gold border, so
- *   it shows uncompressed and centred. Two swappable tabs sit at the image's
- *   top-right corner: "Golden Flexi Schemes" and "Golden Dreams Advanced Plan".
- * - On scroll, three feature cards (icon + heading + body) for the active tab.
- * - A "Find the Best Plan" section with two swappable tabs on the left whose
- *   content differs per scheme (filled in later via BRAND.schemesPage).
+ *   it shows uncompressed and centred.
+ * - Per-tab feature cards (icon + bold black heading + bold body).
+ * - A "Find the Best Plan" section with two swappable tabs on the left.
  *
- * Responsive: the hero tabs stack compactly at the top-right on phones and sit
- * inline on larger screens; feature cards are 1-up on mobile / 3-up on laptop;
- * the plan tabs are a top row on mobile and a left rail on laptop. Nothing is
- * cropped or distorted at any breakpoint.
+ * Responsive: tabs wrap and stay centred on mobile; feature cards are 1-up on
+ * mobile / 3-up on laptop; plan tabs are a top row on mobile and a left rail on
+ * laptop. Nothing is cropped or distorted at any breakpoint.
  */
 export function SchemesGallery() {
   const page = BRAND.schemesPage;
@@ -37,9 +39,13 @@ export function SchemesGallery() {
   };
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="container-lux flex min-h-screen flex-col gap-14 py-24 md:py-28">
-        <Link href="/" className="btn-secondary self-start" aria-label="Back to home">
+    <main className="min-h-screen bg-white text-black">
+      <div className="container-lux flex min-h-screen flex-col gap-12 py-20 md:py-24">
+        <Link
+          href="/"
+          className="btn self-start border border-gold/70 text-black hover:border-gold hover:text-gold"
+          aria-label="Back to home"
+        >
           &larr; Back
         </Link>
 
@@ -47,19 +53,19 @@ export function SchemesGallery() {
           {page.title}
         </h1>
 
-        {/* Hero: white framed card with a thin gold border, image centred. */}
-        <div className="relative mx-auto w-full max-w-4xl rounded-card border border-gold bg-white p-3 shadow-2xl sm:p-4">
-          <div className="absolute right-3 top-3 z-10 flex flex-col items-end gap-2 sm:right-5 sm:top-5">
+        <div>
+          {/* Text tabs above the hero image (reference style). */}
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-x-10 gap-y-2">
             {page.tabs.map((t, index) => (
               <button
                 key={t.label}
                 type="button"
                 onClick={() => selectTab(index)}
                 aria-pressed={tab === index}
-                className={`whitespace-nowrap rounded-pill border px-3 py-1.5 text-[11px] font-medium transition-colors duration-300 sm:px-4 sm:py-2 sm:text-sm ${
+                className={`whitespace-nowrap border-b-2 pb-1 font-sans text-sm font-bold tracking-wide transition-colors duration-300 sm:text-base ${
                   tab === index
-                    ? "border-gold bg-gold text-background"
-                    : "border-gold/50 bg-white/85 text-background/75 backdrop-blur hover:bg-white"
+                    ? "border-gold text-gold"
+                    : "border-transparent text-neutral-500 hover:text-black"
                 }`}
               >
                 {t.label}
@@ -67,15 +73,18 @@ export function SchemesGallery() {
             ))}
           </div>
 
-          <Image
-            src={page.heroImage}
-            alt={`${BRAND.businessName} — ${active.label}`}
-            width={page.heroWidth}
-            height={page.heroHeight}
-            sizes="(max-width: 768px) 92vw, (max-width: 1024px) 80vw, 896px"
-            className="mx-auto h-auto w-full object-contain"
-            priority
-          />
+          {/* Hero: pure-white card with a thin gold border, image centred. */}
+          <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-card border border-gold bg-white p-3 shadow-xl sm:p-4">
+            <Image
+              src={page.heroImage}
+              alt={`${BRAND.businessName} — ${active.label}`}
+              width={page.heroWidth}
+              height={page.heroHeight}
+              sizes="(max-width: 768px) 92vw, (max-width: 1024px) 80vw, 896px"
+              className="mx-auto h-auto w-full object-contain"
+              priority
+            />
+          </div>
         </div>
 
         {/* Feature cards for the active hero tab. */}
@@ -83,18 +92,20 @@ export function SchemesGallery() {
           {active.features.map((feature) => (
             <div
               key={feature.heading}
-              className="flex flex-col gap-4 rounded-card border border-border bg-white/5 p-6"
+              className="flex flex-col gap-4 rounded-card border border-black/10 bg-white p-6 shadow-sm"
             >
-              <SchemeIcon name={feature.icon} className="h-9 w-9 shrink-0 text-gold" />
-              <h3 className="font-display text-xl text-ivory">{feature.heading}</h3>
-              <p className="font-sans text-body text-muted">{feature.body}</p>
+              <SchemeIcon name={feature.icon} className="h-10 w-10 shrink-0 text-gold" />
+              <h3 className="font-display text-2xl font-bold text-black">{feature.heading}</h3>
+              <p className="font-sans text-body font-bold text-neutral-700">{feature.body}</p>
             </div>
           ))}
         </div>
 
         {/* Find the Best Plan: left swappable tabs + content. */}
         <div>
-          <h2 className="font-display text-display-m text-gold">{page.findBestPlanHeading}</h2>
+          <h2 className="font-display text-display-m font-bold text-black">
+            {page.findBestPlanHeading}
+          </h2>
 
           <div className="mt-8 flex flex-col gap-6 md:flex-row">
             <div className="flex flex-row gap-3 md:w-64 md:shrink-0 md:flex-col">
@@ -104,10 +115,10 @@ export function SchemesGallery() {
                   type="button"
                   onClick={() => setPlan(index)}
                   aria-pressed={plan === index}
-                  className={`flex-1 rounded-card border px-4 py-3 text-left font-sans text-body transition-colors duration-300 md:flex-none ${
+                  className={`flex-1 rounded-card border px-4 py-3 text-left font-sans text-body font-bold transition-colors duration-300 md:flex-none ${
                     plan === index
-                      ? "border-gold bg-gold/10 text-gold"
-                      : "border-border text-muted hover:text-ivory"
+                      ? "border-gold bg-gold/10 text-black"
+                      : "border-black/15 text-neutral-500 hover:border-black/30 hover:text-black"
                   }`}
                 >
                   {planTab.heading}
@@ -115,9 +126,9 @@ export function SchemesGallery() {
               ))}
             </div>
 
-            <div className="min-h-[9rem] flex-1 rounded-card border border-border bg-white/5 p-6">
-              <h3 className="font-display text-xl text-ivory">{activePlan.heading}</h3>
-              <p className="mt-3 whitespace-pre-line font-sans text-body text-muted">
+            <div className="min-h-[9rem] flex-1 rounded-card border border-black/10 bg-white p-6 shadow-sm">
+              <h3 className="font-display text-2xl font-bold text-black">{activePlan.heading}</h3>
+              <p className="mt-3 whitespace-pre-line font-sans text-body font-bold text-neutral-700">
                 {activePlan.body ?? "Details coming soon."}
               </p>
             </div>
