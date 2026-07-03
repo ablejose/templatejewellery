@@ -174,6 +174,14 @@ export const BRAND: BrandConfig = {
       pincode: "678582",
       mapsLink:
         "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+and+Diamonds+Mylaparambil+Arcade+Kodathippadi+Mannarkkad+Kerala+678582",
+      phone: "+916235888916",
+      marqueeImages: [
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094542/2.jpg_odwggb.jpg", width: 3000, height: 3000 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094516/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View05.jpg_yvc6kj.jpg", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094500/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View13.jpg_xgpitp.jpg", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094497/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View07.jpg_enc2oa.jpg", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094488/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View04.jpg_celun6.jpg", width: 2560, height: 1440 },
+      ],
     },
     {
       name: "HAYAZ GOLD EDATHANATTUKARA",
@@ -185,6 +193,13 @@ export const BRAND: BrandConfig = {
       pincode: "678601",
       mapsLink:
         "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+Edathanattukara+Padikkapadam+Alanallur+Palakkad+Kerala+678601",
+      phone: "+916235878916",
+      marqueeImages: [
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096072/IMG-20260703-WA0031_mubi3a.jpg", width: 960, height: 1280 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096072/IMG-20260703-WA0037_a8bqtv.jpg", width: 960, height: 1280 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096575/Screenshot_2026-07-03_220546_jnienc.png", width: 1350, height: 897 },
+        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096763/IMG-20260703-WA0030_at8exj.jpg", width: 960, height: 1280 },
+      ],
     },
   ],
 

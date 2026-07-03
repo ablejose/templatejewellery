@@ -61,3 +61,22 @@ body {
     @apply btn border border-gold/60 text-ivory hover:border-gold hover:text-gold;
   }
 }
+
+/* Showroom marquee (Visit Our Stores): seamless right -> left crawl. The track
+   holds two copies of the images and translates by one full set (-50%). The
+   duration is supplied per strip via --marquee-duration so every strip shares
+   the same pixel speed. The global prefers-reduced-motion rule above freezes
+   this animation for users who prefer reduced motion. */
+@keyframes showroom-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.showroom-marquee-track {
+  animation: showroom-marquee var(--marquee-duration, 60s) linear infinite;
+  will-change: transform;
+}

@@ -1,14 +1,16 @@
 import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { StoreImage } from "@/components/StoreImage";
+import { ShowroomMarquee } from "@/components/ShowroomMarquee";
 import { Button } from "@/components/Button";
 import { telHref, formatBranchAddress } from "@/lib/format";
 
 /**
- * Visit Store (Document 2 §7). Three responsive storefront images, then both
- * retail outlets with their own address and directions, plus shared opening
- * hours and a Call action. Google Maps is linked, never embedded.
+ * Visit Store (Document 2 §7). One block per retail outlet: a heading-sized
+ * showroom title, an edge-to-edge looping image strip (right -> left, slow,
+ * seamless, no gaps), then the outlet's full address with its OWN Directions +
+ * Call actions side by side. Shared opening hours sit at the bottom. Google
+ * Maps is linked, never embedded. All content comes from BRAND.branches.
  */
 export function VisitStore() {
   return (
@@ -22,48 +24,49 @@ export function VisitStore() {
           />
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {BRAND.storeImages.map((src, index) => (
-            <Reveal key={src} delay={index * 0.08}>
-              <StoreImage
-                src={src}
-                alt={`${BRAND.businessName} storefront view ${index + 1}`}
-              />
+        <div className="mt-16 flex flex-col gap-16 md:gap-24">
+          {BRAND.branches.map((branch) => (
+            <Reveal key={branch.name}>
+              <div className="flex flex-col gap-6">
+                <h3 className="font-display text-display-m text-ivory">
+                  {branch.area} Showroom
+                </h3>
+
+                <ShowroomMarquee
+                  images={branch.marqueeImages}
+                  label={`${branch.area} showroom gallery`}
+                />
+
+                <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                  <p className="max-w-xl font-sans text-body text-muted">
+                    {formatBranchAddress(branch)}
+                  </p>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <Button
+                      href={branch.mapsLink}
+                      external
+                      variant="secondary"
+                      className="w-full sm:w-auto"
+                    >
+                      Get Directions
+                    </Button>
+                    <Button
+                      href={telHref(branch.phone)}
+                      variant="primary"
+                      className="w-full sm:w-auto"
+                    >
+                      Call Now
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </Reveal>
           ))}
         </div>
 
-        <Reveal>
-          <div className="mt-12 border-t border-border pt-10">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {BRAND.branches.map((branch) => (
-                <div key={branch.name} className="flex flex-col gap-4">
-                  <div>
-                    <h3 className="font-display text-2xl text-ivory">{branch.name}</h3>
-                    <p className="mt-3 max-w-md font-sans text-body text-muted">
-                      {formatBranchAddress(branch)}
-                    </p>
-                  </div>
-                  <Button
-                    href={branch.mapsLink}
-                    external
-                    variant="secondary"
-                    className="w-full sm:w-auto"
-                  >
-                    Get Directions
-                  </Button>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
-              <p className="font-sans text-body text-muted">{BRAND.openingHours}</p>
-              <Button href={telHref(BRAND.phone)} variant="primary" className="w-full sm:w-auto">
-                Call Now
-              </Button>
-            </div>
-          </div>
-        </Reveal>
+        <div className="mt-14 border-t border-border pt-8">
+          <p className="font-sans text-body text-muted">{BRAND.openingHours}</p>
+        </div>
       </div>
     </section>
   );

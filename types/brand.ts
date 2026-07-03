@@ -98,6 +98,15 @@ export interface SchemesPage {
   tabs: SchemeTab[];
 }
 
+export interface MarqueeImage {
+  /** Cloudinary image URL */
+  src: string;
+  /** Intrinsic pixel width (drives the aspect ratio; prevents layout shift) */
+  width: number;
+  /** Intrinsic pixel height */
+  height: number;
+}
+
 export interface Branch {
   /** Outlet name, e.g. "HAYAZ GOLD AND DIAMONDS" */
   name: string;
@@ -110,6 +119,10 @@ export interface Branch {
   pincode: string;
   /** Google Maps link for this outlet (linked, never embedded) */
   mapsLink: string;
+  /** Direct-dial phone for this outlet, e.g. "+916235888916" */
+  phone: string;
+  /** Looping storefront images for this outlet's "Visit Our Stores" strip */
+  marqueeImages: MarqueeImage[];
 }
 
 export interface SeoConfig {
