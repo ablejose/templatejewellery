@@ -61,24 +61,64 @@ export const BRAND: BrandConfig = {
   offersImage:
     "https://res.cloudinary.com/fylz5e3j/image/upload/v1783064597/offers_hayazgold_vpwgem.jpg",
 
-  // Savings schemes (Cloudinary). Each entry becomes a button on /schemes that
-  // reveals its image on click. Add or remove entries here to change the page.
-  schemes: [
-    {
-      label: "Hayaz Golden Flexi Schemes",
-      image:
-        "https://res.cloudinary.com/fylz5e3j/image/upload/v1783068121/schemes_hayazgold_goldenflexi_f2amro.jpg",
-      width: 1131,
-      height: 579,
-    },
-    {
-      label: "Golden Dreams Advanced Plan",
-      image:
-        "https://res.cloudinary.com/fylz5e3j/image/upload/v1783068121/schemes_hayazgold_goldendreams_hslgcg.jpg",
-      width: 1131,
-      height: 680,
-    },
-  ],
+  // /schemes page. The hero image is shared by both tabs and framed on white
+  // with a thin gold border. Each tab has 3 feature cards + its own "Find the
+  // Best Plan" left tabs. planTabs[].body is filled in later.
+  schemesPage: {
+    title: "Our Schemes",
+    heroImage:
+      "https://res.cloudinary.com/fylz5e3j/image/upload/v1783076308/1783076120947_toitx3.png",
+    heroWidth: 1041,
+    heroHeight: 768,
+    findBestPlanHeading: "Find the Best Plan",
+    tabs: [
+      {
+        label: "Golden Flexi Schemes",
+        features: [
+          {
+            icon: "save-tag",
+            heading: "Save Smart. Buy Big.",
+            body: "Plan your future high-value purchases with minimum monthly payments.",
+          },
+          {
+            icon: "reward-badge",
+            heading: "Enjoy Exclusive Rewards",
+            body: "Save even more with additional discounts when you redeem gold.",
+          },
+          {
+            icon: "growth-chart",
+            heading: "Protection from Gold Rate Hikes",
+            body: "Protect yourself from frequent gold rate hikes in the market.",
+          },
+        ],
+        planTabs: [{ heading: "Sutharya" }, { heading: "Golden Promise" }],
+      },
+      {
+        label: "Golden Dreams Advanced Plan",
+        features: [
+          {
+            icon: "accumulate-clock",
+            heading: "Block gold rate for redemption at a later stage",
+            body: "Accumulate gold with fixed contributions, adjusting with gold prices.",
+          },
+          {
+            icon: "plan-edit",
+            heading: "Plan for future high-value purchases",
+            body: "Strategically plan and prepare for high-value purchases, be it luxury items, homes, cars, or any significant expense.",
+          },
+          {
+            icon: "card-clock",
+            heading: "Ability to partially or fully pay immediately",
+            body: "Immediate payments mean paying upfront for various transactions.",
+          },
+        ],
+        planTabs: [
+          { heading: "Classic Advance Plan" },
+          { heading: "Premium Advance Plan" },
+        ],
+      },
+    ],
+  },
 
   // "Journey Towards Goal" — Vision 2035 milestones (full-width stats section
   // that replaced the third story chapter). Edit values/labels here.

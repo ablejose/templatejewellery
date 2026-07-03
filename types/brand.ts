@@ -31,16 +31,6 @@ export interface FaqItem {
   answer: string;
 }
 
-export interface SchemeItem {
-  /** Button label shown on the /schemes page */
-  label: string;
-  /** Cloudinary image URL revealed when the button is clicked */
-  image: string;
-  /** Intrinsic image dimensions (keep aspect ratio, prevent layout shift) */
-  width: number;
-  height: number;
-}
-
 export interface VisionStat {
   /** Large number/value, e.g. "10" or "5 Million" */
   value: string;
@@ -55,6 +45,51 @@ export interface VisionGoal {
   subtitle: string;
   /** Milestone stats rendered as a divided row */
   stats: VisionStat[];
+}
+
+/** Icon keys for the /schemes feature cards (see components/SchemeIcon.tsx). */
+export type SchemeIconName =
+  | "save-tag"
+  | "reward-badge"
+  | "growth-chart"
+  | "accumulate-clock"
+  | "plan-edit"
+  | "card-clock";
+
+export interface SchemeFeature {
+  /** Which built-in SVG icon to render */
+  icon: SchemeIconName;
+  heading: string;
+  body: string;
+}
+
+export interface SchemePlanTab {
+  /** Left-hand tab heading, e.g. "Sutharya" */
+  heading: string;
+  /** Body content shown when the tab is active (provided later; optional). */
+  body?: string;
+}
+
+export interface SchemeTab {
+  /** Hero tab label, e.g. "Golden Flexi Schemes" */
+  label: string;
+  /** Three feature cards shown for this tab (icon + heading + body) */
+  features: SchemeFeature[];
+  /** "Find the Best Plan" left-hand swappable tabs for this scheme */
+  planTabs: SchemePlanTab[];
+}
+
+export interface SchemesPage {
+  /** Page title, e.g. "Our Schemes" (rendered in rich gold) */
+  title: string;
+  /** Shared hero image (same for both tabs), framed on white with a gold line */
+  heroImage: string;
+  heroWidth: number;
+  heroHeight: number;
+  /** Heading for the plan-comparison section, e.g. "Find the Best Plan" */
+  findBestPlanHeading: string;
+  /** The two hero tabs (Golden Flexi, Golden Dreams) */
+  tabs: SchemeTab[];
 }
 
 export interface Branch {
@@ -95,8 +130,8 @@ export interface BrandConfig {
 
   /** Offers poster image (Cloudinary). Shown on the /offers page. */
   offersImage: string;
-  /** Savings schemes shown on the /schemes page (one button reveals each image). */
-  schemes: SchemeItem[];
+  /** Rich, tabbed /schemes page (hero + feature cards + plan tabs). */
+  schemesPage: SchemesPage;
   /** "Journey Towards Goal" full-width stats section (Vision 2035). */
   visionGoal: VisionGoal;
 
