@@ -75,6 +75,10 @@ export interface SchemePlanTab {
 export interface SchemeTab {
   /** Hero tab label, e.g. "Golden Flexi Schemes" */
   label: string;
+  /** Hero image for this tab (overrides the page-level hero image). */
+  heroImage?: string;
+  heroWidth?: number;
+  heroHeight?: number;
   /** Three feature cards shown for this tab (icon + heading + body) */
   features: SchemeFeature[];
   /** "Find the Best Plan" left-hand swappable tabs for this scheme */

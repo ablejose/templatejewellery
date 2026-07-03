@@ -77,10 +77,10 @@ export function SchemesGallery() {
           {/* Hero: pure-white card with a thin gold border, image centred. */}
           <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-card border border-gold bg-white p-3 shadow-xl sm:p-4">
             <Image
-              src={page.heroImage}
+              src={active.heroImage ?? page.heroImage}
               alt={`${BRAND.businessName} — ${active.label}`}
-              width={page.heroWidth}
-              height={page.heroHeight}
+              width={active.heroWidth ?? page.heroWidth}
+              height={active.heroHeight ?? page.heroHeight}
               sizes="(max-width: 768px) 92vw, (max-width: 1024px) 80vw, 896px"
               className="mx-auto h-auto w-full object-contain"
               priority
