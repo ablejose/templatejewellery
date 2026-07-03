@@ -1,8 +1,8 @@
 import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { Button } from "@/components/Button";
-import { telHref, whatsappHref, formatBranchAddress } from "@/lib/format";
+import { SocialLinks } from "@/components/SocialLinks";
+import { telHref, formatBranchAddress } from "@/lib/format";
 
 interface LinkItem {
   text: string;
@@ -16,17 +16,18 @@ interface Row {
 }
 
 /**
- * Contact section (Document 2 §9). Entirely left aligned. Lists reachable
- * details and provides large Call + WhatsApp buttons. Phone and WhatsApp each
- * list BOTH showrooms' numbers (per-branch, from BRAND.branches). Rows with no
- * items are omitted so unconfigured fields (e.g. email) never render blank.
- * Each retail outlet is also listed as its own address row (linked to its map).
+ * Contact section (Document 2 §9). Entirely left aligned. Reachable details are
+ * shown as an aligned label/value list: Phone lists BOTH showrooms' numbers
+ * (per-branch, from BRAND.branches) and each retail outlet is listed as its own
+ * address row (linked to its map). Instagram, WhatsApp and Facebook render as
+ * gold app-icon tiles (SocialLinks) that open each profile in a new tab. Rows
+ * with no items are omitted so unconfigured fields (e.g. email) never render
+ * blank.
  *
  * Desktop width: the outer container-lux spans the standard 1280px content
- * width (same left gutter as every other section); the inner max-w-4xl
- * wrapper is left aligned (no mx-auto) so the details sit at the site's left
- * edge and read wider instead of floating narrow in the centre. Mobile is
- * unchanged (container padding still governs the width below 896px).
+ * width (same left gutter as every other section); the inner max-w-4xl wrapper
+ * is left aligned (no mx-auto) so the details sit at the site's left edge and
+ * read wider instead of floating narrow in the centre. Mobile is unchanged.
  */
 export function Contact() {
   const phoneItems: LinkItem[] = BRAND.branches.map((branch) => ({
@@ -34,16 +35,9 @@ export function Contact() {
     href: telHref(branch.phone),
   }));
 
-  const whatsappItems: LinkItem[] = BRAND.branches.map((branch) => ({
-    text: `${branch.area}: ${branch.phone}`,
-    href: whatsappHref(branch.phone, BRAND.whatsappMessage),
-    external: true,
-  }));
-
   const rows: Row[] = [
     { label: "Business", items: [{ text: BRAND.businessName }] },
     { label: "Phone", items: phoneItems },
-    { label: "WhatsApp", items: whatsappItems },
     ...(BRAND.email
       ? [
           {
@@ -52,22 +46,6 @@ export function Contact() {
           },
         ]
       : []),
-    {
-      label: "Instagram",
-      items: [
-        {
-          text: "@hayazgoldanddiamonds",
-          href: BRAND.instagram,
-          external: true,
-        },
-      ],
-    },
-    {
-      label: "Facebook",
-      items: [
-        { text: "facebook.com/hayazgold", href: BRAND.facebook, external: true },
-      ],
-    },
     { label: "Opening Hours", items: [{ text: BRAND.openingHours }] },
     ...BRAND.branches.map((branch) => ({
       label: `${branch.area} Store`,
@@ -119,23 +97,7 @@ export function Contact() {
               ))}
             </dl>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Button
-                href={telHref(BRAND.phone)}
-                variant="primary"
-                className="w-full sm:w-auto"
-              >
-                Call {BRAND.businessName}
-              </Button>
-              <Button
-                href={whatsappHref(BRAND.whatsapp, BRAND.whatsappMessage)}
-                external
-                variant="secondary"
-                className="w-full sm:w-auto"
-              >
-                WhatsApp Us
-              </Button>
-            </div>
+            <SocialLinks className="mt-10" />
           </Reveal>
         </div>
       </div>

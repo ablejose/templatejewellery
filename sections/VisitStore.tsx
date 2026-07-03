@@ -9,8 +9,8 @@ import { telHref, formatBranchAddress } from "@/lib/format";
  * Visit Store (Document 2 §7). One block per retail outlet: a heading-sized
  * showroom title, an edge-to-edge looping image strip (right -> left, slow,
  * seamless, no gaps), then the outlet's full address with its OWN Directions +
- * Call actions side by side. Shared opening hours sit at the bottom. Google
- * Maps is linked, never embedded. All content comes from BRAND.branches.
+ * Call actions side by side. Google Maps is linked, never embedded. All content
+ * comes from BRAND.branches.
  */
 export function VisitStore() {
   return (
@@ -62,10 +62,6 @@ export function VisitStore() {
               </div>
             </Reveal>
           ))}
-        </div>
-
-        <div className="mt-14 border-t border-border pt-8">
-          <p className="font-sans text-body text-muted">{BRAND.openingHours}</p>
         </div>
       </div>
     </section>
