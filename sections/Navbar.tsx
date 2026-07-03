@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useScrolled } from "@/hooks/useScrolled";
 import { BRAND } from "@/config/brand";
 
@@ -36,8 +35,9 @@ interface NavbarProps {
  * readable) and `homeHref="/"` so the section anchors point back to the home
  * page instead of doing nothing.
  *
- * Brand mark: the transparent gold logo (public/hayaz-logo.png) reads on both
- * the transparent (over-hero) and solid dark bar states.
+ * Brand mark: the "HAYAZ" wordmark only (no ring / no "Gold & Diamonds"
+ * subtitle), set in the display serif (Cormorant) to match the logo lettering,
+ * uppercase with wide tracking in gold. Size adapts across breakpoints.
  */
 export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
   const scrolled = useScrolled();
@@ -57,14 +57,9 @@ export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
     >
       <nav className="container-lux flex items-center justify-between" aria-label="Primary">
         <Link href={resolve("#top")} className="flex items-center" aria-label={`${BRAND.businessName} home`}>
-          <Image
-            src="/hayaz-logo.png"
-            alt=""
-            width={181}
-            height={182}
-            priority
-            className="h-10 w-auto md:h-11"
-          />
+          <span className="font-display text-2xl uppercase leading-none tracking-[0.2em] text-gold sm:text-3xl">
+            Hayaz
+          </span>
         </Link>
 
         <ul className="hidden items-center gap-10 md:flex">
