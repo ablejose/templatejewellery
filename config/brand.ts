@@ -123,11 +123,6 @@ export const BRAND: BrandConfig = {
             heading: "Plan for future high-value purchases",
             body: "Strategically plan and prepare for high-value purchases, be it luxury items, homes, cars, or any significant expense.",
           },
-          {
-            icon: "card-clock",
-            heading: "Ability to partially or fully pay immediately",
-            body: "Immediate payments mean paying upfront for various transactions.",
-          },
         ],
         planTabs: [
           {

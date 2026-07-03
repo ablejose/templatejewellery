@@ -89,7 +89,13 @@ export function SchemesGallery() {
         </div>
 
         {/* Feature cards for the active hero tab. */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div
+          className={`grid w-full gap-6 ${
+            active.features.length === 2
+              ? "mx-auto max-w-4xl grid-cols-1 sm:grid-cols-2"
+              : "grid-cols-1 md:grid-cols-3"
+          }`}
+        >
           {active.features.map((feature) => (
             <div
               key={feature.heading}
