@@ -13,7 +13,8 @@ export function BrandIntro() {
           <Reveal>
             <h2 className="font-display text-display-l text-ivory">A Story of Success</h2>
             <p className="mt-6 max-w-2xl font-sans text-body-lg text-muted">
-              {"Hayaz Gold specializes in gold, diamond, silver and platinum. In 2022 Hayaz started its first outlet in Mannarkkad with 4 employees. Within a short period, we've built a large family of loyal customers across Kerala. It is an achievement that we have been able to turn even those who came to the shop once into Hayaz promoters. Hayaz Gold & Diamonds acknowledges that customers are more sophisticated and their needs are more individualized. We offer quality products in low making charge backed by a deep respect."}
+              <span className="text-gold">Hayaz Gold</span>
+              {" specializes in gold, diamond, silver and platinum. In 2022 Hayaz started its first outlet in Mannarkkad with 4 employees. Within a short period, we've built a large family of loyal customers across Kerala. It is an achievement that we have been able to turn even those who came to the shop once into Hayaz promoters. Hayaz Gold & Diamonds acknowledges that customers are more sophisticated and their needs are more individualized. We offer quality products in low making charge backed by a deep respect."}
             </p>
           </Reveal>
         </div>
