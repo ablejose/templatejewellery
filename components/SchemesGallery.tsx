@@ -11,14 +11,13 @@ import { SchemeIcon } from "@/components/SchemeIcon";
  * /schemes page (light theme).
  *
  * - Full white background.
- * - "Our Schemes" title in rich gold (the only heading kept gold — every other
- *   heading on this page is bold black).
+ * - "Our Schemes" title in rich gold (the only heading kept gold).
  * - Two text tabs above the hero image (Golden Flexi Schemes / Golden Dreams
- *   Advanced Plan): the active one is gold, bold and underlined; the inactive
- *   one is grey — styled after the supplied reference.
+ *   Advanced Plan) in the serif display font — larger, not bold, for
+ *   readability. Active is gold + underlined; inactive is grey.
  * - A shared hero image framed on a pure-white card with a thin gold border, so
  *   it shows uncompressed and centred.
- * - Per-tab feature cards (icon + bold black heading + bold body).
+ * - Per-tab feature cards: bold heading, normal-weight body text.
  * - A "Find the Best Plan" section with two swappable tabs on the left.
  *
  * Responsive: tabs wrap and stay centred on mobile; feature cards are 1-up on
@@ -54,15 +53,15 @@ export function SchemesGallery() {
         </h1>
 
         <div>
-          {/* Text tabs above the hero image (reference style). */}
-          <div className="mb-4 flex flex-wrap items-center justify-center gap-x-10 gap-y-2">
+          {/* Text tabs above the hero image — serif display font, larger, not bold. */}
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-12">
             {page.tabs.map((t, index) => (
               <button
                 key={t.label}
                 type="button"
                 onClick={() => selectTab(index)}
                 aria-pressed={tab === index}
-                className={`whitespace-nowrap border-b-2 pb-1 font-sans text-sm font-bold tracking-wide transition-colors duration-300 sm:text-base ${
+                className={`whitespace-nowrap border-b-2 pb-1 font-display text-lg tracking-wide transition-colors duration-300 sm:text-xl ${
                   tab === index
                     ? "border-gold text-gold"
                     : "border-transparent text-neutral-500 hover:text-black"
@@ -95,8 +94,8 @@ export function SchemesGallery() {
               className="flex flex-col gap-4 rounded-card border border-black/10 bg-white p-6 shadow-sm"
             >
               <SchemeIcon name={feature.icon} className="h-10 w-10 shrink-0 text-gold" />
-              <h3 className="font-display text-2xl font-bold text-black">{feature.heading}</h3>
-              <p className="font-sans text-body font-bold text-neutral-700">{feature.body}</p>
+              <h3 className="font-display text-xl font-bold">{feature.heading}</h3>
+              <p className="font-sans text-body text-neutral-700">{feature.body}</p>
             </div>
           ))}
         </div>
@@ -127,8 +126,8 @@ export function SchemesGallery() {
             </div>
 
             <div className="min-h-[9rem] flex-1 rounded-card border border-black/10 bg-white p-6 shadow-sm">
-              <h3 className="font-display text-2xl font-bold text-black">{activePlan.heading}</h3>
-              <p className="mt-3 whitespace-pre-line font-sans text-body font-bold text-neutral-700">
+              <h3 className="font-display text-xl font-bold">{activePlan.heading}</h3>
+              <p className="mt-3 whitespace-pre-line font-sans text-body text-neutral-700">
                 {activePlan.body ?? "Details coming soon."}
               </p>
             </div>
