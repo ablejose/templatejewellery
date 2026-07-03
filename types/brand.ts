@@ -45,6 +45,10 @@ export interface BrandConfig {
 
   storeImages: string[];
 
+  /** Promotional poster images (Cloudinary). Shown on the /offers and /schemes pages. */
+  offersImage: string;
+  schemesImage: string;
+
   address: string;
   city: string;
   state: string;

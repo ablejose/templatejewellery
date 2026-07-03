@@ -62,6 +62,12 @@ export const BRAND: BrandConfig = {
     "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazcc_vuguic.webp",
   ],
 
+  // Promotional posters (Cloudinary). Linked from the Offers / Schemes buttons.
+  offersImage:
+    "https://res.cloudinary.com/fylz5e3j/image/upload/v1783064597/offers_hayazgold_vpwgem.jpg",
+  schemesImage:
+    "https://res.cloudinary.com/fylz5e3j/image/upload/v1783064663/schemes_hayazgold_yas0ye.jpg",
+
   address: "Ansari Building, Kodathippadi, Mannarkkad, Kerala 678582",
   city: "Mannarkkad",
   state: "Kerala",
