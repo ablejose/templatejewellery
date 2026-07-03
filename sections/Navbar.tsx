@@ -13,24 +13,46 @@ const LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
+interface NavbarProps {
+  /**
+   * Prefix applied to in-page hash links so they resolve to the homepage's
+   * sections. "" on the homepage (plain #about → smooth scroll); "/" on
+   * subpages (/#about → navigate home, then scroll to the section).
+   */
+  homeHref?: string;
+  /**
+   * Force the solid dark bar regardless of scroll position. Used on the
+   * light/white subpages (Offers, Schemes) where the transparent top state
+   * with light text would be unreadable.
+   */
+  solid?: boolean;
+}
+
 /**
  * Sticky navigation. Scrolled state becomes more opaque with backdrop blur and
  * reduced padding (Document 2 §3). Mobile uses a full-screen overlay menu.
+ * On light subpages pass `solid` so the bar stays dark (keeping the light text
+ * readable) and `homeHref="/"` so the section anchors point back to the home
+ * page instead of doing nothing.
  */
-export function Navbar() {
+export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
   const scrolled = useScrolled();
   const [open, setOpen] = useState(false);
+
+  const showSolid = solid || scrolled;
+  const resolve = (href: string) =>
+    href.startsWith("#") ? `${homeHref}${href}` : href;
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-lux ${
-        scrolled
+        showSolid
           ? "border-b border-border bg-background/85 py-3 backdrop-blur-md"
           : "bg-transparent py-6"
       }`}
     >
       <nav className="container-lux flex items-center justify-between" aria-label="Primary">
-        <Link href="#top" className="flex items-center gap-3" aria-label={`${BRAND.businessName} home`}>
+        <Link href={resolve("#top")} className="flex items-center gap-3" aria-label={`${BRAND.businessName} home`}>
           <span className="font-display text-xl tracking-wide text-ivory">
             {BRAND.businessName}
           </span>
@@ -40,7 +62,7 @@ export function Navbar() {
           {LINKS.map((link) => (
             <li key={link.href}>
               <a
-                href={link.href}
+                href={resolve(link.href)}
                 className="font-sans text-sm tracking-wide text-muted transition-colors duration-300 hover:text-ivory"
               >
                 {link.label}
@@ -65,7 +87,7 @@ export function Navbar() {
           {LINKS.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={resolve(link.href)}
               onClick={() => setOpen(false)}
               className="font-display text-display-m text-ivory"
             >

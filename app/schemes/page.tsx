@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BRAND } from "@/config/brand";
+import { Navbar } from "@/sections/Navbar";
 import { SchemesGallery } from "@/components/SchemesGallery";
 
 export const metadata: Metadata = {
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function SchemesPage() {
-  return <SchemesGallery />;
+  return (
+    <>
+      <Navbar homeHref="/" solid />
+      <SchemesGallery />
+    </>
+  );
 }
