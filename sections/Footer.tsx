@@ -1,5 +1,6 @@
 import { BRAND } from "@/config/brand";
-import { telHref, whatsappHref, formatBranchAddress } from "@/lib/format";
+import { SocialLinks } from "@/components/SocialLinks";
+import { telHref, formatBranchAddress } from "@/lib/format";
 
 /**
  * Footer quick links. Mirrors the primary journey and the Hero CTAs, so the
@@ -16,8 +17,9 @@ const QUICK_LINKS = [
 
 /**
  * Footer (Document 2 §12): brand, tagline, quick links, and a per-outlet
- * contact block (name, address and that outlet's own phone number) plus social
- * links. Minimal, no unnecessary content.
+ * contact block (name, address and that outlet's own phone number) plus the
+ * social app-icons (Instagram / WhatsApp / Facebook). Minimal, no unnecessary
+ * content.
  */
 export function Footer() {
   const year = new Date().getFullYear();
@@ -70,35 +72,7 @@ export function Footer() {
               </li>
             ))}
           </ul>
-          <div className="mt-5 flex gap-4">
-            <a
-              href={BRAND.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${BRAND.businessName} on Instagram`}
-              className="font-sans text-body text-muted transition-colors duration-300 hover:text-gold"
-            >
-              Instagram
-            </a>
-            <a
-              href={BRAND.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${BRAND.businessName} on Facebook`}
-              className="font-sans text-body text-muted transition-colors duration-300 hover:text-gold"
-            >
-              Facebook
-            </a>
-            <a
-              href={whatsappHref(BRAND.whatsapp, BRAND.whatsappMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${BRAND.businessName} on WhatsApp`}
-              className="font-sans text-body text-muted transition-colors duration-300 hover:text-gold"
-            >
-              WhatsApp
-            </a>
-          </div>
+          <SocialLinks className="mt-6" />
         </div>
       </div>
 
