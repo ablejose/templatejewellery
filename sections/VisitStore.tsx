@@ -39,20 +39,12 @@ export function VisitStore() {
               <p className="mt-3 max-w-md font-sans text-body text-muted">{BRAND.address}</p>
               <p className="mt-2 font-sans text-body text-muted">{BRAND.openingHours}</p>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Button href={BRAND.mapsLink} external variant="secondary">
-                  Get Directions
-                </Button>
-                <Button href={telHref(BRAND.phone)} variant="primary">
-                  Call Now
-                </Button>
-              </div>
-              <Button href="/offers" variant="primary" className="sm:self-end">
-                Offers
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button href={BRAND.mapsLink} external variant="secondary">
+                Get Directions
               </Button>
-              <Button href="/schemes" variant="secondary" className="sm:self-end">
-                Schemes
+              <Button href={telHref(BRAND.phone)} variant="primary">
+                Call Now
               </Button>
             </div>
           </div>
