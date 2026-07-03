@@ -9,18 +9,34 @@ import type { MarqueeImage } from "@/types/brand";
  */
 const SECONDS_PER_ASPECT_UNIT = 12;
 
+/**
+ * Slight gap between images (px) so each image reads as its own frame. A
+ * trailing gap is applied to EVERY image (including the last of each set), so
+ * the repeating unit stays uniform and the -50% loop is seamless (no jump at
+ * the wrap). The dark section background shows through the gap.
+ */
+const GAP_PX = 12;
+
+/**
+ * Reference strip height (matches md:h-64 = 256px). Used only to express the
+ * fixed pixel gap in aspect-ratio units so it can be folded into the duration,
+ * keeping every strip's crawl speed matched.
+ */
+const REFERENCE_HEIGHT_PX = 256;
+
 interface ShowroomMarqueeProps {
   images: MarqueeImage[];
   label: string;
 }
 
 /**
- * Edge-to-edge storefront image strip that loops right -> left forever with no
- * gaps (Visit Our Stores). The track holds TWO consecutive copies of the
- * images and translates by -50% (exactly one set), so the loop is seamless.
- * Height is fixed + responsive; each image's width follows its intrinsic aspect
- * ratio, so there is no distortion and no layout shift. Users who prefer
- * reduced motion get a static strip (handled globally in globals.css).
+ * Edge-to-edge storefront image strip that loops right -> left forever with a
+ * slight, uniform gap between images (Visit Our Stores). The track holds TWO
+ * consecutive copies of the images and translates by -50% (exactly one set),
+ * so the loop is seamless. Height is fixed + responsive; each image's width
+ * follows its intrinsic aspect ratio, so there is no distortion and no layout
+ * shift. Users who prefer reduced motion get a static strip (handled globally
+ * in globals.css).
  */
 export function ShowroomMarquee({ images, label }: ShowroomMarqueeProps) {
   if (images.length === 0) return null;
@@ -29,9 +45,13 @@ export function ShowroomMarquee({ images, label }: ShowroomMarqueeProps) {
     (sum, img) => sum + img.width / img.height,
     0,
   );
+  // One repeating unit = every image plus its trailing gap. Expressing the gap
+  // in aspect units (gap / height) folds it into the duration, so adding a gap
+  // does not change the shared crawl speed between strips.
+  const gapUnits = (images.length * GAP_PX) / REFERENCE_HEIGHT_PX;
   const durationSec = Math.max(
     1,
-    Math.round(sumAspect * SECONDS_PER_ASPECT_UNIT),
+    Math.round((sumAspect + gapUnits) * SECONDS_PER_ASPECT_UNIT),
   );
   const loop = [...images, ...images];
 
@@ -50,6 +70,7 @@ export function ShowroomMarquee({ images, label }: ShowroomMarqueeProps) {
           <li
             key={`${img.src}-${index}`}
             className="h-48 shrink-0 sm:h-56 md:h-64"
+            style={{ marginRight: `${GAP_PX}px` }}
           >
             <Image
               src={img.src}
