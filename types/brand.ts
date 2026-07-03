@@ -41,6 +41,22 @@ export interface SchemeItem {
   height: number;
 }
 
+export interface VisionStat {
+  /** Large number/value, e.g. "10" or "5 Million" */
+  value: string;
+  /** Small caption under the value, e.g. "Stores" */
+  label: string;
+}
+
+export interface VisionGoal {
+  /** Section title, e.g. "Journey Towards Goal" */
+  title: string;
+  /** Sub-heading, e.g. "VISION 2035" */
+  subtitle: string;
+  /** Milestone stats rendered as a divided row */
+  stats: VisionStat[];
+}
+
 export interface SeoConfig {
   title: string;
   description: string;
@@ -67,6 +83,8 @@ export interface BrandConfig {
   offersImage: string;
   /** Savings schemes shown on the /schemes page (one button reveals each image). */
   schemes: SchemeItem[];
+  /** "Journey Towards Goal" full-width stats section (Vision 2035). */
+  visionGoal: VisionGoal;
 
   address: string;
   city: string;

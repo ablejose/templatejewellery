@@ -49,14 +49,6 @@ export const BRAND: BrandConfig = {
       // Final part of the 40s film (last ~8 seconds).
       segments: { startAt: 32, loopEnd: 40 },
     },
-    {
-      quote: "Where tradition meets timeless beauty.",
-      description:
-        "Rooted in Mannarkkad and Edathanattukara, our collections honour heritage while embracing a modern, understated sense of luxury.",
-      video:
-        "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
-      segments: { startAt: 16, loopEnd: 24 },
-    },
   ],
 
   storeImages: [
@@ -87,6 +79,20 @@ export const BRAND: BrandConfig = {
       height: 680,
     },
   ],
+
+  // "Journey Towards Goal" — Vision 2035 milestones (full-width stats section
+  // that replaced the third story chapter). Edit values/labels here.
+  visionGoal: {
+    title: "Journey Towards Goal",
+    subtitle: "VISION 2035",
+    stats: [
+      { value: "10", label: "Stores" },
+      { value: "20,000", label: "Sqft Shopping Area" },
+      { value: "500", label: "Management Team" },
+      { value: "5 Million", label: "Satisfied Customers" },
+      { value: "2 Country", label: "Brand Presence" },
+    ],
+  },
 
   address: "Ansari Building, Kodathippadi, Mannarkkad, Kerala 678582",
   city: "Mannarkkad",
