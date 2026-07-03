@@ -29,22 +29,26 @@ export function Hero() {
           <p className="mt-4 max-w-xl font-sans text-body text-muted">
             Timeless elegance crafted for every celebration.
           </p>
-          <div className="mt-10 flex items-center gap-2 sm:gap-3">
+          {/* Equal-width CTA row: grid-cols-3 (minmax(0,1fr)) gives three identical
+              tracks; each Button is w-full so all three match on mobile and laptop.
+              Compact padding on mobile so the longest label fits its cell; full
+              size restored at sm+. */}
+          <div className="mt-10 grid grid-cols-3 gap-2 sm:gap-3">
             <Button
               href="#visit-store"
-              className="whitespace-nowrap px-3 text-xs sm:px-8 sm:text-sm"
+              className="w-full whitespace-nowrap px-2 text-center text-xs sm:px-8 sm:text-sm"
             >
               Visit Store
             </Button>
             <Button
               href="/offers"
-              className="whitespace-nowrap px-3 text-xs sm:px-8 sm:text-sm"
+              className="w-full whitespace-nowrap px-2 text-center text-xs sm:px-8 sm:text-sm"
             >
               Offers
             </Button>
             <Button
               href="/schemes"
-              className="whitespace-nowrap px-3 text-xs sm:px-8 sm:text-sm"
+              className="w-full whitespace-nowrap px-2 text-center text-xs sm:px-8 sm:text-sm"
             >
               Schemes
             </Button>
