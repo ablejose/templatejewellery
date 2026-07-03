@@ -4,40 +4,76 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/Button";
 import { telHref, whatsappHref, formatBranchAddress } from "@/lib/format";
 
-interface Row {
-  label: string;
-  value: string;
+interface LinkItem {
+  text: string;
   href?: string;
   external?: boolean;
 }
 
+interface Row {
+  label: string;
+  items: LinkItem[];
+}
+
 /**
  * Contact section (Document 2 §9). Entirely left aligned. Lists reachable
- * details and provides large Call + WhatsApp buttons. Rows with empty values
- * are omitted so unconfigured fields (e.g. email) never render blank. Each
- * retail outlet is listed as its own address row (linked to its map).
+ * details and provides large Call + WhatsApp buttons. Phone and WhatsApp each
+ * list BOTH showrooms' numbers (per-branch, from BRAND.branches). Rows with no
+ * items are omitted so unconfigured fields (e.g. email) never render blank.
+ * Each retail outlet is also listed as its own address row (linked to its map).
  */
 export function Contact() {
+  const phoneItems: LinkItem[] = BRAND.branches.map((branch) => ({
+    text: `${branch.area}: ${branch.phone}`,
+    href: telHref(branch.phone),
+  }));
+
+  const whatsappItems: LinkItem[] = BRAND.branches.map((branch) => ({
+    text: `${branch.area}: ${branch.phone}`,
+    href: whatsappHref(branch.phone, BRAND.whatsappMessage),
+    external: true,
+  }));
+
   const rows: Row[] = [
-    { label: "Business", value: BRAND.businessName },
-    { label: "Phone", value: BRAND.phone, href: telHref(BRAND.phone) },
+    { label: "Business", items: [{ text: BRAND.businessName }] },
+    { label: "Phone", items: phoneItems },
+    { label: "WhatsApp", items: whatsappItems },
+    ...(BRAND.email
+      ? [
+          {
+            label: "Email",
+            items: [{ text: BRAND.email, href: `mailto:${BRAND.email}` }],
+          },
+        ]
+      : []),
     {
-      label: "WhatsApp",
-      value: `+${BRAND.whatsapp}`,
-      href: whatsappHref(BRAND.whatsapp, BRAND.whatsappMessage),
-      external: true,
+      label: "Instagram",
+      items: [
+        {
+          text: "@hayazgoldanddiamonds",
+          href: BRAND.instagram,
+          external: true,
+        },
+      ],
     },
-    { label: "Email", value: BRAND.email, href: BRAND.email ? `mailto:${BRAND.email}` : undefined },
-    { label: "Instagram", value: "@hayazgoldanddiamonds", href: BRAND.instagram, external: true },
-    { label: "Facebook", value: "facebook.com/hayazgold", href: BRAND.facebook, external: true },
-    { label: "Opening Hours", value: BRAND.openingHours },
+    {
+      label: "Facebook",
+      items: [
+        { text: "facebook.com/hayazgold", href: BRAND.facebook, external: true },
+      ],
+    },
+    { label: "Opening Hours", items: [{ text: BRAND.openingHours }] },
     ...BRAND.branches.map((branch) => ({
       label: `${branch.area} Store`,
-      value: `${branch.name}, ${formatBranchAddress(branch)}`,
-      href: branch.mapsLink,
-      external: true,
+      items: [
+        {
+          text: `${branch.name}, ${formatBranchAddress(branch)}`,
+          href: branch.mapsLink,
+          external: true,
+        },
+      ],
     })),
-  ].filter((row) => row.value.trim().length > 0);
+  ].filter((row) => row.items.length > 0);
 
   return (
     <section id="contact" className="py-24 md:py-32">
@@ -47,23 +83,29 @@ export function Contact() {
 
           <dl className="mt-10 divide-y divide-border border-t border-border">
             {rows.map((row) => (
-              <div key={row.label} className="flex flex-col gap-1 py-5 sm:flex-row sm:gap-8">
+              <div
+                key={row.label}
+                className="flex flex-col gap-1 py-5 sm:flex-row sm:gap-8"
+              >
                 <dt className="w-40 shrink-0 font-sans text-caption uppercase tracking-[0.14em] text-muted">
                   {row.label}
                 </dt>
-                <dd className="font-sans text-body text-ivory">
-                  {row.href ? (
-                    <a
-                      href={row.href}
-                      {...(row.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                      className="transition-colors duration-300 hover:text-gold"
-                    >
-                      {row.value}
-                    </a>
-                  ) : (
-                    row.value
+                <dd className="flex flex-col gap-1 font-sans text-body text-ivory">
+                  {row.items.map((item, index) =>
+                    item.href ? (
+                      <a
+                        key={index}
+                        href={item.href}
+                        {...(item.external
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                        className="transition-colors duration-300 hover:text-gold"
+                      >
+                        {item.text}
+                      </a>
+                    ) : (
+                      <span key={index}>{item.text}</span>
+                    ),
                   )}
                 </dd>
               </div>
@@ -71,7 +113,11 @@ export function Contact() {
           </dl>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Button href={telHref(BRAND.phone)} variant="primary" className="w-full sm:w-auto">
+            <Button
+              href={telHref(BRAND.phone)}
+              variant="primary"
+              className="w-full sm:w-auto"
+            >
               Call {BRAND.businessName}
             </Button>
             <Button
