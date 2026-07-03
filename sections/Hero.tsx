@@ -29,7 +29,7 @@ export function Hero() {
           <p className="mt-4 max-w-xl font-sans text-body text-muted">
             Timeless elegance crafted for every celebration.
           </p>
-          <div className="mt-10 flex flex-col items-start gap-3">
+          <div className="mt-10 flex flex-wrap items-center gap-3">
             <Button href="#visit-store">Visit Store</Button>
             <Button href="/offers">Offers</Button>
             <Button href="/schemes">Schemes</Button>
