@@ -1,5 +1,9 @@
 export interface StoryVideo {
-  /** Editorial quote shown in the chapter */
+  /** Optional bold gold headline that replaces the "Chapter NN" label and the
+   *  quote for this chapter (e.g. "Vision"). When omitted, the default
+   *  "Chapter NN" label + quote are shown. */
+  heading?: string;
+  /** Editorial quote shown in the chapter (also used as the video label) */
   quote: string;
   /** Supporting paragraph */
   description: string;

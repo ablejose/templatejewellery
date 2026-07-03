@@ -15,12 +15,20 @@ export function StoryChapters() {
           <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-5">
               <Reveal>
-                <span className="label-eyebrow">
-                  Chapter {String(index + 1).padStart(2, "0")}
-                </span>
-                <blockquote className="mt-4 font-display text-display-m text-ivory">
-                  {chapter.quote}
-                </blockquote>
+                {chapter.heading ? (
+                  <h2 className="font-display text-display-l font-bold tracking-tight text-gold">
+                    {chapter.heading}
+                  </h2>
+                ) : (
+                  <>
+                    <span className="label-eyebrow">
+                      Chapter {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <blockquote className="mt-4 font-display text-display-m text-ivory">
+                      {chapter.quote}
+                    </blockquote>
+                  </>
+                )}
                 <p className="mt-6 max-w-md font-sans text-body-lg text-muted">
                   {chapter.description}
                 </p>

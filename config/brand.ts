@@ -30,9 +30,10 @@ export const BRAND: BrandConfig = {
   // adjust or remove its `segments`.
   storyVideos: [
     {
+      heading: "Vision",
       quote: "Every masterpiece begins with a moment.",
       description:
-        "From the first spark of inspiration to the final polish, each piece is shaped with patience and intent — designed to be worn, treasured and remembered.",
+        "Anticipate the needs and desires of customers and bring beautiful jewelry to customers at the lowest price, through this build good relationship with people.",
       video:
         "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
       segments: { startAt: 0, loopEnd: 8 },
