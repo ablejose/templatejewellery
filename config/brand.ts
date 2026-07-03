@@ -39,9 +39,11 @@ export const BRAND: BrandConfig = {
       segments: { startAt: 0, loopEnd: 8 },
     },
     {
+      heading: "Mission",
+      mediaLeft: true,
       quote: "Elegance that never fades.",
       description:
-        "Aesthetic, lightweight designs crafted to move with you — refined enough for every day, distinguished enough for the occasions that matter most.",
+        "To create trending & fashionable jewellery which combines elegance with uniqueness. We're continuously crafting and updating our collections to reinforce our reputation for the most admired range of jewellery and accessories.",
       video:
         "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
       // Final part of the 40s film (last ~8 seconds).

@@ -13,7 +13,7 @@ export function StoryChapters() {
       {BRAND.storyVideos.map((chapter, index) => (
         <article key={index} className="container-lux">
           <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-5">
+            <div className={`md:col-span-5 ${chapter.mediaLeft ? "md:order-2" : ""}`}>
               <Reveal>
                 {chapter.heading ? (
                   <h2 className="font-display text-display-l font-bold tracking-tight text-gold">
@@ -34,7 +34,7 @@ export function StoryChapters() {
                 </p>
               </Reveal>
             </div>
-            <div className="md:col-span-7">
+            <div className={`md:col-span-7 ${chapter.mediaLeft ? "md:order-1" : ""}`}>
               <Reveal delay={0.1}>
                 <StoryVideoPlayer
                   src={chapter.video}

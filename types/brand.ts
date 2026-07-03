@@ -3,6 +3,10 @@ export interface StoryVideo {
    *  quote for this chapter (e.g. "Vision"). When omitted, the default
    *  "Chapter NN" label + quote are shown. */
   heading?: string;
+  /** When true, on desktop the video sits on the LEFT and the text on the
+   *  RIGHT (default is text-left / video-right). Mobile always stacks text
+   *  above the video. */
+  mediaLeft?: boolean;
   /** Editorial quote shown in the chapter (also used as the video label) */
   quote: string;
   /** Supporting paragraph */
