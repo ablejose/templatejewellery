@@ -10,6 +10,7 @@ import { FinalCta } from "@/sections/FinalCta";
 import { Footer } from "@/sections/Footer";
 import { FloatingWhatsApp } from "@/sections/FloatingWhatsApp";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { Collections } from "@/sections/Collections";
 
 /**
  * Page composition follows the user journey in Document 1 §3:
@@ -26,6 +27,7 @@ export default function HomePage() {
         <BrandIntro />
         <StoryChapters />
         <VisionGoal />
+        <Collections />
         <VisitStore />
         <Faq />
         <Contact />

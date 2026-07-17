@@ -162,6 +162,43 @@ export const BRAND: BrandConfig = {
     ],
   },
 
+  // Product collections. The home page shows a right-to-left looping preview
+  // per group with a small "View All" link to a white detail page at
+  // /collections/{slug}. Add more groups (Diamond, Platinum) or categories
+  // here — no component changes required. Product images live in
+  // /public/collections/{slug}/{category}/.
+  collections: {
+    eyebrow: "Explore",
+    heading: "Our Collections",
+    subtitle:
+      "Handcrafted gold, silver, diamond and platinum jewellery for every celebration.",
+    groups: [
+      {
+        slug: "gold-silver",
+        title: "Gold & Silver",
+        marqueeImages: [
+          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302150/Screenshot_2026-07-17_205436_y76jok.png", width: 371, height: 380 },
+          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302282/Screenshot_2026-07-17_210059_eglsbq.png", width: 363, height: 383 },
+          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302226/Screenshot_2026-07-17_210012_hu0hiy.png", width: 330, height: 397 },
+          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302157/Screenshot_2026-07-17_205852_btxplt.png", width: 412, height: 392 },
+          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302201/Screenshot_2026-07-17_205936_nrx0vy.png", width: 365, height: 272 },
+        ],
+        categories: [
+          {
+            title: "Mehza - Arabic collection",
+            products: [
+              { image: "/collections/gold-silver/mehza/arabic-bridal-necklace.png", width: 495, height: 449, name: "Arabic Bridal Necklace" },
+              { image: "/collections/gold-silver/mehza/arabic-long-haram.png", width: 383, height: 449, name: "Arabic Long Haram" },
+              { image: "/collections/gold-silver/mehza/arabic-gold-bangles.png", width: 469, height: 449, name: "Arabic Gold Bangles" },
+              { image: "/collections/gold-silver/mehza/arabic-drop-earrings.png", width: 327, height: 449, name: "Arabic Drop Earrings" },
+              { image: "/collections/gold-silver/mehza/arabic-pendant-set.png", width: 332, height: 449, name: "Arabic Pendant Set" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
   // Two retail outlets. Rendered everywhere the address appears (Visit Store,
   // Contact, Footer, JSON-LD). Add/remove entries here to change outlets.
   branches: [

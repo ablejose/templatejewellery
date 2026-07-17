@@ -125,6 +125,49 @@ export interface Branch {
   marqueeImages: MarqueeImage[];
 }
 
+export interface CollectionProduct {
+  /** Local product image served from /public (e.g.
+   *  "/collections/gold-silver/mehza/arabic-bridal-necklace.png"). */
+  image: string;
+  /** Intrinsic pixel width (drives the aspect ratio; prevents layout shift). */
+  width: number;
+  /** Intrinsic pixel height. */
+  height: number;
+  /** Product name / caption shown under the image, e.g. "Arabic Bridal Necklace". */
+  name: string;
+  /** Optional supporting line under the name. */
+  description?: string;
+}
+
+export interface CollectionCategory {
+  /** Category heading, e.g. "Mehza - Arabic collection". */
+  title: string;
+  /** Products rendered as a grid of curved cards on the detail page. */
+  products: CollectionProduct[];
+}
+
+export interface CollectionGroup {
+  /** URL slug for the detail page, e.g. "gold-silver" -> /collections/gold-silver. */
+  slug: string;
+  /** Group title, e.g. "Gold & Silver". Reused verbatim as the detail page title. */
+  title: string;
+  /** Right-to-left looping preview images shown in the home "Our Collections" section. */
+  marqueeImages: MarqueeImage[];
+  /** Category sections rendered on the detail page (add more later). */
+  categories: CollectionCategory[];
+}
+
+export interface CollectionsConfig {
+  /** Main section heading, e.g. "Our Collections". */
+  heading: string;
+  /** Optional eyebrow label shown above the heading. */
+  eyebrow?: string;
+  /** Optional supporting subtitle. */
+  subtitle?: string;
+  /** Collection groups (Gold & Silver now; Diamond, Platinum later). */
+  groups: CollectionGroup[];
+}
+
 export interface SeoConfig {
   title: string;
   description: string;
@@ -153,6 +196,11 @@ export interface BrandConfig {
   schemesPage: SchemesPage;
   /** "Journey Towards Goal" full-width stats section (Vision 2035). */
   visionGoal: VisionGoal;
+
+  /** Product collections: a home showcase (right-to-left marquee per group) and
+   *  a white detail page per group at /collections/{slug}. Built to grow — add
+   *  groups (Diamond, Platinum) or categories without touching components. */
+  collections: CollectionsConfig;
 
   /** Retail outlets. Replaces the former single address/city/state/pincode/
    *  mapsLink fields — rendered wherever the address appears. */
