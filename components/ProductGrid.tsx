@@ -10,13 +10,15 @@ import type { CollectionProduct } from "@/types/brand";
 /**
  * Product grid with per-item WhatsApp enquiry + a near-fullscreen lightbox.
  *
- * Each product is a curved card: the image (click to open the lightbox), a
- * small WhatsApp button tucked into the top-right corner (enquiry pre-filled
- * with the product name), and a caption band — aligned to the image width in a
- * faded golden-grey (gold-muted) — carrying the product name. Clicking the
- * image opens it almost full screen (dark backdrop; click outside, the close
- * button, or Escape dismisses it; body scroll locked). Client-side so the
- * detail page can remain a server component.
+ * Every card is uniform regardless of the source crop: a fixed elongated
+ * portrait image (aspect-[3/4], object-cover) with a caption band that flexes
+ * to fill, so all cards in a row match height even when a name wraps. Each card
+ * has a small WhatsApp button tucked into the top-right corner (enquiry
+ * pre-filled with the product name); clicking the image opens it almost full
+ * screen (dark backdrop; click outside, the close button, or Escape dismisses
+ * it; body scroll locked). Tighter gutters on every breakpoint so the tiles
+ * read as a close-packed product grid, including two-up on phones. Client-side
+ * so the detail page can remain a server component.
  */
 export function ProductGrid({ products }: { products: CollectionProduct[] }) {
   const [active, setActive] = useState<CollectionProduct | null>(null);
@@ -36,11 +38,11 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-5">
         {products.map((product) => (
           <div
             key={product.image}
-            className="group relative flex flex-col overflow-hidden rounded-card border border-black/10 bg-white shadow-md transition-transform duration-300 ease-lux hover:-translate-y-1 hover:shadow-xl"
+            className="group relative flex h-full flex-col overflow-hidden rounded-card border border-black/10 bg-white shadow-md transition-transform duration-300 ease-lux hover:-translate-y-1 hover:shadow-xl"
           >
             <button
               type="button"
@@ -53,8 +55,8 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
                 alt={product.name}
                 width={product.width}
                 height={product.height}
-                sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, 18vw"
-                className="aspect-square w-full object-cover"
+                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
+                className="aspect-[3/4] w-full object-cover"
               />
             </button>
 
@@ -72,8 +74,9 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
               <WhatsAppGlyph size={14} />
             </a>
 
-            {/* Caption band — aligned to the image width, faded golden-grey. */}
-            <span className="w-full bg-gold-muted px-3 py-2.5 text-center font-display text-sm font-medium tracking-wide text-background sm:text-base">
+            {/* Caption band — aligned to the image width, faded golden-grey.
+                flex-1 so every card's band fills to the same height. */}
+            <span className="flex w-full flex-1 items-center justify-center bg-gold-muted px-2 py-3 text-center font-display text-base font-semibold leading-snug tracking-wide text-background sm:text-lg">
               {product.name}
             </span>
           </div>

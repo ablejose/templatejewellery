@@ -57,22 +57,25 @@ export default function CollectionPage({ params }: CollectionPageProps) {
             {group.title}
           </h1>
 
-          <div className="flex flex-col gap-16">
+          <div>
             {/* "Categories" — front-page eyebrow style (Inter, uppercase, gold). */}
             <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.25em] text-gold-bright">
               Categories
             </h2>
 
-            {group.categories.map((category) => (
-              <section key={category.title} className="flex flex-col gap-8">
-                {/* Category heading — gold, Cormorant display serif. */}
-                <h3 className="font-display text-2xl font-bold text-gold sm:text-3xl">
-                  {category.title}
-                </h3>
+            {/* Small gap above the first category heading; categories spaced apart. */}
+            <div className="mt-4 flex flex-col gap-14">
+              {group.categories.map((category) => (
+                <section key={category.title} className="flex flex-col gap-6">
+                  {/* Category heading — bright gold, matching the headings above. */}
+                  <h3 className="font-display text-2xl font-bold text-gold-bright sm:text-3xl">
+                    {category.title}
+                  </h3>
 
-                <ProductGrid products={category.products} />
-              </section>
-            ))}
+                  <ProductGrid products={category.products} />
+                </section>
+              ))}
+            </div>
           </div>
         </div>
       </main>
