@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cormorant_Garamond, Inter, Playfair_Display } from "next/font/google";
 import { BRAND } from "@/config/brand";
 import { buildJsonLd, getSiteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -14,6 +14,14 @@ const cormorant = Cormorant_Garamond({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+// Distinct display face used for collection titles (e.g. "Gold & Silver").
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -66,7 +74,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const jsonLd = buildJsonLd(BRAND);
 
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}
+    >
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
         {jsonLd.map((schema, index) => (

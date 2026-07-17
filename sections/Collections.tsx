@@ -2,18 +2,18 @@ import Link from "next/link";
 import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ShowroomMarquee } from "@/components/ShowroomMarquee";
+import { CollectionMarquee } from "@/components/CollectionMarquee";
 
 /**
- * "Our Collections" home showcase.
+ * "Our Collections" home showcase (positioned right after the Hero).
  *
  * The SectionHeading is the main title. Each collection group (Gold & Silver
  * now; Diamond and Platinum later) renders as a subsection: the group title on
- * the left with a small "View All" pill on the right, sitting above the top of
- * the images, then a right-to-left seamless looping strip of preview images
- * (reusing ShowroomMarquee). "View All" links to the group's white detail page
- * at /collections/{slug}. Everything is driven by BRAND.collections, so adding
- * a group or swapping images never touches this component.
+ * the left with a small "View All" pill on the right, above the top of the
+ * images, then a right-to-left seamless looping strip of enlarged, elongated
+ * preview cards (CollectionMarquee). The cards pause on hover, zoom slightly,
+ * and link to the group's detail page at /collections/{slug} — as does
+ * "View All". Driven entirely by BRAND.collections.
  */
 export function Collections() {
   const { eyebrow, heading, subtitle, groups } = BRAND.collections;
@@ -46,9 +46,10 @@ export function Collections() {
                   </Link>
                 </div>
 
-                <ShowroomMarquee
+                <CollectionMarquee
                   images={group.marqueeImages}
-                  label={`${group.title} collection preview`}
+                  href={`/collections/${group.slug}`}
+                  label={`${group.title} collection`}
                 />
               </div>
             </Reveal>

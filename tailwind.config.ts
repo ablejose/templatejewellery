@@ -17,6 +17,7 @@ const config: Config = {
         background: "#050509",
         gold: "#F2D28B",
         "gold-bright": "#D4AF37",
+        "gold-muted": "#C4B79A",
         ivory: "#F6F3F0",
         muted: "#9E9EAE",
         border: "rgba(255,255,255,0.10)",
@@ -24,6 +25,7 @@ const config: Config = {
       fontFamily: {
         // Wired to next/font CSS variables in app/layout.tsx
         display: ["var(--font-cormorant)", "Cormorant Garamond", "serif"],
+        title: ["var(--font-playfair)", "Playfair Display", "serif"],
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
       },
       fontSize: {

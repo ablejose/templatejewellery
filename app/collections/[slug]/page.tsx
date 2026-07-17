@@ -3,10 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND } from "@/config/brand";
 import { Navbar } from "@/sections/Navbar";
-import { FloatingWhatsApp } from "@/sections/FloatingWhatsApp";
-import { WhatsAppGlyph } from "@/components/WhatsAppGlyph";
 import { ProductGrid } from "@/components/ProductGrid";
-import { whatsappHref } from "@/lib/format";
 
 interface CollectionPageProps {
   params: { slug: string };
@@ -27,16 +24,16 @@ export function generateMetadata({ params }: CollectionPageProps): Metadata {
 }
 
 /**
- * Collection detail page (light/white theme, matching Offers & Schemes).
+ * Collection detail page (light/white theme).
  *
- * The page title is the group title (e.g. "Gold & Silver"), left aligned in a
- * bolder, brighter gold (gold-bright). Below it a "Categories" heading in the
- * navbar's faded-black tone, then each category (e.g. "Mehza - Arabic
- * collection") renders as a gold heading + a grid of curved product cards.
- * Clicking a card opens a near-fullscreen lightbox (see ProductGrid). Each
- * category has a WhatsApp enquiry icon at the bottom-right. Fully config-driven
- * from BRAND.collections, so adding categories/products (or new groups such as
- * Diamond and Platinum) needs no code changes here.
+ * Title = the group title (e.g. "Gold & Silver"), left aligned in the Playfair
+ * display font (distinct from the site's Cormorant) and a bolder, brighter
+ * gold. "Categories" uses the front-page eyebrow treatment (Inter, uppercase,
+ * tracked, gold). Each category (e.g. "Mehza - Arabic collection") is a gold
+ * Cormorant heading over a grid of curved product cards; each card carries its
+ * own small WhatsApp enquiry button and opens a near-fullscreen lightbox on
+ * click (see ProductGrid). Config-driven from BRAND.collections — new
+ * categories/products or groups (Diamond, Platinum) need no code changes here.
  */
 export default function CollectionPage({ params }: CollectionPageProps) {
   const group = BRAND.collections.groups.find((g) => g.slug === params.slug);
@@ -55,47 +52,30 @@ export default function CollectionPage({ params }: CollectionPageProps) {
             &larr; Back
           </Link>
 
-          {/* Group title — left aligned, bolder + brighter gold. */}
-          <h1 className="text-left font-display text-display-l font-bold tracking-tight text-gold-bright">
+          {/* Group title — left aligned, Playfair display, bolder + brighter gold. */}
+          <h1 className="text-left font-title text-display-l font-bold tracking-tight text-gold-bright">
             {group.title}
           </h1>
 
           <div className="flex flex-col gap-16">
-            {/* "Categories" in the navbar background tone (faded black). */}
-            <h2 className="font-display text-display-m font-bold text-background/70">
+            {/* "Categories" — front-page eyebrow style (Inter, uppercase, gold). */}
+            <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.25em] text-gold-bright">
               Categories
             </h2>
 
-            {group.categories.map((category) => {
-              const message = `Hello ${BRAND.businessName}, I'd like to know more about the ${category.title} (${group.title}).`;
-              return (
-                <section key={category.title} className="flex flex-col gap-8">
-                  {/* Category heading — gold, same display serif as the title. */}
-                  <h3 className="font-display text-2xl font-bold text-gold sm:text-3xl">
-                    {category.title}
-                  </h3>
+            {group.categories.map((category) => (
+              <section key={category.title} className="flex flex-col gap-8">
+                {/* Category heading — gold, Cormorant display serif. */}
+                <h3 className="font-display text-2xl font-bold text-gold sm:text-3xl">
+                  {category.title}
+                </h3>
 
-                  <ProductGrid products={category.products} />
-
-                  {/* WhatsApp enquiry for this category — bottom-right. */}
-                  <div className="flex justify-end">
-                    <a
-                      href={whatsappHref(BRAND.whatsapp, message)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Enquire about ${category.title} on WhatsApp`}
-                      className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold text-background shadow-lg transition-transform duration-300 ease-lux hover:-translate-y-0.5"
-                    >
-                      <WhatsAppGlyph />
-                    </a>
-                  </div>
-                </section>
-              );
-            })}
+                <ProductGrid products={category.products} />
+              </section>
+            ))}
           </div>
         </div>
       </main>
-      <FloatingWhatsApp />
     </>
   );
 }

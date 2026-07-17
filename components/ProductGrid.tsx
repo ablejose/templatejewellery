@@ -2,17 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { BRAND } from "@/config/brand";
+import { whatsappHref } from "@/lib/format";
+import { WhatsAppGlyph } from "@/components/WhatsAppGlyph";
 import type { CollectionProduct } from "@/types/brand";
 
 /**
- * Product grid with a near-fullscreen image lightbox.
+ * Product grid with per-item WhatsApp enquiry + a near-fullscreen lightbox.
  *
- * Each product is a curved card: the image on top and, aligned to the image
- * width, a caption band (faded-black nameplate with gold text) carrying the
- * product name. Clicking a card opens the image almost full screen in a modal
- * (dark backdrop; click outside, the close button, or Escape dismisses it;
- * body scroll is locked while open). Kept client-side so the detail page can
- * remain a server component.
+ * Each product is a curved card: the image (click to open the lightbox), a
+ * small WhatsApp button tucked into the top-right corner (enquiry pre-filled
+ * with the product name), and a caption band — aligned to the image width in a
+ * faded golden-grey (gold-muted) — carrying the product name. Clicking the
+ * image opens it almost full screen (dark backdrop; click outside, the close
+ * button, or Escape dismisses it; body scroll locked). Client-side so the
+ * detail page can remain a server component.
  */
 export function ProductGrid({ products }: { products: CollectionProduct[] }) {
   const [active, setActive] = useState<CollectionProduct | null>(null);
@@ -34,27 +38,45 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
     <>
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
         {products.map((product) => (
-          <button
+          <div
             key={product.image}
-            type="button"
-            onClick={() => setActive(product)}
-            aria-label={`View ${product.name}`}
-            className="group flex flex-col overflow-hidden rounded-card border border-black/10 bg-white shadow-md transition-transform duration-300 ease-lux hover:-translate-y-1 hover:shadow-xl focus-visible:-translate-y-1"
+            className="group relative flex flex-col overflow-hidden rounded-card border border-black/10 bg-white shadow-md transition-transform duration-300 ease-lux hover:-translate-y-1 hover:shadow-xl"
           >
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={product.width}
-              height={product.height}
-              sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, 18vw"
-              className="aspect-square w-full object-cover"
-            />
-            {/* Caption band — spans the image width (aligned to it): a
-                faded-black nameplate with gold text. */}
-            <span className="w-full bg-background px-3 py-3 text-center font-display text-sm font-medium tracking-wide text-gold sm:text-base">
+            <button
+              type="button"
+              onClick={() => setActive(product)}
+              aria-label={`View ${product.name}`}
+              className="block w-full"
+            >
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={product.width}
+                height={product.height}
+                sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, 18vw"
+                className="aspect-square w-full object-cover"
+              />
+            </button>
+
+            {/* Small per-item WhatsApp enquiry, tucked inside the card. */}
+            <a
+              href={whatsappHref(
+                BRAND.whatsapp,
+                `Hello ${BRAND.businessName}, I'm interested in the ${product.name}.`,
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Enquire about ${product.name} on WhatsApp`}
+              className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-gold text-background shadow-md transition-transform duration-300 ease-lux hover:scale-110"
+            >
+              <WhatsAppGlyph size={14} />
+            </a>
+
+            {/* Caption band — aligned to the image width, faded golden-grey. */}
+            <span className="w-full bg-gold-muted px-3 py-2.5 text-center font-display text-sm font-medium tracking-wide text-background sm:text-base">
               {product.name}
             </span>
-          </button>
+          </div>
         ))}
       </div>
 

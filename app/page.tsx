@@ -24,8 +24,8 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
-        <BrandIntro />
         <Collections />
+        <BrandIntro />
         <StoryChapters />
         <VisionGoal />
         <VisitStore />
