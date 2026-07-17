@@ -10,6 +10,7 @@ export function Hero() {
   return (
     <section id="top" className="relative flex h-svh min-h-[640px] w-full items-center overflow-hidden">
       <video
+        id="hero-video"
         className="absolute inset-0 h-full w-full object-cover"
         src={BRAND.heroVideo}
         autoPlay

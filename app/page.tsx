@@ -9,6 +9,7 @@ import { Contact } from "@/sections/Contact";
 import { FinalCta } from "@/sections/FinalCta";
 import { Footer } from "@/sections/Footer";
 import { FloatingWhatsApp } from "@/sections/FloatingWhatsApp";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 /**
  * Page composition follows the user journey in Document 1 §3:
