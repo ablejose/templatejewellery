@@ -25,9 +25,9 @@ export default function HomePage() {
       <main>
         <Hero />
         <BrandIntro />
+        <Collections />
         <StoryChapters />
         <VisionGoal />
-        <Collections />
         <VisitStore />
         <Faq />
         <Contact />

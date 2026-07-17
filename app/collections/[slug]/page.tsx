@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND } from "@/config/brand";
 import { Navbar } from "@/sections/Navbar";
 import { FloatingWhatsApp } from "@/sections/FloatingWhatsApp";
 import { WhatsAppGlyph } from "@/components/WhatsAppGlyph";
+import { ProductGrid } from "@/components/ProductGrid";
 import { whatsappHref } from "@/lib/format";
 
 interface CollectionPageProps {
@@ -29,12 +29,14 @@ export function generateMetadata({ params }: CollectionPageProps): Metadata {
 /**
  * Collection detail page (light/white theme, matching Offers & Schemes).
  *
- * The page title is the group title (e.g. "Gold & Silver"). Below it a
- * "Categories" heading, then each category (e.g. "Mehza - Arabic collection")
- * renders as its own heading + a grid of curved product cards (image + name),
- * with a WhatsApp enquiry icon at the bottom-right of the section. Fully
- * config-driven from BRAND.collections, so adding categories/products (or new
- * groups such as Diamond and Platinum) needs no code changes here.
+ * The page title is the group title (e.g. "Gold & Silver"), left aligned in a
+ * bolder, brighter gold (gold-bright). Below it a "Categories" heading in the
+ * navbar's faded-black tone, then each category (e.g. "Mehza - Arabic
+ * collection") renders as a gold heading + a grid of curved product cards.
+ * Clicking a card opens a near-fullscreen lightbox (see ProductGrid). Each
+ * category has a WhatsApp enquiry icon at the bottom-right. Fully config-driven
+ * from BRAND.collections, so adding categories/products (or new groups such as
+ * Diamond and Platinum) needs no code changes here.
  */
 export default function CollectionPage({ params }: CollectionPageProps) {
   const group = BRAND.collections.groups.find((g) => g.slug === params.slug);
@@ -53,12 +55,14 @@ export default function CollectionPage({ params }: CollectionPageProps) {
             &larr; Back
           </Link>
 
-          <h1 className="text-center font-display text-display-l font-bold tracking-tight text-gold">
+          {/* Group title — left aligned, bolder + brighter gold. */}
+          <h1 className="text-left font-display text-display-l font-bold tracking-tight text-gold-bright">
             {group.title}
           </h1>
 
           <div className="flex flex-col gap-16">
-            <h2 className="font-display text-display-m font-bold text-black">
+            {/* "Categories" in the navbar background tone (faded black). */}
+            <h2 className="font-display text-display-m font-bold text-background/70">
               Categories
             </h2>
 
@@ -66,34 +70,12 @@ export default function CollectionPage({ params }: CollectionPageProps) {
               const message = `Hello ${BRAND.businessName}, I'd like to know more about the ${category.title} (${group.title}).`;
               return (
                 <section key={category.title} className="flex flex-col gap-8">
-                  <h3 className="font-display text-2xl font-bold text-black sm:text-3xl">
+                  {/* Category heading — gold, same display serif as the title. */}
+                  <h3 className="font-display text-2xl font-bold text-gold sm:text-3xl">
                     {category.title}
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
-                    {category.products.map((product) => (
-                      <figure key={product.image} className="flex flex-col">
-                        <div className="overflow-hidden rounded-card border border-black/10 bg-white shadow-md">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            width={product.width}
-                            height={product.height}
-                            sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, 18vw"
-                            className="aspect-square w-full object-cover"
-                          />
-                        </div>
-                        <figcaption className="mt-3 text-center font-sans text-body font-medium text-black">
-                          {product.name}
-                        </figcaption>
-                        {product.description ? (
-                          <p className="mt-1 text-center font-sans text-sm text-neutral-600">
-                            {product.description}
-                          </p>
-                        ) : null}
-                      </figure>
-                    ))}
-                  </div>
+                  <ProductGrid products={category.products} />
 
                   {/* WhatsApp enquiry for this category — bottom-right. */}
                   <div className="flex justify-end">

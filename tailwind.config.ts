@@ -16,6 +16,7 @@ const config: Config = {
       colors: {
         background: "#050509",
         gold: "#F2D28B",
+        "gold-bright": "#D4AF37",
         ivory: "#F6F3F0",
         muted: "#9E9EAE",
         border: "rgba(255,255,255,0.10)",
