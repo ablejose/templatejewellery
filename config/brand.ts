@@ -10,7 +10,7 @@ import type { BrandConfig } from "@/types/brand";
  */
 export const BRAND: BrandConfig = {
   businessName: "Hayaz Gold",
-  tagline: "The Largest Aesthetic Lightweight Jewellery Store in Mannarkkad",
+  tagline: "The Largest Aesthetic Lightweight Jewellery Store",
   description:
     "Hayaz Gold & Diamonds is Mannarkkad's destination for aesthetic, lightweight gold, diamond and silver jewellery. Serving Mannarkkad and Edathanattukara with timeless craftsmanship for every celebration.",
 
