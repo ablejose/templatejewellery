@@ -19,6 +19,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 export default function HomePage() {
   return (
     <>
+      <LoadingScreen />
       <Navbar />
       <main>
         <Hero />
