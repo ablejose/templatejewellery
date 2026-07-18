@@ -4,18 +4,41 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { CollectionMarquee } from "@/components/CollectionMarquee";
 import { getManifest } from "@/lib/cloudinary";
-import { GROUPS } from "@/lib/collections";
+import { GROUPS, type ProductItem } from "@/lib/collections";
 import type { MarqueeImage } from "@/types/brand";
+
+// Home "Our Collections" scroll: at most this many preview images per group.
+const MAX_PREVIEW_IMAGES = 5;
 
 export async function Collections() {
   const manifest = await getManifest();
 
   const groups = GROUPS.map((g) => {
-    const cats = manifest.groups[g.slug]?.categories ?? [];
-    const images: MarqueeImage[] = cats
-      .flatMap((c) => c.products)
-      .slice(0, 12)
-      .map((p) => ({ src: p.url, width: p.width, height: p.height }));
+    // Categories in their configured priority (order) sequence.
+    const cats = [...(manifest.groups[g.slug]?.categories ?? [])].sort(
+      (a, b) => a.order - b.order,
+    );
+
+    // Round-robin across categories by priority: take the first product of each
+    // category in order, then the second of each, and so on, until we reach
+    // MAX_PREVIEW_IMAGES. This gives every category a slot before any single
+    // category contributes a second image.
+    const images: MarqueeImage[] = [];
+    let round = 0;
+    let addedThisRound = true;
+    while (images.length < MAX_PREVIEW_IMAGES && addedThisRound) {
+      addedThisRound = false;
+      for (const c of cats) {
+        const p: ProductItem | undefined = c.products[round];
+        if (p) {
+          images.push({ src: p.url, width: p.width, height: p.height });
+          addedThisRound = true;
+          if (images.length >= MAX_PREVIEW_IMAGES) break;
+        }
+      }
+      round += 1;
+    }
+
     return { slug: g.slug, title: g.title, images };
   }).filter((g) => g.images.length > 0);
 
