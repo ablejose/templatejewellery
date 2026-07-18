@@ -11,7 +11,8 @@ import type { CollectionProduct } from "@/types/brand";
  * Product grid with per-item WhatsApp enquiry + a near-fullscreen lightbox.
  *
  * Every card is uniform regardless of the source crop: a fixed elongated
- * portrait image (aspect-[3/4], object-cover) with a caption band that flexes
+ * portrait frame (aspect-[3/4], object-contain on a cream backdrop so the whole
+ * piece is always shown and never cropped) with a caption band that flexes
  * to fill, so all cards in a row match height even when a name wraps. Each card
  * has a small WhatsApp button tucked into the top-right corner (enquiry
  * pre-filled with the product name); clicking the image opens it almost full
@@ -56,7 +57,7 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
                 width={product.width}
                 height={product.height}
                 sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
-                className="aspect-[3/4] w-full object-cover"
+                className="aspect-[3/4] w-full bg-[#FCF9F2] object-contain"
               />
             </button>
 
