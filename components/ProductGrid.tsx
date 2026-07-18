@@ -51,14 +51,29 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
               aria-label={`View ${product.name}`}
               className="block w-full"
             >
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={product.width}
-                height={product.height}
-                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
-                className="aspect-[3/4] w-full bg-[#FCF9F2] object-contain"
-              />
+              {/* Fixed portrait frame. Behind the product sits a blurred,
+                  cover-scaled copy of the SAME photo, so the letterbox area is
+                  always the exact same tone as that image's own background —
+                  no seam is felt — while the sharp foreground shows the whole
+                  piece via object-contain (never cropped). Adapts to any source
+                  ratio and any future collection add automatically. */}
+              <div className="relative aspect-[3/4] w-full overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt=""
+                  aria-hidden
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
+                  className="scale-125 object-cover blur-2xl"
+                />
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
+                  className="object-contain"
+                />
+              </div>
             </button>
 
             {/* Small per-item WhatsApp enquiry, tucked inside the card. */}
