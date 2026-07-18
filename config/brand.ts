@@ -204,6 +204,46 @@ export const BRAND: BrandConfig = {
               { image: "/collections/gold-silver/hayra-mahar/mahar-pendant.png", width: 189, height: 299, name: "Mahar Pendant" },
             ],
           },
+          {
+            title: "Azona – Antique Collection",
+            products: [
+              { image: "/collections/gold-silver/azona-antique/temple-necklace.png", width: 427, height: 425, name: "Temple Necklace" },
+              { image: "/collections/gold-silver/azona-antique/antique-lakshmi-necklace.png", width: 420, height: 425, name: "Antique Lakshmi Necklace" },
+              { image: "/collections/gold-silver/azona-antique/kasu-mala.png", width: 426, height: 425, name: "Kasu Mala" },
+              { image: "/collections/gold-silver/azona-antique/antique-jhumka-earrings.png", width: 420, height: 425, name: "Antique Jhumka Earrings" },
+              { image: "/collections/gold-silver/azona-antique/antique-gold-bangles.png", width: 426, height: 425, name: "Antique Gold Bangles" },
+            ],
+          },
+          {
+            title: "Teori – Teenage Collection",
+            products: [
+              { image: "/collections/gold-silver/teori-teenage/minimal-gold-chain.png", width: 412, height: 430, name: "Minimal Gold Chain" },
+              { image: "/collections/gold-silver/teori-teenage/petite-gold-pendant.png", width: 412, height: 430, name: "Petite Gold Pendant" },
+              { image: "/collections/gold-silver/teori-teenage/tiny-hoop-earrings.png", width: 414, height: 430, name: "Tiny Hoop Earrings" },
+              { image: "/collections/gold-silver/teori-teenage/delicate-gold-ring.png", width: 401, height: 430, name: "Delicate Gold Ring" },
+              { image: "/collections/gold-silver/teori-teenage/slim-gold-bracelet.png", width: 446, height: 430, name: "Slim Gold Bracelet" },
+            ],
+          },
+          {
+            title: "Lovey – Kids Collection",
+            products: [
+              { image: "/collections/gold-silver/lovey-kids/baby-gold-bangle.png", width: 452, height: 318, name: "Baby Gold Bangle" },
+              { image: "/collections/gold-silver/lovey-kids/kids-gold-chain.png", width: 445, height: 318, name: "Kids Gold Chain" },
+              { image: "/collections/gold-silver/lovey-kids/tiny-gold-stud-earrings.png", width: 444, height: 318, name: "Tiny Gold Stud Earrings" },
+              { image: "/collections/gold-silver/lovey-kids/childrens-gold-pendant.png", width: 444, height: 318, name: "Children's Gold Pendant" },
+              { image: "/collections/gold-silver/lovey-kids/baby-gold-bracelet.png", width: 452, height: 318, name: "Baby Gold Bracelet" },
+            ],
+          },
+          {
+            title: "Glory – Silver Collection",
+            products: [
+              { image: "/collections/gold-silver/glory-silver/silver-chain.png", width: 459, height: 278, name: "Silver Chain" },
+              { image: "/collections/gold-silver/glory-silver/silver-pendant.png", width: 443, height: 278, name: "Silver Pendant" },
+              { image: "/collections/gold-silver/glory-silver/silver-ring.png", width: 443, height: 278, name: "Silver Ring" },
+              { image: "/collections/gold-silver/glory-silver/silver-bracelet.png", width: 429, height: 278, name: "Silver Bracelet" },
+              { image: "/collections/gold-silver/glory-silver/silver-stud-earrings.png", width: 465, height: 278, name: "Silver Stud Earrings" },
+            ],
+          },
         ],
       },
     ],

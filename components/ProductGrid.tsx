@@ -28,9 +28,9 @@ import type { CollectionProduct } from "@/types/brand";
  *  piece fade into the card. Prefixed + standard props for Safari/Chrome. */
 const FEATHER_MASK: CSSProperties = {
   WebkitMaskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 11%, #000 89%, transparent 100%), linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%)",
+    "linear-gradient(to bottom, transparent 0%, #000 27%, #000 73%, transparent 100%), linear-gradient(to right, transparent 0%, #000 19%, #000 81%, transparent 100%)",
   maskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 11%, #000 89%, transparent 100%), linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%)",
+    "linear-gradient(to bottom, transparent 0%, #000 27%, #000 73%, transparent 100%), linear-gradient(to right, transparent 0%, #000 19%, #000 81%, transparent 100%)",
   WebkitMaskComposite: "source-in",
   maskComposite: "intersect",
 };
