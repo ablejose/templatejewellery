@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { BRAND } from "@/config/brand";
 import { Navbar } from "@/sections/Navbar";
 import { getManifest } from "@/lib/cloudinary";
@@ -20,6 +21,14 @@ export default async function OffersPage() {
       <Navbar homeHref="/" solid />
       <main className="min-h-screen bg-white text-black">
         <div className="container-lux flex min-h-screen flex-col gap-10 py-24 md:py-28">
+          <Link
+            href="/"
+            className="btn self-start border border-gold/70 text-black hover:border-gold hover:text-gold"
+            aria-label="Back to home"
+          >
+            &larr; Back
+          </Link>
+
           <h1 className="text-center font-title text-display-l font-bold tracking-tight text-gold-bright">
             Offers
           </h1>

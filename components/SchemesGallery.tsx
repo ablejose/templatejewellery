@@ -11,15 +11,17 @@ import { SchemeIcon } from "@/components/SchemeIcon";
  * /schemes page (light theme).
  *
  * - Full white background.
- * - "Our Schemes" title in rich gold (the only heading kept gold).
- * - Two text tabs above the hero image (Golden Flexi Schemes / Golden Dreams
- *   Advanced Plan) in the serif display font — larger, not bold. The active tab
- *   is dark golden with an underline; the inactive one is grey.
+ * - "Our Schemes" title in rich gold (matches the Offers page: gold-bright).
+ * - Two tabs above the hero image (Golden Flexi Schemes / Golden Dreams
+ *   Advanced Plan) in the serif display font. The selected tab gets a solid
+ *   dark-gold pill background (white text) for clear visibility; the inactive
+ *   ones are grey.
  * - A shared hero image framed on a pure-white card with a thin gold border, so
  *   it shows uncompressed and centred.
  * - Per-tab feature cards: bold heading, normal-weight body text.
- * - A "Find the Best Plan" section with two swappable tabs on the left; each
- *   active plan shows bold bullet points and a small "terms apply" note.
+ * - A "Find the Best Plan" section with swappable plan tabs; the selected plan
+ *   also gets the dark-gold background, and shows bold bullet points and a small
+ *   "terms apply" note.
  *
  * Responsive: tabs wrap and stay centred on mobile; feature cards are 1-up on
  * mobile / 3-up on laptop; plan tabs are a top row on mobile and a left rail on
@@ -49,24 +51,24 @@ export function SchemesGallery() {
           &larr; Back
         </Link>
 
-        <h1 className="text-center font-display text-display-l font-bold tracking-tight text-gold">
+        <h1 className="text-center font-title text-display-l font-bold tracking-tight text-gold-bright">
           {page.title}
         </h1>
 
         <div>
-          {/* Text tabs above the hero image — serif display font, larger, not
-              bold. Active tab is dark golden with an underline. */}
-          <div className="mb-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-12">
+          {/* Text tabs above the hero image — serif display font. The selected
+              tab gets a solid dark-gold pill background for clear visibility. */}
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             {page.tabs.map((t, index) => (
               <button
                 key={t.label}
                 type="button"
                 onClick={() => selectTab(index)}
                 aria-pressed={tab === index}
-                className={`whitespace-nowrap border-b-2 pb-1 font-display text-lg tracking-wide transition-colors duration-300 sm:text-xl ${
+                className={`whitespace-nowrap rounded-pill px-5 py-2 font-display text-lg tracking-wide transition-colors duration-300 sm:text-xl ${
                   tab === index
-                    ? "border-[#B8860B] text-[#B8860B]"
-                    : "border-transparent text-neutral-500 hover:text-black"
+                    ? "bg-[#B8860B] text-white shadow-sm"
+                    : "text-neutral-500 hover:text-black"
                 }`}
               >
                 {t.label}
@@ -108,7 +110,7 @@ export function SchemesGallery() {
           ))}
         </div>
 
-        {/* Find the Best Plan: left swappable tabs + content. */}
+        {/* Find the Best Plan: swappable plan tabs + content. */}
         <div>
           <h2 className="font-display text-display-m font-bold text-black">
             {page.findBestPlanHeading}
@@ -124,7 +126,7 @@ export function SchemesGallery() {
                   aria-pressed={plan === index}
                   className={`flex-1 rounded-card border px-4 py-3 text-left font-sans text-body font-bold transition-colors duration-300 md:flex-none ${
                     plan === index
-                      ? "border-gold bg-gold/10 text-black"
+                      ? "border-[#B8860B] bg-[#B8860B] text-white"
                       : "border-black/15 text-neutral-500 hover:border-black/30 hover:text-black"
                   }`}
                 >
