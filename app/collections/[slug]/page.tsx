@@ -67,16 +67,13 @@ export default function CollectionPage({ params }: CollectionPageProps) {
             <div className="mt-4 flex flex-col gap-14">
               {group.categories.map((category, index) => (
                 <section key={category.title} className="flex flex-col gap-6">
-                  {/* Category heading — numbered, bright gold, with a decorative
-                      gold hairline flanking it on both sides (all categories). */}
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold-bright/70" />
-                    <span aria-hidden="true" className="h-2 w-2 shrink-0 rotate-45 bg-gold-bright" />
-                    <h3 className="text-center font-display text-2xl font-bold text-gold-bright sm:text-3xl">
+                  {/* Category heading - numbered, bright gold, left aligned, with a
+                      single horizontal gold line running out to the right edge. */}
+                  <div className="flex items-center gap-4">
+                    <h3 className="shrink-0 font-display text-2xl font-bold text-gold-bright sm:text-3xl">
                       {index + 1}. {category.title}
                     </h3>
-                    <span aria-hidden="true" className="h-2 w-2 shrink-0 rotate-45 bg-gold-bright" />
-                    <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold-bright/70" />
+                    <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-gold-bright/70 to-gold-bright/20" />
                   </div>
 
                   <ProductGrid products={category.products} />
