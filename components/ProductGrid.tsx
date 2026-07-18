@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { BRAND } from "@/config/brand";
 import { whatsappHref } from "@/lib/format";
@@ -11,16 +11,30 @@ import type { CollectionProduct } from "@/types/brand";
  * Product grid with per-item WhatsApp enquiry + a near-fullscreen lightbox.
  *
  * Every card is uniform regardless of the source crop: a fixed elongated
- * portrait frame (aspect-[3/4], object-contain on a cream backdrop so the whole
- * piece is always shown and never cropped) with a caption band that flexes
- * to fill, so all cards in a row match height even when a name wraps. Each card
- * has a small WhatsApp button tucked into the top-right corner (enquiry
- * pre-filled with the product name); clicking the image opens it almost full
- * screen (dark backdrop; click outside, the close button, or Escape dismisses
- * it; body scroll locked). Tighter gutters on every breakpoint so the tiles
- * read as a close-packed product grid, including two-up on phones. Client-side
- * so the detail page can remain a server component.
+ * portrait frame (aspect-[3/4], object-contain over a blurred fill of the same
+ * photo so the whole piece is always shown and never cropped) with a caption
+ * band that flexes to fill, so all cards in a row match height even when a name
+ * wraps. Each card has a small WhatsApp button tucked into the top-right corner
+ * (enquiry pre-filled with the product name); clicking the image opens it almost
+ * full screen (dark backdrop; click outside, the close button, or Escape
+ * dismisses it; body scroll locked). Tighter gutters on every breakpoint so the
+ * tiles read as a close-packed product grid, including two-up on phones.
+ * Client-side so the detail page can remain a server component.
  */
+
+/** Soft edge feather (two crossed linear-gradient masks, intersected) so the
+ *  sharp photo melts into the blurred fill behind it instead of ending in a
+ *  hard rectangular line. This removes the "white border" seam and makes each
+ *  piece fade into the card. Prefixed + standard props for Safari/Chrome. */
+const FEATHER_MASK: CSSProperties = {
+  WebkitMaskImage:
+    "linear-gradient(to bottom, transparent 0%, #000 11%, #000 89%, transparent 100%), linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%)",
+  maskImage:
+    "linear-gradient(to bottom, transparent 0%, #000 11%, #000 89%, transparent 100%), linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%)",
+  WebkitMaskComposite: "source-in",
+  maskComposite: "intersect",
+};
+
 export function ProductGrid({ products }: { products: CollectionProduct[] }) {
   const [active, setActive] = useState<CollectionProduct | null>(null);
 
@@ -52,11 +66,12 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
               className="block w-full"
             >
               {/* Fixed portrait frame. Behind the product sits a blurred,
-                  cover-scaled copy of the SAME photo, so the letterbox area is
-                  always the exact same tone as that image's own background —
-                  no seam is felt — while the sharp foreground shows the whole
-                  piece via object-contain (never cropped). Adapts to any source
-                  ratio and any future collection add automatically. */}
+                  cover-scaled copy of the SAME photo, so the fill is always the
+                  exact tone of that image's own background. The sharp foreground
+                  shows the whole piece (object-contain, never cropped) and its
+                  edges are feathered (FEATHER_MASK) so the photo fades into that
+                  backdrop — no hard rectangular "white border" seam. Adapts to
+                  any source ratio and any future collection add automatically. */}
               <div className="relative aspect-[3/4] w-full overflow-hidden">
                 <Image
                   src={product.image}
@@ -71,6 +86,7 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
+                  style={FEATHER_MASK}
                   className="object-contain"
                 />
               </div>
