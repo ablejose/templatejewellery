@@ -194,6 +194,16 @@ export const BRAND: BrandConfig = {
               { image: "/collections/gold-silver/mehza/arabic-pendant-set.png", width: 332, height: 449, name: "Arabic Pendant Set" },
             ],
           },
+          {
+            title: "Hayra – Mahar Collection",
+            products: [
+              { image: "/collections/gold-silver/hayra-mahar/mahar-necklace.png", width: 355, height: 299, name: "Mahar Necklace" },
+              { image: "/collections/gold-silver/hayra-mahar/mahar-bridal-set.png", width: 329, height: 299, name: "Mahar Bridal Set" },
+              { image: "/collections/gold-silver/hayra-mahar/mahar-gold-bangles.png", width: 365, height: 299, name: "Mahar Gold Bangles" },
+              { image: "/collections/gold-silver/hayra-mahar/mahar-earrings.png", width: 281, height: 299, name: "Mahar Earrings" },
+              { image: "/collections/gold-silver/hayra-mahar/mahar-pendant.png", width: 189, height: 299, name: "Mahar Pendant" },
+            ],
+          },
         ],
       },
     ],
