@@ -12,11 +12,10 @@ import { FloatingWhatsApp } from "@/sections/FloatingWhatsApp";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { Collections } from "@/sections/Collections";
 
-/**
- * Page composition follows the user journey in Document 1 §3:
- * Hero → Brand Story → Story Chapters → Vision 2035 → Visit Store → FAQ →
- * Contact → Final CTA → Footer. Visit Store appears before FAQ (Document 2 §17).
- */
+// Home reads the Cloudinary-backed manifest (via the Collections section), so
+// revalidate periodically and on-demand after admin edits.
+export const revalidate = 30;
+
 export default function HomePage() {
   return (
     <>
