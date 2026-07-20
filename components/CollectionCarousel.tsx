@@ -25,15 +25,20 @@ interface CollectionCarouselProps {
   label: string;
 }
 
+// Feather mask: the sharp image is fully opaque toward its centre-right and
+// fades to fully transparent at every edge, so it melts seamlessly into the
+// blurred copy of the same image behind it (no hard rectangle).
+const FEATHER = "radial-gradient(78% 92% at 54% 50%, #000 44%, transparent 100%)";
+
 /**
  * Full-width, one-slide-at-a-time gallery for the home "Our Collections"
- * section. Each slide shows a single category: its first image sits sharp on
- * the RIGHT half of the frame, a blurred copy of the same image fills the whole
- * frame behind it (so the left half reads as a soft blurred field), and the
- * category name is laid over that blurred left side. Slides fade/settle in over
- * 0.5s (see .tj-appear in globals.css). Held ~1.5s, then auto-swipes with a
- * seamless forward loop; bare gold-on-hover arrows and touch swipe skip either
- * way. Autoplay pauses on hover/touch.
+ * section. Each slide is a single category: its first image sits sharp on the
+ * RIGHT of the frame with feathered edges, a blurred copy of the same image
+ * fills the whole frame behind it, and the category's large name is laid over
+ * the blurred left side. Slides fade/settle in over 0.5s (see .tj-appear in
+ * globals.css). Held ~1.5s, then auto-swipes with a seamless forward loop; bare
+ * gold-on-hover arrows and touch swipe skip either way. Autoplay pauses on
+ * hover/touch.
  */
 export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   const count = images.length;
@@ -141,7 +146,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
             className="relative h-[27rem] w-full shrink-0 overflow-hidden sm:h-[30rem]"
           >
             <div className="tj-appear absolute inset-0">
-              {/* Blurred copy of the same image, extended across the whole frame. */}
+              {/* Blurred copy of the same image, filling the whole frame. */}
               <Image
                 src={img.src}
                 alt=""
@@ -151,33 +156,34 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
                 sizes="(max-width: 768px) 100vw, 1280px"
                 draggable={false}
                 priority={i === 0}
-                className="absolute inset-0 h-full w-full scale-110 select-none object-cover blur-2xl brightness-[0.45]"
+                className="absolute inset-0 h-full w-full scale-110 select-none object-cover blur-2xl brightness-[0.6]"
               />
-              {/* Darken the left so the category name reads clearly over the blur. */}
-              <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/40 to-transparent" />
 
-              {/* Sharp image, confined to the right half of the frame. */}
-              <div className="absolute inset-y-0 right-0 w-1/2 p-4 sm:p-6">
+              {/* Same image, sharp, on the right half, feathered on every edge so
+                  it blends seamlessly into the blurred field behind it. */}
+              <div className="absolute inset-y-0 right-0 w-[62%] sm:w-[58%]">
                 <Image
                   src={img.src}
                   alt={img.name}
                   width={img.width}
                   height={img.height}
-                  sizes="(max-width: 768px) 50vw, 640px"
+                  sizes="(max-width: 768px) 62vw, 760px"
                   draggable={false}
-                  className="h-full w-full select-none object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.55)]"
+                  priority={i === 0}
+                  style={{ WebkitMaskImage: FEATHER, maskImage: FEATHER }}
+                  className="h-full w-full select-none object-contain"
                 />
               </div>
 
-              {/* Custom category name, sitting above the blurred left side. */}
-              <div className="absolute inset-y-0 left-0 z-10 flex w-1/2 flex-col justify-center gap-3 px-6 sm:px-10">
-                <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-gold/70 sm:text-xs">
-                  Collection
-                </span>
-                <h4 className="w-fit bg-gradient-to-r from-gold-bright via-gold to-gold-bright bg-clip-text pb-1 font-display text-3xl font-semibold leading-tight text-transparent sm:text-5xl">
+              {/* Darken the left for the name; fully transparent on the right. */}
+              <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/45 to-transparent" />
+
+              {/* Category name only, large, over the blurred left side. */}
+              <div className="absolute inset-y-0 left-0 z-10 flex w-[56%] flex-col justify-center px-6 sm:px-12">
+                <h4 className="w-fit bg-gradient-to-r from-gold-bright via-gold to-gold-bright bg-clip-text pb-2 font-display text-6xl font-semibold leading-[0.95] text-transparent sm:text-8xl">
                   {img.name}
                 </h4>
-                <span className="h-px w-16 bg-gold-bright/70" />
+                <span className="mt-5 h-px w-24 bg-gold-bright/70 sm:w-32" />
               </div>
             </div>
           </div>
