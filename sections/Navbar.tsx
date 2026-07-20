@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useScrolled } from "@/hooks/useScrolled";
@@ -49,6 +49,29 @@ export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
   const showSolid = solid || scrolled;
   const resolve = (href: string) =>
     href.startsWith("#") ? `${homeHref}${href}` : href;
+
+  const scrollToHash = (hash: string) => {
+    if (typeof document === "undefined") return;
+    const el = document.getElementById(hash.replace(/^#/, ""));
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    else window.location.hash = hash;
+  };
+
+  // Mobile: close the full-screen menu BEFORE moving the page. For an in-page
+  // hash we prevent the default jump, drop the overlay, then smooth-scroll on
+  // the next frame so the navbar is gone first and only then does it scroll.
+  const handleMobileNav = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const resolved = resolve(href);
+    if (resolved.startsWith("#")) {
+      e.preventDefault();
+      setOpen(false);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => scrollToHash(resolved)),
+      );
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
     <header
@@ -107,7 +130,7 @@ export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
             <a
               key={link.href}
               href={resolve(link.href)}
-              onClick={() => setOpen(false)}
+              onClick={(e) => handleMobileNav(e, link.href)}
               className="font-display text-display-m text-ivory"
             >
               {link.label}
