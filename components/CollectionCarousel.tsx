@@ -140,7 +140,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
               sizes="(max-width: 768px) 100vw, 1280px"
               draggable={false}
               priority={i === 0}
-              className="h-full w-full select-none object-contain"
+              className="h-full w-full select-none object-cover"
             />
           </div>
         ))}
