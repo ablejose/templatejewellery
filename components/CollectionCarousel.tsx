@@ -113,6 +113,12 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   };
 
   const activeDot = index % count;
+  // Frame ratio from the first image so object-cover fills without cropping on
+  // mobile (a tall/portrait frame would otherwise zoom a landscape banner).
+  const frameRatio =
+    images[0] && images[0].width && images[0].height
+      ? `${images[0].width} / ${images[0].height}`
+      : "3 / 2";
   const arrowClass =
     "absolute top-1/2 z-10 -translate-y-1/2 p-2 text-white/90 drop-shadow-[0_2px_5px_rgba(0,0,0,0.75)] transition-colors duration-200 hover:text-gold-bright focus-visible:text-gold-bright focus:outline-none";
 
@@ -129,7 +135,8 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
         {slides.map((img, i) => (
           <div
             key={`${img.src}-${i}`}
-            className="relative h-[27rem] w-full shrink-0 sm:h-[30rem]"
+            className="relative w-full shrink-0 sm:h-[30rem]"
+            style={{ aspectRatio: frameRatio }}
           >
             <Image
               src={img.src}
