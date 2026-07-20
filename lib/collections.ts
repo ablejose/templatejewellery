@@ -14,17 +14,6 @@ export function groupTitle(slug: string): string {
   return GROUPS.find((g) => g.slug === slug)?.title ?? slug;
 }
 
-/**
- * Which Cloudinary account hosts a group's product images. Platinum products
- * live on the secondary ("media") cloud; every other group on the primary
- * cloud. Banners always live on the media cloud.
- */
-export type CloudKey = "primary" | "media";
-
-export function productCloud(group: string): CloudKey {
-  return group === "platinum" ? "media" : "primary";
-}
-
 export interface OfferItem {
   publicId: string;
   url: string;

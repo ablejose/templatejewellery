@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const res = await getImageResource(publicId, "media");
+  const res = await getImageResource(publicId);
   if (!res) return NextResponse.json({ error: "Uploaded image not found." }, { status: 404 });
 
   if (!already) {
@@ -65,7 +65,7 @@ export async function DELETE(req: Request) {
   const gd = manifest.groups[group];
   gd.banners = gd.banners.filter((b) => b.publicId !== publicId);
   await saveManifest(manifest);
-  await destroyImage(publicId, "media").catch(() => {});
+  await destroyImage(publicId).catch(() => {});
   revalidatePublic();
   return NextResponse.json({ ok: true, group: gd });
 }
