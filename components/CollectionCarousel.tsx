@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import type { MarqueeImage } from "@/types/brand";
 
-const HOLD_MS = 1000; // how long each image is held before it auto-swipes
+const HOLD_MS = 1500; // how long each image is held before it auto-swipes
 const SWIPE_MS = 500; // swipe (slide) transition duration
 
 interface CollectionCarouselProps {
@@ -21,10 +21,11 @@ interface CollectionCarouselProps {
 
 /**
  * Full-width, one-image-at-a-time gallery for the home "Our Collections"
- * section. Each image is held ~1s, then swipes to the next (seamless forward
- * loop via a cloned first slide). Thick prev/next arrows let users skip in
- * either direction; touch swipe works too. Autoplay pauses on hover/touch.
- * Falls back to a single static image when a group has only one preview image.
+ * section. Each image is held ~1.5s, then swipes to the next (seamless forward
+ * loop via a cloned first slide). Bare prev/next arrows let users skip in either
+ * direction (they turn gold on hover); touch swipe works too. Autoplay pauses on
+ * hover/touch. Falls back to a single static image when a group has only one
+ * preview image.
  */
 export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   const count = images.length;
@@ -112,7 +113,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
 
   const activeDot = index % count;
   const arrowClass =
-    "absolute top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/70 bg-black/50 text-gold shadow-lg backdrop-blur-sm transition-colors hover:bg-black/75 hover:text-gold-bright sm:h-14 sm:w-14";
+    "absolute top-1/2 z-10 -translate-y-1/2 p-2 text-white/90 drop-shadow-[0_2px_5px_rgba(0,0,0,0.75)] transition-colors duration-200 hover:text-gold-bright focus-visible:text-gold-bright focus:outline-none";
 
   return (
     <div
@@ -152,16 +153,16 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
             type="button"
             aria-label="Previous image"
             onClick={goPrev}
-            className={`${arrowClass} left-3`}
+            className={`${arrowClass} left-2 sm:left-4`}
           >
             <svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth={3}
+              strokeWidth={3.5}
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-7 w-7"
+              className="h-9 w-9 sm:h-10 sm:w-10"
               aria-hidden="true"
             >
               <path d="M15 18l-6-6 6-6" />
@@ -171,16 +172,16 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
             type="button"
             aria-label="Next image"
             onClick={goNext}
-            className={`${arrowClass} right-3`}
+            className={`${arrowClass} right-2 sm:right-4`}
           >
             <svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth={3}
+              strokeWidth={3.5}
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-7 w-7"
+              className="h-9 w-9 sm:h-10 sm:w-10"
               aria-hidden="true"
             >
               <path d="M9 18l6-6-6-6" />
