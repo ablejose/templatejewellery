@@ -11,6 +11,7 @@ export interface UploadResult {
 
 export type UploadTarget =
   | { kind: "offer" }
+  | { kind: "banner"; group: string }
   | { kind: "product"; group: string; categoryId: string };
 
 async function compressImage(file: File): Promise<File> {

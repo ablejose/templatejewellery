@@ -14,6 +14,17 @@ export function groupTitle(slug: string): string {
   return GROUPS.find((g) => g.slug === slug)?.title ?? slug;
 }
 
+/**
+ * Which Cloudinary account hosts a group's product images. Platinum products
+ * live on the secondary ("media") cloud; every other group on the primary
+ * cloud. Banners always live on the media cloud.
+ */
+export type CloudKey = "primary" | "media";
+
+export function productCloud(group: string): CloudKey {
+  return group === "platinum" ? "media" : "primary";
+}
+
 export interface OfferItem {
   publicId: string;
   url: string;
@@ -31,6 +42,14 @@ export interface ProductItem {
   createdAt: number;
 }
 
+export interface BannerItem {
+  publicId: string;
+  url: string;
+  width: number;
+  height: number;
+  createdAt: number;
+}
+
 export interface Category {
   id: string;
   slug: string;
@@ -41,6 +60,7 @@ export interface Category {
 
 export interface GroupData {
   categories: Category[];
+  banners: BannerItem[];
 }
 
 export interface Manifest {
@@ -50,9 +70,12 @@ export interface Manifest {
   updatedAt: number;
 }
 
+/** Home "Our Collections" shows at most this many banner images per section. */
+export const MAX_BANNERS_PER_GROUP = 5;
+
 export function emptyManifest(): Manifest {
   const groups: Record<string, GroupData> = {};
-  for (const g of GROUPS) groups[g.slug] = { categories: [] };
+  for (const g of GROUPS) groups[g.slug] = { categories: [], banners: [] };
   return { version: 1, offers: [], groups, updatedAt: 0 };
 }
 
@@ -72,6 +95,7 @@ export function normalizeManifest(input: unknown): Manifest {
   for (const g of GROUPS) {
     const gd = srcGroups[g.slug];
     const cats = Array.isArray(gd?.categories) ? gd.categories : [];
+    const banners = Array.isArray(gd?.banners) ? gd.banners : [];
     base.groups[g.slug] = {
       categories: cats
         .filter((c) => c && typeof c.id === "string")
@@ -84,6 +108,7 @@ export function normalizeManifest(input: unknown): Manifest {
             ? c.products.filter((p) => p && typeof (p as ProductItem).publicId === "string")
             : [],
         })),
+      banners: banners.filter((b) => b && typeof (b as BannerItem).publicId === "string"),
     };
   }
   return base;

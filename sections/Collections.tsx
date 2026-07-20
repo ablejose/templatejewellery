@@ -3,39 +3,22 @@ import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
 import { CollectionCarousel } from "@/components/CollectionCarousel";
 import { getManifest } from "@/lib/cloudinary";
-import { GROUPS, type ProductItem } from "@/lib/collections";
+import { GROUPS } from "@/lib/collections";
 import type { MarqueeImage } from "@/types/brand";
 
-// Home "Our Collections" scroll: at most this many preview images per group.
-const MAX_PREVIEW_IMAGES = 5;
-
+// Home "Our Collections": each section's slideshow shows that section's
+// admin-managed banner images (managed in /admin). Sections with no banners
+// stay hidden until banners are added.
 export async function Collections() {
   const manifest = await getManifest();
 
   const groups = GROUPS.map((g) => {
-    // Categories in their configured priority (order) sequence.
-    const cats = [...(manifest.groups[g.slug]?.categories ?? [])].sort(
-      (a, b) => a.order - b.order,
-    );
-
-    // Round-robin across categories by priority so every category is represented
-    // before any category contributes a second image, capped at MAX_PREVIEW_IMAGES.
-    const images: MarqueeImage[] = [];
-    let round = 0;
-    let addedThisRound = true;
-    while (images.length < MAX_PREVIEW_IMAGES && addedThisRound) {
-      addedThisRound = false;
-      for (const c of cats) {
-        const p: ProductItem | undefined = c.products[round];
-        if (p) {
-          images.push({ src: p.url, width: p.width, height: p.height });
-          addedThisRound = true;
-          if (images.length >= MAX_PREVIEW_IMAGES) break;
-        }
-      }
-      round += 1;
-    }
-
+    const banners = manifest.groups[g.slug]?.banners ?? [];
+    const images: MarqueeImage[] = banners.map((b) => ({
+      src: b.url,
+      width: b.width,
+      height: b.height,
+    }));
     return { slug: g.slug, title: g.title, images };
   }).filter((g) => g.images.length > 0);
 

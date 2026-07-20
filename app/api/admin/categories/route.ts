@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { getManifest, saveManifest, destroyManyImages } from "@/lib/cloudinary";
-import { isGroupSlug, slugify } from "@/lib/collections";
+import { isGroupSlug, slugify, productCloud } from "@/lib/collections";
 import { revalidatePublic } from "@/lib/revalidate";
 
 export const runtime = "nodejs";
@@ -51,7 +51,7 @@ export async function DELETE(req: Request) {
   const publicIds = cat.products.map((p) => p.publicId);
   manifest.groups[group].categories = cats.filter((c) => c.id !== id);
   await saveManifest(manifest);
-  await destroyManyImages(publicIds).catch(() => {});
+  await destroyManyImages(publicIds, productCloud(group)).catch(() => {});
   revalidatePublic();
   return NextResponse.json({ ok: true, group: manifest.groups[group] });
 }

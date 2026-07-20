@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { signUpload } from "@/lib/cloudinary";
-import { isGroupSlug } from "@/lib/collections";
+import { isGroupSlug, productCloud, type CloudKey } from "@/lib/collections";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,9 +16,18 @@ export async function POST(req: Request) {
 
   const kind = body?.kind;
   let publicId = "";
+  let which: CloudKey = "primary";
 
   if (kind === "offer") {
     publicId = `hayaz/offers/${randomUUID()}`;
+    which = "primary";
+  } else if (kind === "banner") {
+    const group = body?.group;
+    if (!isGroupSlug(group)) {
+      return NextResponse.json({ error: "Invalid upload target." }, { status: 400 });
+    }
+    publicId = `hayaz/banners/${group}/${randomUUID()}`;
+    which = "media";
   } else if (kind === "product") {
     const group = body?.group;
     const categoryId = body?.categoryId;
@@ -26,10 +35,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid upload target." }, { status: 400 });
     }
     publicId = `hayaz/collections/${group}/${categoryId}/${randomUUID()}`;
+    which = productCloud(group);
   } else {
     return NextResponse.json({ error: "Invalid upload kind." }, { status: 400 });
   }
 
-  const signed = signUpload({ public_id: publicId });
+  const signed = signUpload({ public_id: publicId }, which);
   return NextResponse.json({ ...signed, publicId });
 }
