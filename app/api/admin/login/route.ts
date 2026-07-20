@@ -17,10 +17,25 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export async function POST(req: Request) {
+  // NOTE: env vars are bound to a Vercel deployment at build time. If these are
+  // set in the dashboard but a login still reports one missing, the running
+  // deployment predates the variable — redeploy so a fresh build includes it.
   const secret = process.env.SESSION_SECRET ?? "";
-  const adminPassword = process.env.ADMIN_PASSWORD ?? "";
-  if (!secret || !adminPassword) {
-    return NextResponse.json({ error: "Admin is not configured on the server." }, { status: 500 });
+  const adminPassword = (process.env.ADMIN_PASSWORD ?? "").trim();
+
+  const missing: string[] = [];
+  if (!secret) missing.push("SESSION_SECRET");
+  if (!adminPassword) missing.push("ADMIN_PASSWORD");
+  if (missing.length > 0) {
+    return NextResponse.json(
+      {
+        error:
+          "Admin is not configured on the server (missing: " +
+          missing.join(", ") +
+          "). Set these in Vercel, then redeploy so a fresh build includes them.",
+      },
+      { status: 500 },
+    );
   }
 
   let password = "";
@@ -31,7 +46,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  if (!safeEqual(password, adminPassword)) {
+  if (!safeEqual(password.trim(), adminPassword)) {
     return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
   }
 
