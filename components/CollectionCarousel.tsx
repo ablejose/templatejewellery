@@ -9,36 +9,23 @@ import {
   type TouchEvent,
 } from "react";
 import Image from "next/image";
+import type { MarqueeImage } from "@/types/brand";
 
 const HOLD_MS = 1500; // how long each image is held before it auto-swipes
 const SWIPE_MS = 500; // swipe (slide) transition duration
 
-export interface CarouselImage {
-  src: string;
-  width: number;
-  height: number;
-  name: string;
-}
-
 interface CollectionCarouselProps {
-  images: CarouselImage[];
+  images: MarqueeImage[];
   label: string;
 }
 
-// Feather mask: the sharp image is fully opaque toward its centre-right and
-// fades to fully transparent at every edge, so it melts seamlessly into the
-// blurred copy of the same image behind it (no hard rectangle).
-const FEATHER = "radial-gradient(78% 92% at 54% 50%, #000 44%, transparent 100%)";
-
 /**
- * Full-width, one-slide-at-a-time gallery for the home "Our Collections"
- * section. Each slide is a single category: its first image sits sharp on the
- * RIGHT of the frame with feathered edges, a blurred copy of the same image
- * fills the whole frame behind it, and the category's large name is laid over
- * the blurred left side. Slides fade/settle in over 0.5s (see .tj-appear in
- * globals.css). Held ~1.5s, then auto-swipes with a seamless forward loop; bare
- * gold-on-hover arrows and touch swipe skip either way. Autoplay pauses on
- * hover/touch.
+ * Full-width, one-image-at-a-time gallery for the home "Our Collections"
+ * section. Each image is held ~1.5s, then swipes to the next (seamless forward
+ * loop via a cloned first slide). Bare prev/next arrows let users skip in either
+ * direction (they turn gold on hover); touch swipe works too. Autoplay pauses on
+ * hover/touch. Falls back to a single static image when a group has only one
+ * preview image.
  */
 export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   const count = images.length;
@@ -60,7 +47,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
       setIndex(index - 1);
       return;
     }
-    // Wrap from the first slide to the last: jump (no animation) to the cloned
+    // Wrap from the first image to the last: jump (no animation) to the cloned
     // first slide, then animate back to the last real slide on the next frame.
     setAnimate(false);
     setIndex(count);
@@ -126,7 +113,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
 
   const activeDot = index % count;
   const arrowClass =
-    "absolute top-1/2 z-20 -translate-y-1/2 p-2 text-white/90 drop-shadow-[0_2px_5px_rgba(0,0,0,0.75)] transition-colors duration-200 hover:text-gold-bright focus-visible:text-gold-bright focus:outline-none";
+    "absolute top-1/2 z-10 -translate-y-1/2 p-2 text-white/90 drop-shadow-[0_2px_5px_rgba(0,0,0,0.75)] transition-colors duration-200 hover:text-gold-bright focus-visible:text-gold-bright focus:outline-none";
 
   return (
     <div
@@ -143,49 +130,19 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
         {slides.map((img, i) => (
           <div
             key={`${img.src}-${i}`}
-            className="relative h-[27rem] w-full shrink-0 overflow-hidden sm:h-[30rem]"
+            className="relative h-[27rem] w-full shrink-0 sm:h-[30rem]"
           >
-            <div className="tj-appear absolute inset-0">
-              {/* Blurred copy of the same image, filling the whole frame. */}
-              <Image
-                src={img.src}
-                alt=""
-                aria-hidden="true"
-                width={img.width}
-                height={img.height}
-                sizes="(max-width: 768px) 100vw, 1280px"
-                draggable={false}
-                priority={i === 0}
-                className="absolute inset-0 h-full w-full scale-110 select-none object-cover blur-2xl brightness-[0.6]"
-              />
-
-              {/* Same image, sharp, on the right half, feathered on every edge so
-                  it blends seamlessly into the blurred field behind it. */}
-              <div className="absolute inset-y-0 right-0 w-[62%] sm:w-[58%]">
-                <Image
-                  src={img.src}
-                  alt={img.name}
-                  width={img.width}
-                  height={img.height}
-                  sizes="(max-width: 768px) 62vw, 760px"
-                  draggable={false}
-                  priority={i === 0}
-                  style={{ WebkitMaskImage: FEATHER, maskImage: FEATHER }}
-                  className="h-full w-full select-none object-contain"
-                />
-              </div>
-
-              {/* Darken the left for the name; fully transparent on the right. */}
-              <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/45 to-transparent" />
-
-              {/* Category name only, large, over the blurred left side. */}
-              <div className="absolute inset-y-0 left-0 z-10 flex w-[56%] flex-col justify-center px-6 sm:px-12">
-                <h4 className="w-fit bg-gradient-to-r from-gold-bright via-gold to-gold-bright bg-clip-text pb-2 font-display text-6xl font-semibold leading-[0.95] text-transparent sm:text-8xl">
-                  {img.name}
-                </h4>
-                <span className="mt-5 h-px w-24 bg-gold-bright/70 sm:w-32" />
-              </div>
-            </div>
+            <Image
+              src={img.src}
+              alt=""
+              aria-hidden="true"
+              width={img.width}
+              height={img.height}
+              sizes="(max-width: 768px) 100vw, 1280px"
+              draggable={false}
+              priority={i === 0}
+              className="h-full w-full select-none object-cover"
+            />
           </div>
         ))}
       </div>
@@ -231,7 +188,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
             </svg>
           </button>
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-center justify-center gap-2">
+          <div className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-center gap-2">
             {images.map((img, i) => (
               <span
                 key={`dot-${img.src}-${i}`}

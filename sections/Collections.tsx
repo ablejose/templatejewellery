@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
-import { CollectionCarousel, type CarouselImage } from "@/components/CollectionCarousel";
+import { CollectionCarousel } from "@/components/CollectionCarousel";
 import { getManifest } from "@/lib/cloudinary";
 import { GROUPS, type ProductItem } from "@/lib/collections";
+import type { MarqueeImage } from "@/types/brand";
 
-// Home "Our Collections" scroll: one preview per category (its first image),
-// capped at this many categories per group.
-const MAX_PREVIEW_CATEGORIES = 5;
+// Home "Our Collections" scroll: at most this many preview images per group.
+const MAX_PREVIEW_IMAGES = 5;
 
 export async function Collections() {
   const manifest = await getManifest();
@@ -18,14 +18,22 @@ export async function Collections() {
       (a, b) => a.order - b.order,
     );
 
-    // One slide per category: the category's first image + its custom name.
-    const images: CarouselImage[] = [];
-    for (const c of cats) {
-      const first: ProductItem | undefined = c.products[0];
-      if (first) {
-        images.push({ src: first.url, width: first.width, height: first.height, name: c.name });
-        if (images.length >= MAX_PREVIEW_CATEGORIES) break;
+    // Round-robin across categories by priority so every category is represented
+    // before any category contributes a second image, capped at MAX_PREVIEW_IMAGES.
+    const images: MarqueeImage[] = [];
+    let round = 0;
+    let addedThisRound = true;
+    while (images.length < MAX_PREVIEW_IMAGES && addedThisRound) {
+      addedThisRound = false;
+      for (const c of cats) {
+        const p: ProductItem | undefined = c.products[round];
+        if (p) {
+          images.push({ src: p.url, width: p.width, height: p.height });
+          addedThisRound = true;
+          if (images.length >= MAX_PREVIEW_IMAGES) break;
+        }
       }
+      round += 1;
     }
 
     return { slug: g.slug, title: g.title, images };
@@ -76,7 +84,7 @@ export async function Collections() {
         </div>
 
         {/* Golden divider: marks the end of Our Collections (after Diamond),
-            separating it from the "A Story of Success" section that follows. */}
+            separating it from the section that follows. */}
         <div
           className="mt-20 flex items-center justify-center gap-4 md:mt-24"
           aria-hidden="true"
