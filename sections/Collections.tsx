@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { BRAND } from "@/config/brand";
 import { Reveal } from "@/components/Reveal";
-import { SectionHeading } from "@/components/SectionHeading";
-import { CollectionMarquee } from "@/components/CollectionMarquee";
+import { CollectionCarousel } from "@/components/CollectionCarousel";
 import { getManifest } from "@/lib/cloudinary";
 import { GROUPS, type ProductItem } from "@/lib/collections";
 import type { MarqueeImage } from "@/types/brand";
@@ -19,10 +18,8 @@ export async function Collections() {
       (a, b) => a.order - b.order,
     );
 
-    // Round-robin across categories by priority: take the first product of each
-    // category in order, then the second of each, and so on, until we reach
-    // MAX_PREVIEW_IMAGES. This gives every category a slot before any single
-    // category contributes a second image.
+    // Round-robin across categories by priority so every category is represented
+    // before any category contributes a second image, capped at MAX_PREVIEW_IMAGES.
     const images: MarqueeImage[] = [];
     let round = 0;
     let addedThisRound = true;
@@ -50,7 +47,13 @@ export async function Collections() {
     <section id="collections" className="py-24 md:py-32">
       <div className="container-lux">
         <Reveal>
-          <SectionHeading eyebrow={eyebrow} title={heading} subtitle={subtitle} />
+          <div className="flex flex-col items-start gap-4 text-left">
+            {eyebrow ? <span className="label-eyebrow">{eyebrow}</span> : null}
+            <h2 className="font-display text-display-xl text-ivory">{heading}</h2>
+            {subtitle ? (
+              <p className="max-w-2xl font-sans text-body-lg text-muted">{subtitle}</p>
+            ) : null}
+          </div>
         </Reveal>
 
         <div className="mt-16 flex flex-col gap-16 md:gap-24">
@@ -58,7 +61,7 @@ export async function Collections() {
             <Reveal key={group.slug}>
               <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between gap-4">
-                  <h3 className="font-display text-display-m text-ivory">{group.title}</h3>
+                  <h3 className="font-display text-display-l text-ivory">{group.title}</h3>
                   <Link
                     href={`/collections/${group.slug}`}
                     aria-label={`View all ${group.title}`}
@@ -69,9 +72,8 @@ export async function Collections() {
                   </Link>
                 </div>
 
-                <CollectionMarquee
+                <CollectionCarousel
                   images={group.images}
-                  href={`/collections/${group.slug}`}
                   label={`${group.title} collection`}
                 />
               </div>
