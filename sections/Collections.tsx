@@ -61,7 +61,9 @@ export async function Collections() {
             <Reveal key={group.slug}>
               <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between gap-4">
-                  <h3 className="font-display text-display-l text-ivory">{group.title}</h3>
+                  <h3 className="w-fit bg-gradient-to-r from-gold-bright via-gold to-gold-bright bg-clip-text font-display text-display-l font-semibold tracking-tight text-transparent drop-shadow-[0_1px_0_rgba(0,0,0,0.25)]">
+                    {group.title}
+                  </h3>
                   <Link
                     href={`/collections/${group.slug}`}
                     aria-label={`View all ${group.title}`}

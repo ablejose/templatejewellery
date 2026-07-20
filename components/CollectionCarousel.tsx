@@ -11,8 +11,8 @@ import {
 import Image from "next/image";
 import type { MarqueeImage } from "@/types/brand";
 
-const HOLD_MS = 2000; // how long each image is held before it swipes
-const SWIPE_MS = 600; // swipe (slide) transition duration
+const HOLD_MS = 1000; // how long each image is held before it auto-swipes
+const SWIPE_MS = 500; // swipe (slide) transition duration
 
 interface CollectionCarouselProps {
   images: MarqueeImage[];
@@ -21,10 +21,10 @@ interface CollectionCarouselProps {
 
 /**
  * Full-width, one-image-at-a-time gallery for the home "Our Collections"
- * section. Each image is held for 2s, then swipes to the next (seamless forward
- * loop via a cloned first slide). Users can also swipe by touch; autoplay
- * pauses on hover/touch. Falls back to a single static image when a group has
- * only one preview image.
+ * section. Each image is held ~1s, then swipes to the next (seamless forward
+ * loop via a cloned first slide). Thick prev/next arrows let users skip in
+ * either direction; touch swipe works too. Autoplay pauses on hover/touch.
+ * Falls back to a single static image when a group has only one preview image.
  */
 export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   const count = images.length;
@@ -36,8 +36,27 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
 
   const goNext = useCallback(() => {
     setAnimate(true);
-    setIndex((i) => i + 1);
-  }, []);
+    setIndex((i) => (i >= count ? count : i + 1));
+  }, [count]);
+
+  const goPrev = useCallback(() => {
+    if (count <= 1) return;
+    if (index > 0) {
+      setAnimate(true);
+      setIndex(index - 1);
+      return;
+    }
+    // Wrap from the first image to the last: jump (no animation) to the cloned
+    // first slide, then animate back to the last real slide on the next frame.
+    setAnimate(false);
+    setIndex(count);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setAnimate(true);
+        setIndex(count - 1);
+      });
+    });
+  }, [count, index]);
 
   useEffect(() => {
     if (count <= 1 || paused) return;
@@ -45,8 +64,8 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
     return () => window.clearInterval(id);
   }, [count, paused, goNext]);
 
-  // After a seamless-loop reset (a no-animation jump back to the start),
-  // re-enable the transition on the next frame.
+  // After a no-animation jump (seamless-loop reset / prev-wrap), re-enable the
+  // transition on the next frame.
   useEffect(() => {
     if (animate) return;
     const raf = requestAnimationFrame(() => setAnimate(true));
@@ -82,8 +101,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
     if (d < -40) {
       goNext();
     } else if (d > 40) {
-      setAnimate(true);
-      setIndex((i) => (i <= 0 ? 0 : i - 1));
+      goPrev();
     }
   };
 
@@ -93,6 +111,8 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   };
 
   const activeDot = index % count;
+  const arrowClass =
+    "absolute top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/70 bg-black/50 text-gold shadow-lg backdrop-blur-sm transition-colors hover:bg-black/75 hover:text-gold-bright sm:h-14 sm:w-14";
 
   return (
     <div
@@ -127,16 +147,57 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
       </div>
 
       {count > 1 ? (
-        <div className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-center gap-2">
-          {images.map((img, i) => (
-            <span
-              key={`dot-${img.src}-${i}`}
-              className={`h-2 rounded-pill transition-all duration-300 ${
-                i === activeDot ? "w-6 bg-gold" : "w-2 bg-white/50"
-              }`}
-            />
-          ))}
-        </div>
+        <>
+          <button
+            type="button"
+            aria-label="Previous image"
+            onClick={goPrev}
+            className={`${arrowClass} left-3`}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-7 w-7"
+              aria-hidden="true"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            aria-label="Next image"
+            onClick={goNext}
+            className={`${arrowClass} right-3`}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-7 w-7"
+              aria-hidden="true"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-center gap-2">
+            {images.map((img, i) => (
+              <span
+                key={`dot-${img.src}-${i}`}
+                className={`h-2 rounded-pill transition-all duration-300 ${
+                  i === activeDot ? "w-6 bg-gold" : "w-2 bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        </>
       ) : null}
     </div>
   );
