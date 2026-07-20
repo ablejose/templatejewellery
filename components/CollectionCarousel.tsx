@@ -23,8 +23,9 @@ interface CollectionCarouselProps {
  * Full-width, one-image-at-a-time gallery for the home "Our Collections"
  * section. Each image is held ~1.5s, then swipes to the next (seamless forward
  * loop via a cloned first slide). Bare prev/next arrows let users skip in either
- * direction (they turn gold on hover); touch swipe works too. Autoplay pauses on
- * hover/touch. Falls back to a single static image when a group has only one
+ * direction (they turn gold on hover); touch swipe works too. Autoplay runs
+ * continuously and never pauses on hover (a touch briefly pauses it during a
+ * swipe). Falls back to a single static image when a group has only one
  * preview image.
  */
 export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
@@ -120,8 +121,6 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
       className="relative w-full overflow-hidden rounded-card border border-border bg-black/20"
       role="group"
       aria-label={label}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -141,7 +140,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
               sizes="(max-width: 768px) 100vw, 1280px"
               draggable={false}
               priority={i === 0}
-              className="h-full w-full select-none object-cover"
+              className="h-full w-full select-none object-contain"
             />
           </div>
         ))}
