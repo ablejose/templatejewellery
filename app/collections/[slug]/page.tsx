@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BRAND } from "@/config/brand";
 import { Navbar } from "@/sections/Navbar";
 import { ProductGrid } from "@/components/ProductGrid";
+import { ProductPageLoader } from "@/components/ProductPageLoader";
 import { getManifest } from "@/lib/cloudinary";
 import { GROUPS, groupTitle, isGroupSlug } from "@/lib/collections";
 import type { CollectionProduct } from "@/types/brand";
@@ -36,9 +37,11 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
   const categories = [...(manifest.groups[params.slug]?.categories ?? [])].sort(
     (a, b) => a.order - b.order,
   );
+  const productCount = categories.reduce((sum, c) => sum + c.products.length, 0);
 
   return (
     <>
+      <ProductPageLoader expected={productCount} />
       <Navbar homeHref="/" solid />
       <main className="min-h-screen bg-white text-black">
         <div className="container-lux flex min-h-screen flex-col gap-12 py-20 md:py-24">
@@ -64,7 +67,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                 Categories
               </h2>
 
-              <div className="mt-4 flex flex-col gap-14">
+              <div className="mt-4 flex flex-col gap-14" data-product-loading>
                 {categories.map((category, index) => {
                   const products: CollectionProduct[] = category.products.map((p) => ({
                     image: p.url,
