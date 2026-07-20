@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getManifest, saveManifest, getImageResource, destroyImage } from "@/lib/cloudinary";
+import { getManifest, saveManifest, getImageResource, destroyImage, cloudForUrl } from "@/lib/cloudinary";
 import { isGroupSlug, MAX_BANNERS_PER_GROUP } from "@/lib/collections";
 import { revalidatePublic } from "@/lib/revalidate";
 
@@ -22,20 +22,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid image." }, { status: 400 });
   }
 
+  // Banners live on the media cloud (credsFor falls back to primary if the
+  // media cloud is not configured, matching how sign-upload signed the asset).
+  const res = await getImageResource(publicId, "media");
+  if (!res) return NextResponse.json({ error: "Uploaded image not found." }, { status: 404 });
+
   const manifest = await getManifest({ fresh: true });
   const gd = manifest.groups[group];
-  const already = gd.banners.some((b) => b.publicId === publicId);
-  if (!already && gd.banners.length >= MAX_BANNERS_PER_GROUP) {
+  if (gd.banners.length >= MAX_BANNERS_PER_GROUP) {
     return NextResponse.json(
-      { error: `You can add up to ${MAX_BANNERS_PER_GROUP} banners per section.` },
+      { error: `You can add up to ${MAX_BANNERS_PER_GROUP} banners for this section.` },
       { status: 409 },
     );
   }
-
-  const res = await getImageResource(publicId);
-  if (!res) return NextResponse.json({ error: "Uploaded image not found." }, { status: 404 });
-
-  if (!already) {
+  if (!gd.banners.some((b) => b.publicId === publicId)) {
     gd.banners.push({
       publicId,
       url: res.url,
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   }
   await saveManifest(manifest);
   revalidatePublic();
-  return NextResponse.json({ ok: true, group: gd });
+  return NextResponse.json({ ok: true, group: manifest.groups[group] });
 }
 
 export async function DELETE(req: Request) {
@@ -63,9 +63,10 @@ export async function DELETE(req: Request) {
   }
   const manifest = await getManifest({ fresh: true });
   const gd = manifest.groups[group];
+  const target = gd.banners.find((b) => b.publicId === publicId);
   gd.banners = gd.banners.filter((b) => b.publicId !== publicId);
   await saveManifest(manifest);
-  await destroyImage(publicId).catch(() => {});
+  await destroyImage(publicId, cloudForUrl(target?.url)).catch(() => {});
   revalidatePublic();
-  return NextResponse.json({ ok: true, group: gd });
+  return NextResponse.json({ ok: true, group: manifest.groups[group] });
 }

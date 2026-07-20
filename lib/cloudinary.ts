@@ -1,30 +1,69 @@
 import { v2 as cloudinaryV2 } from "cloudinary";
-import { emptyManifest, normalizeManifest, type Manifest } from "@/lib/collections";
+import { emptyManifest, normalizeManifest, type Manifest, type CloudKey } from "@/lib/collections";
 
-// The SDK's types are inconsistent across calls; treat as any for compile safety.
+// The SDK types are inconsistent across calls; treat as any for compile safety.
 const cloudinary: any = cloudinaryV2;
 
-let configured = false;
-function cfg() {
-  if (!configured) {
-    cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-      secure: true,
-    });
-    configured = true;
+interface CloudCreds {
+  cloud_name?: string;
+  api_key?: string;
+  api_secret?: string;
+}
+
+function primaryCreds(): CloudCreds {
+  return {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  };
+}
+
+function mediaCredsRaw(): CloudCreds {
+  return {
+    cloud_name: process.env.CLOUDINARY_MEDIA_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_MEDIA_API_KEY,
+    api_secret: process.env.CLOUDINARY_MEDIA_API_SECRET,
+  };
+}
+
+// True only when all three media-cloud env vars are present.
+export function mediaConfigured(): boolean {
+  const m = mediaCredsRaw();
+  return Boolean(m.cloud_name && m.api_key && m.api_secret);
+}
+
+// GUARD: resolve a logical cloud key to real credentials. If the media cloud is
+// requested but not fully configured, fall back to the primary cloud so uploads
+// never hard-fail with "cloud_name is disabled".
+function credsFor(which: CloudKey): CloudCreds {
+  if (which === "media" && mediaConfigured()) return mediaCredsRaw();
+  return primaryCreds();
+}
+
+// Per-call options. We never call cloudinary.config() globally, so every SDK
+// call carries its own credentials — this is what lets two clouds coexist.
+function opts(which: CloudKey, extra?: Record<string, unknown>) {
+  return { ...credsFor(which), secure: true, ...(extra ?? {}) };
+}
+
+// GUARD: pick the correct cloud for an EXISTING asset from its stored URL.
+// Cloudinary delivery URLs embed the cloud name (res.cloudinary.com/<cloud>/...),
+// so deletes always target the right account, even for legacy/mixed data.
+export function cloudForUrl(url: string | undefined | null): CloudKey {
+  if (typeof url === "string") {
+    const media = mediaCredsRaw().cloud_name;
+    if (media && url.indexOf("/" + media + "/") >= 0) return "media";
   }
-  return cloudinary;
+  return "primary";
 }
 
 const MANIFEST_PUBLIC_ID = "hayaz/data/manifest";
 
-export async function getManifest(opts?: { fresh?: boolean }): Promise<Manifest> {
-  const fresh = opts?.fresh ?? false;
+// The manifest always lives on the primary cloud.
+export async function getManifest(o?: { fresh?: boolean }): Promise<Manifest> {
+  const fresh = o?.fresh ?? false;
   try {
-    const c = cfg();
-    const res = await c.api.resource(MANIFEST_PUBLIC_ID, { resource_type: "raw" });
+    const res = await cloudinary.api.resource(MANIFEST_PUBLIC_ID, opts("primary", { resource_type: "raw" }));
     const url: string = res.secure_url;
     const r = await fetch(url, fresh ? { cache: "no-store" } : { cache: "force-cache" });
     if (!r.ok) return emptyManifest();
@@ -35,53 +74,49 @@ export async function getManifest(opts?: { fresh?: boolean }): Promise<Manifest>
 }
 
 export async function saveManifest(manifest: Manifest): Promise<void> {
-  const c = cfg();
   manifest.updatedAt = Date.now();
   const buffer = Buffer.from(JSON.stringify(manifest));
   await new Promise((resolve, reject) => {
-    const stream = c.uploader.upload_stream(
-      { resource_type: "raw", public_id: MANIFEST_PUBLIC_ID, overwrite: true, invalidate: true },
+    const stream = cloudinary.uploader.upload_stream(
+      opts("primary", { resource_type: "raw", public_id: MANIFEST_PUBLIC_ID, overwrite: true, invalidate: true }),
       (err: any, result: any) => (err ? reject(err) : resolve(result)),
     );
     stream.end(buffer);
   });
 }
 
-export function signUpload(paramsToSign: Record<string, string>) {
-  const c = cfg();
+// Sign a direct upload for the given logical cloud. The GUARD in credsFor means
+// that if "media" is not configured, this returns primary creds + cloud name,
+// so the client uploads to the primary cloud instead of failing.
+export function signUpload(paramsToSign: Record<string, string>, which: CloudKey = "primary") {
+  const c = credsFor(which);
   const timestamp = Math.round(Date.now() / 1000);
   const toSign = { ...paramsToSign, timestamp: String(timestamp) };
-  const signature = c.utils.api_sign_request(toSign, process.env.CLOUDINARY_API_SECRET as string);
+  const signature = cloudinary.utils.api_sign_request(toSign, c.api_secret as string);
   return {
     signature,
     timestamp,
-    apiKey: process.env.CLOUDINARY_API_KEY as string,
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME as string,
+    apiKey: c.api_key as string,
+    cloudName: c.cloud_name as string,
   };
 }
 
-export async function getImageResource(publicId: string) {
+export async function getImageResource(publicId: string, which: CloudKey = "primary") {
   try {
-    const c = cfg();
-    const r = await c.api.resource(publicId, { resource_type: "image" });
+    const r = await cloudinary.api.resource(publicId, opts(which, { resource_type: "image" }));
     return { url: r.secure_url as string, width: r.width as number, height: r.height as number };
   } catch {
     return null;
   }
 }
 
-export async function destroyImage(publicId: string): Promise<void> {
-  const c = cfg();
-  await c.uploader.destroy(publicId, { resource_type: "image", invalidate: true });
+export async function destroyImage(publicId: string, which: CloudKey = "primary"): Promise<void> {
+  await cloudinary.uploader.destroy(publicId, opts(which, { resource_type: "image", invalidate: true }));
 }
 
-export async function destroyManyImages(publicIds: string[]): Promise<void> {
+export async function destroyManyImages(publicIds: string[], which: CloudKey = "primary"): Promise<void> {
   if (publicIds.length === 0) return;
-  const c = cfg();
   for (let i = 0; i < publicIds.length; i += 100) {
-    await c.api.delete_resources(publicIds.slice(i, i + 100), {
-      resource_type: "image",
-      invalidate: true,
-    });
+    await cloudinary.api.delete_resources(publicIds.slice(i, i + 100), opts(which, { resource_type: "image", invalidate: true }));
   }
 }

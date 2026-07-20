@@ -14,7 +14,27 @@ export function groupTitle(slug: string): string {
   return GROUPS.find((g) => g.slug === slug)?.title ?? slug;
 }
 
+// Which Cloudinary account a piece of media lives on.
+export type CloudKey = "primary" | "media";
+
+// Pure routing decision (no secrets) so it is safe to import on the client.
+// Platinum product images live on the secondary ("media") cloud; everything
+// else lives on the primary cloud. Banners also live on the media cloud.
+export function productCloud(group: string): CloudKey {
+  return group === "platinum" ? "media" : "primary";
+}
+
+export const MAX_BANNERS_PER_GROUP = 5;
+
 export interface OfferItem {
+  publicId: string;
+  url: string;
+  width: number;
+  height: number;
+  createdAt: number;
+}
+
+export interface BannerItem {
   publicId: string;
   url: string;
   width: number;
@@ -28,14 +48,6 @@ export interface ProductItem {
   width: number;
   height: number;
   name: string;
-  createdAt: number;
-}
-
-export interface BannerItem {
-  publicId: string;
-  url: string;
-  width: number;
-  height: number;
   createdAt: number;
 }
 
@@ -58,9 +70,6 @@ export interface Manifest {
   groups: Record<string, GroupData>;
   updatedAt: number;
 }
-
-/** Home "Our Collections" shows at most this many banner images per section. */
-export const MAX_BANNERS_PER_GROUP = 5;
 
 export function emptyManifest(): Manifest {
   const groups: Record<string, GroupData> = {};

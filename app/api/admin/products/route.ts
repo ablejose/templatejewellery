@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getManifest, saveManifest, getImageResource, destroyImage } from "@/lib/cloudinary";
-import { isGroupSlug } from "@/lib/collections";
+import { getManifest, saveManifest, getImageResource, destroyImage, cloudForUrl } from "@/lib/cloudinary";
+import { isGroupSlug, productCloud } from "@/lib/collections";
 import { revalidatePublic } from "@/lib/revalidate";
 
 export const runtime = "nodejs";
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid image." }, { status: 400 });
   }
 
-  const res = await getImageResource(publicId);
+  const res = await getImageResource(publicId, productCloud(group));
   if (!res) return NextResponse.json({ error: "Uploaded image not found." }, { status: 404 });
 
   const manifest = await getManifest({ fresh: true });
@@ -63,9 +63,10 @@ export async function DELETE(req: Request) {
   }
   const manifest = await getManifest({ fresh: true });
   const cat = manifest.groups[group].categories.find((c) => c.id === categoryId);
+  const target = cat?.products.find((p) => p.publicId === publicId);
   if (cat) cat.products = cat.products.filter((p) => p.publicId !== publicId);
   await saveManifest(manifest);
-  await destroyImage(publicId).catch(() => {});
+  await destroyImage(publicId, cloudForUrl(target?.url)).catch(() => {});
   revalidatePublic();
   return NextResponse.json({ ok: true, group: cat ? manifest.groups[group] : null });
 }

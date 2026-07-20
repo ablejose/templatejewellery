@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { getManifest, saveManifest, destroyManyImages } from "@/lib/cloudinary";
+import { getManifest, saveManifest, destroyManyImages, cloudForUrl } from "@/lib/cloudinary";
 import { isGroupSlug, slugify } from "@/lib/collections";
 import { revalidatePublic } from "@/lib/revalidate";
 
@@ -48,10 +48,15 @@ export async function DELETE(req: Request) {
   const cats = manifest.groups[group].categories;
   const cat = cats.find((c) => c.id === id);
   if (!cat) return NextResponse.json({ error: "Category not found." }, { status: 404 });
-  const publicIds = cat.products.map((p) => p.publicId);
+  const products = cat.products;
   manifest.groups[group].categories = cats.filter((c) => c.id !== id);
   await saveManifest(manifest);
-  await destroyManyImages(publicIds).catch(() => {});
+
+  // Partition deletes by the cloud each image actually lives on.
+  const primaryIds = products.filter((p) => cloudForUrl(p.url) === "primary").map((p) => p.publicId);
+  const mediaIds = products.filter((p) => cloudForUrl(p.url) === "media").map((p) => p.publicId);
+  await destroyManyImages(primaryIds, "primary").catch(() => {});
+  await destroyManyImages(mediaIds, "media").catch(() => {});
   revalidatePublic();
   return NextResponse.json({ ok: true, group: manifest.groups[group] });
 }
