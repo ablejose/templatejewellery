@@ -18,10 +18,10 @@ const GAP_PX = 16;
  * preview cards. Reuses the global `.showroom-marquee-track` animation (the
  * track holds two copies of the images and translates -50% for a seamless
  * loop). The strip runs continuously and never pauses on hover; each card
- * links to the group's detail page. Cards are a
- * fixed portrait size (elongated) with object-cover so mixed source ratios
- * stay uniform. Reduced-motion users get a static strip (handled globally in
- * globals.css).
+ * links to the group's detail page. Each card is a fixed height with
+ * automatic width and object-contain, so every image is shown in full
+ * (never cropped or zoomed) on mobile and desktop. Reduced-motion users get a
+ * static strip (handled globally in globals.css).
  */
 export function CollectionMarquee({ images, href, label }: CollectionMarqueeProps) {
   if (images.length === 0) return null;
@@ -51,7 +51,7 @@ export function CollectionMarquee({ images, href, label }: CollectionMarqueeProp
             <Link
               href={href}
               aria-label={`View ${label}`}
-              className="block h-72 w-56 overflow-hidden rounded-lg sm:h-80 sm:w-64"
+              className="inline-flex h-72 overflow-hidden rounded-lg sm:h-80"
             >
               <Image
                 src={img.src}
@@ -59,9 +59,10 @@ export function CollectionMarquee({ images, href, label }: CollectionMarqueeProp
                 aria-hidden="true"
                 width={img.width}
                 height={img.height}
-                sizes="256px"
+                sizes="(max-width: 640px) 70vw, 340px"
                 draggable={false}
-                className="h-full w-full select-none object-cover"
+                className="h-full w-auto select-none object-contain"
+                style={{ width: "auto" }}
               />
             </Link>
           </li>
