@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import { useState, useEffect, type MouseEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useScrolled } from "@/hooks/useScrolled";
@@ -45,6 +45,22 @@ interface NavbarProps {
 export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
   const scrolled = useScrolled();
   const [open, setOpen] = useState(false);
+
+  // Lock the page while the mobile menu is open so the content behind the
+  // full-screen overlay cannot scroll. Restored when the menu closes.
+  useEffect(() => {
+    if (open === false) return;
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.overflow;
+    const prevBody = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtml;
+      body.style.overflow = prevBody;
+    };
+  }, [open]);
 
   const showSolid = solid || scrolled;
   const resolve = (href: string) =>
@@ -125,7 +141,7 @@ export function Navbar({ homeHref = "", solid = false }: NavbarProps = {}) {
       </nav>
 
       {open ? (
-        <div className="fixed inset-0 top-0 z-40 flex flex-col items-center justify-center gap-10 bg-background md:hidden">
+        <div className="fixed inset-0 top-0 z-40 flex touch-none flex-col items-center justify-center gap-10 overscroll-contain bg-background md:hidden">
           {LINKS.map((link) => (
             <a
               key={link.href}
