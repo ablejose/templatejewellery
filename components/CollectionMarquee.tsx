@@ -17,8 +17,8 @@ const GAP_PX = 16;
  * Right-to-left seamless looping strip of enlarged, elongated collection
  * preview cards. Reuses the global `.showroom-marquee-track` animation (the
  * track holds two copies of the images and translates -50% for a seamless
- * loop). The strip pauses while hovered so a card can be clicked; each card
- * zooms slightly on hover and links to the group's detail page. Cards are a
+ * loop). The strip runs continuously and never pauses on hover; each card
+ * links to the group's detail page. Cards are a
  * fixed portrait size (elongated) with object-cover so mixed source ratios
  * stay uniform. Reduced-motion users get a static strip (handled globally in
  * globals.css).
@@ -34,12 +34,12 @@ export function CollectionMarquee({ images, href, label }: CollectionMarqueeProp
 
   return (
     <div
-      className="group relative w-full overflow-hidden rounded-card border border-border"
+      className="relative w-full overflow-hidden rounded-card border border-border"
       role="group"
       aria-label={label}
     >
       <ul
-        className="showroom-marquee-track flex w-max group-hover:[animation-play-state:paused]"
+        className="showroom-marquee-track flex w-max"
         style={trackStyle}
       >
         {loop.map((img, index) => (
@@ -61,7 +61,7 @@ export function CollectionMarquee({ images, href, label }: CollectionMarqueeProp
                 height={img.height}
                 sizes="256px"
                 draggable={false}
-                className="h-full w-full select-none object-cover transition-transform duration-500 ease-lux hover:scale-105"
+                className="h-full w-full select-none object-cover"
               />
             </Link>
           </li>
