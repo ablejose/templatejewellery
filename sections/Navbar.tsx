@@ -7,6 +7,7 @@ import { useScrolled } from "@/hooks/useScrolled";
 import { BRAND } from "@/config/brand";
 
 const LINKS = [
+  { label: "Collections", href: "#collections" },
   { label: "About", href: "#about" },
   { label: "Visit Store", href: "#visit-store" },
   { label: "Schemes", href: "/schemes" },

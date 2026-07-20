@@ -14,14 +14,16 @@ interface CollectionMarqueeProps {
 const GAP_PX = 16;
 
 /**
- * Right-to-left seamless looping strip of enlarged, elongated collection
- * preview cards. Reuses the global `.showroom-marquee-track` animation (the
- * track holds two copies of the images and translates -50% for a seamless
- * loop). The strip runs continuously and never pauses on hover; each card
- * links to the group's detail page. Each card is a fixed height with
- * automatic width and object-contain, so every image is shown in full
- * (never cropped or zoomed) on mobile and desktop. Reduced-motion users get a
- * static strip (handled globally in globals.css).
+ * Right-to-left seamless looping strip of collection preview cards. Reuses the
+ * global `.showroom-marquee-track` animation (the track holds two copies of the
+ * images and translates -50% for a seamless loop). The strip runs continuously
+ * and never pauses on hover; each card links to the group's detail page.
+ *
+ * Each card has a fixed height and a width derived from the image's own aspect
+ * ratio (CSS `aspect-ratio` on the flex item), so every image is shown in full
+ * at its natural proportions — never cropped or zoomed — on both mobile and
+ * desktop. Reduced-motion users get a static strip (handled globally in
+ * globals.css).
  */
 export function CollectionMarquee({ images, href, label }: CollectionMarqueeProps) {
   if (images.length === 0) return null;
@@ -38,31 +40,25 @@ export function CollectionMarquee({ images, href, label }: CollectionMarqueeProp
       role="group"
       aria-label={label}
     >
-      <ul
-        className="showroom-marquee-track flex w-max"
-        style={trackStyle}
-      >
+      <ul className="showroom-marquee-track flex w-max" style={trackStyle}>
         {loop.map((img, index) => (
           <li
             key={`${img.src}-${index}`}
-            className="shrink-0"
-            style={{ marginRight: `${GAP_PX}px` }}
+            className="relative h-72 shrink-0 overflow-hidden rounded-lg sm:h-80"
+            style={{
+              aspectRatio: `${img.width || 1} / ${img.height || 1}`,
+              marginRight: `${GAP_PX}px`,
+            }}
           >
-            <Link
-              href={href}
-              aria-label={`View ${label}`}
-              className="inline-flex h-72 overflow-hidden rounded-lg sm:h-80"
-            >
+            <Link href={href} aria-label={`View ${label}`} className="absolute inset-0 block">
               <Image
                 src={img.src}
                 alt=""
                 aria-hidden="true"
-                width={img.width}
-                height={img.height}
+                fill
                 sizes="(max-width: 640px) 70vw, 340px"
                 draggable={false}
-                className="h-full w-auto select-none object-contain"
-                style={{ width: "auto" }}
+                className="select-none object-cover"
               />
             </Link>
           </li>

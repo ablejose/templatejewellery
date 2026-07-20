@@ -23,7 +23,7 @@ export default async function OffersPage() {
         <div className="container-lux flex min-h-screen flex-col gap-10 py-24 md:py-28">
           <Link
             href="/"
-            className="btn self-start border border-gold/70 text-black hover:border-gold hover:text-gold"
+            className="btn -ml-4 self-start border border-gold/70 text-black hover:border-gold hover:text-gold md:-ml-6 lg:-ml-8"
             aria-label="Back to home"
           >
             &larr; Back
