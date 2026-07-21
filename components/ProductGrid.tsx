@@ -73,12 +73,16 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
                   backdrop — no hard rectangular "white border" seam. Adapts to
                   any source ratio and any future collection add automatically. */}
               <div className="relative aspect-[3/4] w-full overflow-hidden">
+                {/* Blurred backdrop only — it is scaled 125% and blurred to mush,
+                    so it needs a tiny source. A small fixed `sizes` makes the
+                    loader request a ~96px-wide image instead of a full-res copy,
+                    roughly halving the meaningful bytes per card. */}
                 <Image
                   src={product.image}
                   alt=""
                   aria-hidden
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
+                  sizes="96px"
                   className="scale-125 object-cover blur-2xl"
                 />
                 <Image
