@@ -3,6 +3,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -27,14 +28,38 @@ interface CollectionCarouselProps {
  * continuously and never pauses on hover (a touch briefly pauses it during a
  * swipe). Falls back to a single static image when a group has only one
  * preview image.
+ *
+ * Resilience: banner images live on Cloudinary (spread across two accounts). If
+ * a banner's asset cannot be delivered (deleted, restricted, over quota, or the
+ * stored URL points at a cloud that no longer holds it), the slide is dropped on
+ * the image's onError instead of rendering a blank/broken tile. The carousel
+ * then simply cycles the banners that do load, so an empty image can never show.
  */
 export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
-  const count = images.length;
+  const [failed, setFailed] = useState<Set<string>>(() => new Set());
   const [index, setIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchDelta = useRef(0);
+
+  // Only banners whose image actually loads are shown. Deriving the working set
+  // here means every downstream calculation (count, clone slide, dots, index)
+  // is driven by banners that render, never by a broken one.
+  const visibleImages = useMemo(
+    () => images.filter((img) => !failed.has(img.src)),
+    [images, failed],
+  );
+  const count = visibleImages.length;
+
+  const markFailed = useCallback((src: string) => {
+    setFailed((prev) => {
+      if (prev.has(src)) return prev;
+      const next = new Set(prev);
+      next.add(src);
+      return next;
+    });
+  }, []);
 
   const goNext = useCallback(() => {
     setAnimate(true);
@@ -74,9 +99,15 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
     return () => cancelAnimationFrame(raf);
   }, [animate]);
 
+  // If a banner is dropped after its image fails, keep the active index in the
+  // valid range (0..count, where count is the cloned-first-slide position).
+  useEffect(() => {
+    setIndex((i) => (i > count ? 0 : i));
+  }, [count]);
+
   if (count === 0) return null;
 
-  const slides = count > 1 ? [...images, images[0]] : images;
+  const slides = count > 1 ? [...visibleImages, visibleImages[0]] : visibleImages;
 
   const handleTransitionEnd = () => {
     if (count > 1 && index >= count) {
@@ -116,8 +147,8 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
   // Frame ratio from the first image so object-cover fills without cropping on
   // mobile (a tall/portrait frame would otherwise zoom a landscape banner).
   const frameRatio =
-    images[0] && images[0].width && images[0].height
-      ? `${images[0].width} / ${images[0].height}`
+    visibleImages[0] && visibleImages[0].width && visibleImages[0].height
+      ? `${visibleImages[0].width} / ${visibleImages[0].height}`
       : "3 / 2";
   const arrowClass =
     "absolute top-1/2 z-10 -translate-y-1/2 p-2 text-white/90 drop-shadow-[0_2px_5px_rgba(0,0,0,0.75)] transition-colors duration-200 hover:text-gold-bright focus-visible:text-gold-bright focus:outline-none";
@@ -142,11 +173,12 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
               src={img.src}
               alt=""
               aria-hidden="true"
-              width={img.width}
-              height={img.height}
+              width={img.width || 1600}
+              height={img.height || 1000}
               sizes="(max-width: 768px) 100vw, 1280px"
               draggable={false}
               priority={i === 0}
+              onError={() => markFailed(img.src)}
               className="h-full w-full select-none object-cover"
             />
           </div>
@@ -195,7 +227,7 @@ export function CollectionCarousel({ images, label }: CollectionCarouselProps) {
           </button>
 
           <div className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-center gap-2">
-            {images.map((img, i) => (
+            {visibleImages.map((img, i) => (
               <span
                 key={`dot-${img.src}-${i}`}
                 className={`h-2 rounded-pill transition-all duration-300 ${
