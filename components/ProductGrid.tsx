@@ -5,6 +5,7 @@ import Image from "next/image";
 import { BRAND } from "@/config/brand";
 import { whatsappHref } from "@/lib/format";
 import { WhatsAppGlyph } from "@/components/WhatsAppGlyph";
+import { ProductLightbox } from "@/components/ProductLightbox";
 import type { CollectionProduct } from "@/types/brand";
 
 /**
@@ -15,11 +16,9 @@ import type { CollectionProduct } from "@/types/brand";
  * photo so the whole piece is always shown and never cropped) with a caption
  * band that flexes to fill, so all cards in a row match height even when a name
  * wraps. Each card has a small WhatsApp button tucked into the top-right corner
- * (enquiry pre-filled with the product name); clicking the image opens it almost
- * full screen (dark backdrop; click outside, the close button, or Escape
- * dismisses it; body scroll locked). Tighter gutters on every breakpoint so the
- * tiles read as a close-packed product grid, including two-up on phones.
- * Client-side so the detail page can remain a server component.
+ * (enquiry pre-filled with the product name); clicking the image opens a
+ * fullscreen viewer with a magnifier (ProductLightbox) so shoppers can zoom
+ * around the piece. Client-side so the detail page can remain a server component.
  */
 
 /** Soft edge feather (two crossed linear-gradient masks, intersected) so the
@@ -120,39 +119,7 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
       </div>
 
       {active ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={active.name}
-          onClick={() => setActive(null)}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 bg-black/90 p-4 backdrop-blur-sm"
-        >
-          <button
-            type="button"
-            aria-label="Close"
-            onClick={() => setActive(null)}
-            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-pill border border-white/30 text-2xl leading-none text-white transition-colors duration-300 hover:border-gold hover:text-gold sm:right-6 sm:top-6"
-          >
-            &times;
-          </button>
-
-          {/* Stop propagation so clicking the image itself doesn't close it. */}
-          <div
-            className="flex flex-col items-center gap-4"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <Image
-              src={active.image}
-              alt={active.name}
-              width={active.width}
-              height={active.height}
-              sizes="92vw"
-              className="h-auto max-h-[82vh] w-auto max-w-[92vw] rounded-card object-contain shadow-2xl"
-              priority
-            />
-            <p className="font-display text-xl text-gold sm:text-2xl">{active.name}</p>
-          </div>
-        </div>
+        <ProductLightbox key={active.image} product={active} onClose={() => setActive(null)} />
       ) : null}
     </>
   );
