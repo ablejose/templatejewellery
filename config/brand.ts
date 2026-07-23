@@ -19,7 +19,7 @@ export const BRAND: BrandConfig = {
 
   // Cinematic autoplay hero film (Cloudinary).
   heroVideo:
-    "https://res.cloudinary.com/fylz5e3j/video/upload/v1782936959/VN20260702_013328_tbexfn.mp4",
+    "https://res.cloudinary.com/qhzbdcdn/video/upload/f_auto,q_auto/v1784813738/hayaz/hero.mp4",
 
   // Editorial story chapters. Two chapters (Vision, Mission). Each chapter
   // now has its OWN dedicated Cloudinary clip that plays in full and loops
@@ -32,7 +32,7 @@ export const BRAND: BrandConfig = {
       description:
         "Anticipate the needs and desires of customers and bring beautiful jewelry to customers at the lowest price, through this build good relationship with people.",
       video:
-        "https://res.cloudinary.com/fylz5e3j/video/upload/v1783092834/VN20260703_205906_yil6kq.mp4",
+        "https://res.cloudinary.com/kzwgqtmx/video/upload/f_auto,q_auto/v1784813741/hayaz/vision.mp4",
     },
     {
       heading: "Mission",
@@ -41,19 +41,19 @@ export const BRAND: BrandConfig = {
       description:
         "To create trending & fashionable jewellery which combines elegance with uniqueness. We're continuously crafting and updating our collections to reinforce our reputation for the most admired range of jewellery and accessories.",
       video:
-        "https://res.cloudinary.com/fylz5e3j/video/upload/v1783091587/VN20260703_191542_szsxvb.mp4",
+        "https://res.cloudinary.com/kzwgqtmx/video/upload/f_auto,q_auto/v1784813743/hayaz/mission.mp4",
     },
   ],
 
   storeImages: [
-    "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazbb_wb1juf.webp",
-    "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazgg_dtolmr.webp",
-    "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazcc_vuguic.webp",
+    "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813708/hayaz/store/hayazbb.webp",
+    "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813709/hayaz/store/hayazgg.webp",
+    "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813710/hayaz/store/hayazcc.webp",
   ],
 
   // Offers poster (Cloudinary). Linked from the Offers button.
   offersImage:
-    "https://res.cloudinary.com/fylz5e3j/image/upload/v1783064597/offers_hayazgold_vpwgem.jpg",
+    "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813701/hayaz/offers.webp",
 
   // /schemes page. The hero image is shared by both tabs and framed on white
   // with a thin gold border. Each tab has 3 feature cards + its own "Find the
@@ -61,7 +61,7 @@ export const BRAND: BrandConfig = {
   schemesPage: {
     title: "Our Schemes",
     heroImage:
-      "https://res.cloudinary.com/fylz5e3j/image/upload/v1783076308/1783076120947_toitx3.png",
+      "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813704/hayaz/schemes/hero.webp",
     heroWidth: 1041,
     heroHeight: 768,
     findBestPlanHeading: "Find the Best Plan",
@@ -69,7 +69,7 @@ export const BRAND: BrandConfig = {
       {
         label: "Golden Flexi Schemes",
         heroImage:
-          "https://res.cloudinary.com/fylz5e3j/image/upload/v1783087060/Screenshot_2026-07-03_192711_mycavd.png",
+          "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813705/hayaz/schemes/flexi.webp",
         heroWidth: 1052,
         heroHeight: 422,
         features: [
@@ -111,7 +111,7 @@ export const BRAND: BrandConfig = {
       {
         label: "Golden Dreams Advanced Plan",
         heroImage:
-          "https://res.cloudinary.com/fylz5e3j/image/upload/v1783087070/Screenshot_2026-07-03_192652_xyir4e.png",
+          "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813706/hayaz/schemes/dreams.webp",
         heroWidth: 1582,
         heroHeight: 613,
         features: [
@@ -176,13 +176,7 @@ export const BRAND: BrandConfig = {
       {
         slug: "gold-silver",
         title: "Gold & Silver",
-        marqueeImages: [
-          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302150/Screenshot_2026-07-17_205436_y76jok.png", width: 371, height: 380 },
-          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302282/Screenshot_2026-07-17_210059_eglsbq.png", width: 363, height: 383 },
-          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302226/Screenshot_2026-07-17_210012_hu0hiy.png", width: 330, height: 397 },
-          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302157/Screenshot_2026-07-17_205852_btxplt.png", width: 412, height: 392 },
-          { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1784302201/Screenshot_2026-07-17_205936_nrx0vy.png", width: 365, height: 272 },
-        ],
+        marqueeImages: [],
         categories: [
           {
             title: "Mehza - Arabic collection",
@@ -263,11 +257,11 @@ export const BRAND: BrandConfig = {
         "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+and+Diamonds+Mylaparambil+Arcade+Kodathippadi+Mannarkkad+Kerala+678582",
       phone: "+916235888916",
       marqueeImages: [
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094542/2.jpg_odwggb.jpg", width: 3000, height: 3000 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094516/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View05.jpg_yvc6kj.jpg", width: 2560, height: 1440 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094500/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View13.jpg_xgpitp.jpg", width: 2560, height: 1440 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094497/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View07.jpg_enc2oa.jpg", width: 2560, height: 1440 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783094488/HAYAZ_Gold_Diamonds_-_Mannarkkad_002-Rev_01_View04.jpg_celun6.jpg", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813683/hayaz/stores/mannarkkad-1.webp", width: 3000, height: 3000 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813686/hayaz/stores/mannarkkad-2.webp", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813688/hayaz/stores/mannarkkad-3.webp", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813691/hayaz/stores/mannarkkad-4.webp", width: 2560, height: 1440 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813693/hayaz/stores/mannarkkad-5.webp", width: 2560, height: 1440 },
       ],
     },
     {
@@ -282,10 +276,10 @@ export const BRAND: BrandConfig = {
         "https://www.google.com/maps/search/?api=1&query=Hayaz+Gold+Edathanattukara+Padikkapadam+Alanallur+Palakkad+Kerala+678601",
       phone: "+916235878916",
       marqueeImages: [
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096072/IMG-20260703-WA0031_mubi3a.jpg", width: 960, height: 1280 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096072/IMG-20260703-WA0037_a8bqtv.jpg", width: 960, height: 1280 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096575/Screenshot_2026-07-03_220546_jnienc.png", width: 1350, height: 897 },
-        { src: "https://res.cloudinary.com/fylz5e3j/image/upload/v1783096763/IMG-20260703-WA0030_at8exj.jpg", width: 960, height: 1280 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813695/hayaz/stores/edathanattukara-1.webp", width: 960, height: 1280 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813696/hayaz/stores/edathanattukara-2.webp", width: 960, height: 1280 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813698/hayaz/stores/edathanattukara-3.webp", width: 1350, height: 897 },
+        { src: "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813700/hayaz/stores/edathanattukara-4.webp", width: 960, height: 1280 },
       ],
     },
   ],
@@ -315,7 +309,7 @@ export const BRAND: BrandConfig = {
     ],
     canonical: "https://hayazgold.com",
     ogImage:
-      "https://res.cloudinary.com/fylz5e3j/image/upload/v1782940196/hayazbb_wb1juf.webp",
+      "https://res.cloudinary.com/qhzbdcdn/image/upload/v1784813708/hayaz/store/hayazbb.webp",
   },
 
   // FAQ items (SEO). Rendered as an accordion by sections/Faq.tsx and also
