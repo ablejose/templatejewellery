@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { BRAND } from "@/config/brand";
 import { whatsappHref } from "@/lib/format";
@@ -12,27 +12,15 @@ import type { CollectionProduct } from "@/types/brand";
  * Product grid with per-item WhatsApp enquiry + a near-fullscreen lightbox.
  *
  * Every card is uniform regardless of the source crop: a fixed elongated
- * portrait frame (aspect-[3/4], object-contain over a blurred fill of the same
- * photo so the whole piece is always shown and never cropped) with a caption
- * band that flexes to fill, so all cards in a row match height even when a name
- * wraps. Each card has a small WhatsApp button tucked into the top-right corner
+ * portrait frame (aspect-[3/4]) that shows the whole piece (object-contain,
+ * never cropped) directly on the card's plain background. The uploaded photo is
+ * shown as-is — no blurred fill copy and no feathered edge behind it. A caption
+ * band flexes to fill so all cards in a row match height even when a name wraps.
+ * Each card has a small WhatsApp button tucked into the top-right corner
  * (enquiry pre-filled with the product name); clicking the image opens a
  * fullscreen viewer with a magnifier (ProductLightbox) so shoppers can zoom
  * around the piece. Client-side so the detail page can remain a server component.
  */
-
-/** Soft edge feather (two crossed linear-gradient masks, intersected) so the
- *  sharp photo melts into the blurred fill behind it instead of ending in a
- *  hard rectangular line. This removes the "white border" seam and makes each
- *  piece fade into the card. Prefixed + standard props for Safari/Chrome. */
-const FEATHER_MASK: CSSProperties = {
-  WebkitMaskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 27%, #000 73%, transparent 100%), linear-gradient(to right, transparent 0%, #000 19%, #000 81%, transparent 100%)",
-  maskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 27%, #000 73%, transparent 100%), linear-gradient(to right, transparent 0%, #000 19%, #000 81%, transparent 100%)",
-  WebkitMaskComposite: "source-in",
-  maskComposite: "intersect",
-};
 
 export function ProductGrid({ products }: { products: CollectionProduct[] }) {
   const [active, setActive] = useState<CollectionProduct | null>(null);
@@ -64,32 +52,15 @@ export function ProductGrid({ products }: { products: CollectionProduct[] }) {
               aria-label={`View ${product.name}`}
               className="block w-full"
             >
-              {/* Fixed portrait frame. Behind the product sits a blurred,
-                  cover-scaled copy of the SAME photo, so the fill is always the
-                  exact tone of that image's own background. The sharp foreground
-                  shows the whole piece (object-contain, never cropped) and its
-                  edges are feathered (FEATHER_MASK) so the photo fades into that
-                  backdrop — no hard rectangular "white border" seam. Adapts to
-                  any source ratio and any future collection add automatically. */}
+              {/* Fixed portrait frame. The uploaded photo is shown as-is
+                  (object-contain, never cropped) on the card's plain
+                  background — no blurred backdrop or feathered edge glow. */}
               <div className="relative aspect-[3/4] w-full overflow-hidden">
-                {/* Blurred backdrop only — it is scaled 125% and blurred to mush,
-                    so it needs a tiny source. A small fixed `sizes` makes the
-                    loader request a ~96px-wide image instead of a full-res copy,
-                    roughly halving the meaningful bytes per card. */}
-                <Image
-                  src={product.image}
-                  alt=""
-                  aria-hidden
-                  fill
-                  sizes="96px"
-                  className="scale-125 object-cover blur-2xl"
-                />
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 18vw"
-                  style={FEATHER_MASK}
                   className="object-contain"
                 />
               </div>
